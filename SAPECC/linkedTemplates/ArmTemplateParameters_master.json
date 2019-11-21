@@ -1,0 +1,51 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "SAPECC"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
+		"SAPECC_password": {
+			"value": ""
+		},
+		"SAPED1_password": {
+			"value": ""
+		},
+		"SapHana1_connectionString": {
+			"value": ""
+		},
+		"SAPECC_properties_typeProperties_clientId": {
+			"value": "100"
+		},
+		"SAPECC_properties_typeProperties_userName": {
+			"value": "vivek02"
+		},
+		"SAPECC_properties_typeProperties_server": {
+			"value": "myerpabapdev.smrt.com.sg"
+		},
+		"SAPECC_properties_typeProperties_systemNumber": {
+			"value": "00"
+		},
+		"SAPED1_properties_typeProperties_clientId": {
+			"value": "100"
+		},
+		"SAPED1_properties_typeProperties_userName": {
+			"value": "vivek02"
+		},
+		"SAPED1_properties_typeProperties_server": {
+			"value": "myerpabapdev.smrt.com.sg"
+		},
+		"SAPED1_properties_typeProperties_systemNumber": {
+			"value": "00"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

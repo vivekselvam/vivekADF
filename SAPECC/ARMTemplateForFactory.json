@@ -1,0 +1,1641 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"SAPECC_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SAPECC'"
+		},
+		"SAPED1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SAPED1'"
+		},
+		"SapHana1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
+		},
+		"SAPECC_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "100"
+		},
+		"SAPECC_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "vivek02"
+		},
+		"SAPECC_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "myerpabapdev.smrt.com.sg"
+		},
+		"SAPECC_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "00"
+		},
+		"SAPED1_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "100"
+		},
+		"SAPED1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "vivek02"
+		},
+		"SAPED1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "myerpabapdev.smrt.com.sg"
+		},
+		"SAPED1_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "00"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP Extraction')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAP P&S Extraction",
+				"activities": [
+					{
+						"name": "SAP PS Extraction",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": {
+									"value": "EXTRACTION_DATE > '@{activity('Lookup1').output.firstRow.WatermarkValue}'",
+									"type": "Expression"
+								},
+								"customRfcReadTableFunctionModule": "",
+								"rfcTableFields": "ASTTX,AUART,AUFNR,BDMNG,BDTER,BLDAT,BWART,CHARG,CONSIGN,CPUDT,CREATED_DATE,CREATED_TIME,DFULL,DIFOT,DISPO,DOCUSR,ENMNG,ERDAT,FTRMI,KOSTL,LGORT,MAKTX,MANDT,MATNR,MBLNR,MCAB,MEINS,MENGE,MVGFREQ,NAMTX,NDAYS,ONHAND,ONHAND2,ONHAND3,ONTIME,QDATU,RELEA,RSNUM,RSPOS,TANUM,TSOH,UDATE,UDEPT,USNAM,WEMPF,WERKS,XLOEK,XWAOK,EXTRACTION_DATE",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RSNUM",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Reservation Number",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RSPOS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Reservation Item",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "USNAM",
+											"type": "String"
+										},
+										"sink": {
+											"name": "User name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BWART",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Movement Type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BDTER",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Requirement Date",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CPUDT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Account Doc Creation Date",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MBLNR",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Material Document",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AUFNR",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Order Number",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MATNR",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Material",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MEINS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Unit Of Measure",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MENGE",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Quantity",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "WEMPF",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Goods Recipient",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MAKTX",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Material Desc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BLDAT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Document Date",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DOCUSR",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Document User",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UDEPT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Department",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WERKS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Plant",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NAMTX",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Full name of Person",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TANUM",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TO Doc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "QDATU",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TO Date",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "NDAYS",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "No Days",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "BDMNG",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MR Qty",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ENMNG",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Final Issued Qty",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ONHAND",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "SOH Batch",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "DFULL",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Delivery in Full",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ONTIME",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Delivery ontime",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DIFOT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DIFOT",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "KOSTL",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Cost Center",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "XLOEK",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Item deleted",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "XWAOK",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Mvt allowed",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LGORT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SLoc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CHARG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Batch",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AUART",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Order type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ERDAT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Created Date",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ASTTX",
+											"type": "String"
+										},
+										"sink": {
+											"name": "User status",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RELEA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Release",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FTRMI",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Release date",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UDATE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Unblock date",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MVGFREQ",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Moving Freq",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ONHAND2",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "SOH SLoc",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "CONSIGN",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Consignment Stock",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "DISPO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "MRP Controller",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "MCAB",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MCAB",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "TSOH",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "SOH Plant",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "ONHAND3",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "SOH Company",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "CREATED_DATE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CREATED_DATE",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CREATED_TIME",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CREATED_TIME",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapTableResource1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource"
+							},
+							"dataset": {
+								"referenceName": "AzureSqlTable2",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": true
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SapTableResource1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP Incremental')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAP Incremental Load d",
+				"activities": [
+					{
+						"name": "dataflow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP_ECC')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAP ECC",
+				"activities": [
+					{
+						"name": "Copy_zlx",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "EKKO"
+							},
+							{
+								"name": "Destination",
+								"value": "[[dbo].[ekko]"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rowCount": 1000,
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "",
+								"rfcTableFields": "ABGRU,ABSGR,ADDNR,ADRNR,AEDAT,ANGDT,ANGNR,AUREL_ALLOW,AUSNR,AUTLF,BEDAT,BNDDT,BSAKZ,BSART,BSTYP,BUDG_TYPE,BUKRS,BWBDT,CHECK_TYPE,CONTRACT_ALLOW,CON_DISTR_LEV,CON_OTB_REQ,CON_PREBOOK_LEV,DELPER_ALLOW,DESCRIPTION,DPAMT,DPDAT,DPPCT,DPTYP,EBELN,EINDT_ALLOW,EKGRP,EKGRP_ALLOW,EKORG,EQ_EINDT,EQ_WERKS,ERNAM,EXNUM,FIXPO,FIXPO_ALLOW,FORCE_CNT,FORCE_ID,FRGGR,FRGKE,FRGRL,FRGSX,FRGZU,GWLDT,HANDOVERLOC,HIERARCHY_EXISTS,IHRAN,IHREZ,INCO1,INCO2,KALSM,KDATB,KDATE,KEY_ID,KEY_ID_ALLOW,KNUMV,KONNR,KORNR,KTWRT,KUFIX,KUNNR,LANDS,LBLIF,LEGAL_CONTRACT,LIFNR,LIFRE,LLIEF,LOEKZ,LOGSY,LPHIS,LPONR,LTSNR_ALLOW,MANDT,MEMORY,MEMORYTYPE,MSR_ID,OTB_COND_TYPE,OTB_CURR,OTB_LEVEL,OTB_REASON,OTB_RES_VALUE,OTB_SPEC_VALUE,OTB_STATUS,OTB_VALUE,PINCR,POHF_TYPE,PROCSTAT,PSTYP_ALLOW,REASON_CODE,RELEASE_DATE,RELOC_ID,RELOC_SEQ_ID,RESWK,RETPC,RETTP,REVNO,RLWRT,SCMPROC,SHIPCOND,SOURCE_LOGSYS,SPRAS,SPR_RSN_PROFILE,STAFO,STAKO,STATU,STCEG,STCEG_L,SUBMI,TELF1,THRESHOLD_EXISTS,UNSEZ,UPINC,VERKF,VSART,VZSKZ,WAERS,WEAKT,WERKS_ALLOW,WKURS,ZBD1P,ZBD1T,ZBD2P,ZBD2T,ZBD3T,ZTERM",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "EBELN",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ebeln",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BUKRS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Company_Code",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSTYP",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Document_Category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSART",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Document_Type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSAKZ",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Control_indicator",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LOEKZ",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Deletion_Indicator",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "STATU",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Status",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AEDAT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Created_on",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ERNAM",
+											"type": "String"
+										},
+										"sink": {
+											"name": "created_by",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EKORG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Org",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EKGRP",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Grp",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WAERS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Currency_Key",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RLWRT",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Total_Value_at_release",
+											"type": "Decimal"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_zlx",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_zlx",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_zlx')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_zlx')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Reservation Number",
+						"type": "nchar"
+					},
+					{
+						"name": "Reservation Item",
+						"type": "nchar"
+					},
+					{
+						"name": "User name",
+						"type": "char"
+					},
+					{
+						"name": "Movement Type",
+						"type": "char"
+					},
+					{
+						"name": "Requirement Date",
+						"type": "char"
+					},
+					{
+						"name": "Account Doc Creation Date",
+						"type": "char"
+					},
+					{
+						"name": "Material Document",
+						"type": "char"
+					},
+					{
+						"name": "Order Number",
+						"type": "char"
+					},
+					{
+						"name": "Material",
+						"type": "char"
+					},
+					{
+						"name": "Unit Of Measure",
+						"type": "char"
+					},
+					{
+						"name": "Quantity",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "Goods Recipient",
+						"type": "char"
+					},
+					{
+						"name": "Material Desc",
+						"type": "char"
+					},
+					{
+						"name": "Document Date",
+						"type": "char"
+					},
+					{
+						"name": "Document User",
+						"type": "char"
+					},
+					{
+						"name": "Department",
+						"type": "char"
+					},
+					{
+						"name": "Plant",
+						"type": "char"
+					},
+					{
+						"name": "Full name of Person",
+						"type": "char"
+					},
+					{
+						"name": "TO Doc",
+						"type": "nchar"
+					},
+					{
+						"name": "TO Date",
+						"type": "char"
+					},
+					{
+						"name": "No Days",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "MR Qty",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "Final Issued Qty",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "SOH Batch",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "Delivery in Full",
+						"type": "char"
+					},
+					{
+						"name": "Delivery ontime",
+						"type": "char"
+					},
+					{
+						"name": "DIFOT",
+						"type": "char"
+					},
+					{
+						"name": "Cost Center",
+						"type": "char"
+					},
+					{
+						"name": "Item deleted",
+						"type": "char"
+					},
+					{
+						"name": "Mvt allowed",
+						"type": "char"
+					},
+					{
+						"name": "SLoc",
+						"type": "char"
+					},
+					{
+						"name": "Batch",
+						"type": "char"
+					},
+					{
+						"name": "Order type",
+						"type": "char"
+					},
+					{
+						"name": "Created Date",
+						"type": "char"
+					},
+					{
+						"name": "User status",
+						"type": "char"
+					},
+					{
+						"name": "Release",
+						"type": "char"
+					},
+					{
+						"name": "Release date",
+						"type": "char"
+					},
+					{
+						"name": "Unblock date",
+						"type": "char"
+					},
+					{
+						"name": "Moving Freq",
+						"type": "char"
+					},
+					{
+						"name": "SOH SLoc",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "Consignment Stock",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "MRP Controller",
+						"type": "char"
+					},
+					{
+						"name": "MCAB",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "SOH Plant",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "SOH Company",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "CREATED_DATE",
+						"type": "char"
+					},
+					{
+						"name": "CREATED_TIME",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "YPS_Mat_Res2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "WatermarkValue",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "watermarktable2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAP SQL Table",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Reservation Number",
+						"type": "nchar"
+					},
+					{
+						"name": "Reservation Item",
+						"type": "nchar"
+					},
+					{
+						"name": "User name",
+						"type": "char"
+					},
+					{
+						"name": "Movement Type",
+						"type": "char"
+					},
+					{
+						"name": "Requirement Date",
+						"type": "char"
+					},
+					{
+						"name": "Account Doc Creation Date",
+						"type": "char"
+					},
+					{
+						"name": "Material Document",
+						"type": "char"
+					},
+					{
+						"name": "Order Number",
+						"type": "char"
+					},
+					{
+						"name": "Material",
+						"type": "char"
+					},
+					{
+						"name": "Unit Of Measure",
+						"type": "char"
+					},
+					{
+						"name": "Quantity",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "Goods Recipient",
+						"type": "char"
+					},
+					{
+						"name": "Material Desc",
+						"type": "char"
+					},
+					{
+						"name": "Document Date",
+						"type": "char"
+					},
+					{
+						"name": "Document User",
+						"type": "char"
+					},
+					{
+						"name": "Department",
+						"type": "char"
+					},
+					{
+						"name": "Plant",
+						"type": "char"
+					},
+					{
+						"name": "Full name of Person",
+						"type": "char"
+					},
+					{
+						"name": "TO Doc",
+						"type": "nchar"
+					},
+					{
+						"name": "TO Date",
+						"type": "char"
+					},
+					{
+						"name": "No Days",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "MR Qty",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "Final Issued Qty",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "SOH Batch",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "Delivery in Full",
+						"type": "char"
+					},
+					{
+						"name": "Delivery ontime",
+						"type": "char"
+					},
+					{
+						"name": "DIFOT",
+						"type": "char"
+					},
+					{
+						"name": "Cost Center",
+						"type": "char"
+					},
+					{
+						"name": "Item deleted",
+						"type": "char"
+					},
+					{
+						"name": "Mvt allowed",
+						"type": "char"
+					},
+					{
+						"name": "SLoc",
+						"type": "char"
+					},
+					{
+						"name": "Batch",
+						"type": "char"
+					},
+					{
+						"name": "Order type",
+						"type": "char"
+					},
+					{
+						"name": "Created Date",
+						"type": "char"
+					},
+					{
+						"name": "User status",
+						"type": "char"
+					},
+					{
+						"name": "Release",
+						"type": "char"
+					},
+					{
+						"name": "Release date",
+						"type": "char"
+					},
+					{
+						"name": "Unblock date",
+						"type": "char"
+					},
+					{
+						"name": "Moving Freq",
+						"type": "char"
+					},
+					{
+						"name": "SOH SLoc",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "Consignment Stock",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "MRP Controller",
+						"type": "char"
+					},
+					{
+						"name": "MCAB",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "SOH Plant",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "SOH Company",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "CREATED_DATE",
+						"type": "char"
+					},
+					{
+						"name": "CREATED_TIME",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "YPS_Mat_Res3"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_zlx')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ebeln",
+						"type": "varchar"
+					},
+					{
+						"name": "Company_Code",
+						"type": "char"
+					},
+					{
+						"name": "Purchasing_Document_Category",
+						"type": "char"
+					},
+					{
+						"name": "Purchasing_Document_Type",
+						"type": "char"
+					},
+					{
+						"name": "Control_indicator",
+						"type": "char"
+					},
+					{
+						"name": "Deletion_Indicator",
+						"type": "char"
+					},
+					{
+						"name": "Status",
+						"type": "char"
+					},
+					{
+						"name": "Created_on",
+						"type": "char"
+					},
+					{
+						"name": "created_by",
+						"type": "char"
+					},
+					{
+						"name": "Purchasing_Org",
+						"type": "char"
+					},
+					{
+						"name": "Purchasing_Grp",
+						"type": "char"
+					},
+					{
+						"name": "Currency_Key",
+						"type": "char"
+					},
+					{
+						"name": "Total_Value_at_release",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"tableName": "[[dbo].[ekko]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SapTableResource1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SAPED1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "YPS_STAGING"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SAPED1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_zlx')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SAPED1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "EKKO"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SAPED1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WaterMarkTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "WatermarkValue",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "watermarktable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "AZURE SQL Database",
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAPECC')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAPECC",
+				"annotations": [],
+				"type": "SapTable",
+				"typeProperties": {
+					"clientId": "[parameters('SAPECC_properties_typeProperties_clientId')]",
+					"language": "en",
+					"sncMode": false,
+					"userName": "[parameters('SAPECC_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SAPECC_password')]"
+					},
+					"server": "[parameters('SAPECC_properties_typeProperties_server')]",
+					"systemNumber": "[parameters('SAPECC_properties_typeProperties_systemNumber')]"
+				},
+				"connectVia": {
+					"referenceName": "SAP-IntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SAP-IntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAPED1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAPED1",
+				"annotations": [],
+				"type": "SapTable",
+				"typeProperties": {
+					"clientId": "[parameters('SAPED1_properties_typeProperties_clientId')]",
+					"language": "",
+					"sncMode": false,
+					"userName": "[parameters('SAPED1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SAPED1_password')]"
+					},
+					"server": "[parameters('SAPED1_properties_typeProperties_server')]",
+					"systemNumber": "[parameters('SAPED1_properties_typeProperties_systemNumber')]"
+				},
+				"connectVia": {
+					"referenceName": "SAP-IntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SAP-IntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SapHana1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "HANA views",
+				"annotations": [],
+				"type": "SapHana",
+				"typeProperties": {
+					"connectionString": "[parameters('SapHana1_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SAP-IntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SAP-IntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP-IntegrationRuntime')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"description": "SAP ECC Integration Runtime",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference"
+							},
+							"name": "source1",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable3",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Filter1"
+						},
+						{
+							"name": "AlterRow1"
+						}
+					],
+					"script": "\n\nsource(output(\n\t\t{Reservation Number} as string,\n\t\t{Reservation Item} as string,\n\t\t{User name} as string,\n\t\t{Movement Type} as string,\n\t\t{Requirement Date} as string,\n\t\t{Account Doc Creation Date} as string,\n\t\t{Material Document} as string,\n\t\t{Order Number} as string,\n\t\tMaterial as string,\n\t\t{Unit Of Measure} as string,\n\t\tQuantity as decimal(13,3),\n\t\t{Goods Recipient} as string,\n\t\t{Material Desc} as string,\n\t\t{Document Date} as string,\n\t\t{Document User} as string,\n\t\tDepartment as string,\n\t\tPlant as string,\n\t\t{Full name of Person} as string,\n\t\t{TO Doc} as string,\n\t\t{TO Date} as string,\n\t\t{No Days} as integer,\n\t\t{MR Qty} as decimal(13,3),\n\t\t{Final Issued Qty} as decimal(13,3),\n\t\t{SOH Batch} as decimal(13,3),\n\t\t{Delivery in Full} as string,\n\t\t{Delivery ontime} as string,\n\t\tDIFOT as string,\n\t\t{Cost Center} as string,\n\t\t{Item deleted} as string,\n\t\t{Mvt allowed} as string,\n\t\tSLoc as string,\n\t\tBatch as string,\n\t\t{Order type} as string,\n\t\t{Created Date} as string,\n\t\t{User status} as string,\n\t\tRelease as string,\n\t\t{Release date} as string,\n\t\t{Unblock date} as string,\n\t\t{Moving Freq} as string,\n\t\t{SOH SLoc} as decimal(13,3),\n\t\t{Consignment Stock} as decimal(13,3),\n\t\t{MRP Controller} as string,\n\t\tMCAB as decimal(13,3),\n\t\t{SOH Plant} as decimal(13,3),\n\t\t{SOH Company} as decimal(13,3),\n\t\tCREATED_DATE as string,\n\t\tCREATED_TIME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 filter(CREATED_DATE < '20190925') ~> Filter1\nFilter1 alterRow(upsertIf(CREATED_DATE<'20190925')) ~> AlterRow1\nAlterRow1 sink(input(\n\t\t{Reservation Number} as string,\n\t\t{Reservation Item} as string,\n\t\t{User name} as string,\n\t\t{Movement Type} as string,\n\t\t{Requirement Date} as string,\n\t\t{Account Doc Creation Date} as string,\n\t\t{Material Document} as string,\n\t\t{Order Number} as string,\n\t\tMaterial as string,\n\t\t{Unit Of Measure} as string,\n\t\tQuantity as decimal(13,3),\n\t\t{Goods Recipient} as string,\n\t\t{Material Desc} as string,\n\t\t{Document Date} as string,\n\t\t{Document User} as string,\n\t\tDepartment as string,\n\t\tPlant as string,\n\t\t{Full name of Person} as string,\n\t\t{TO Doc} as string,\n\t\t{TO Date} as string,\n\t\t{No Days} as integer,\n\t\t{MR Qty} as decimal(13,3),\n\t\t{Final Issued Qty} as decimal(13,3),\n\t\t{SOH Batch} as decimal(13,3),\n\t\t{Delivery in Full} as string,\n\t\t{Delivery ontime} as string,\n\t\tDIFOT as string,\n\t\t{Cost Center} as string,\n\t\t{Item deleted} as string,\n\t\t{Mvt allowed} as string,\n\t\tSLoc as string,\n\t\tBatch as string,\n\t\t{Order type} as string,\n\t\t{Created Date} as string,\n\t\t{User status} as string,\n\t\tRelease as string,\n\t\t{Release date} as string,\n\t\t{Unblock date} as string,\n\t\t{Moving Freq} as string,\n\t\t{SOH SLoc} as decimal(13,3),\n\t\t{Consignment Stock} as decimal(13,3),\n\t\t{MRP Controller} as string,\n\t\tMCAB as decimal(13,3),\n\t\t{SOH Plant} as decimal(13,3),\n\t\t{SOH Company} as decimal(13,3),\n\t\tCREATED_DATE as string,\n\t\tCREATED_TIME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['{Reservation Number}','{Reservation Item}'],\n\tformat: 'table',\n\tmapColumn(\n\t\t{Reservation Number},\n\t\t{Reservation Item},\n\t\t{User name},\n\t\t{Movement Type},\n\t\t{Requirement Date},\n\t\t{Account Doc Creation Date},\n\t\t{Material Document},\n\t\t{Order Number},\n\t\tMaterial,\n\t\t{Unit Of Measure},\n\t\tQuantity,\n\t\t{Goods Recipient},\n\t\t{Material Desc},\n\t\t{Document Date},\n\t\t{Document User},\n\t\tDepartment,\n\t\tPlant,\n\t\t{Full name of Person},\n\t\t{TO Doc},\n\t\t{TO Date},\n\t\t{No Days},\n\t\t{MR Qty},\n\t\t{Final Issued Qty},\n\t\t{SOH Batch},\n\t\t{Delivery in Full},\n\t\t{Delivery ontime},\n\t\tDIFOT,\n\t\t{Cost Center},\n\t\t{Item deleted},\n\t\t{Mvt allowed},\n\t\tSLoc,\n\t\tBatch,\n\t\t{Order type},\n\t\t{Created Date},\n\t\t{User status},\n\t\tRelease,\n\t\t{Release date},\n\t\t{Unblock date},\n\t\t{Moving Freq},\n\t\t{SOH SLoc},\n\t\t{Consignment Stock},\n\t\t{MRP Controller},\n\t\tMCAB,\n\t\t{SOH Plant},\n\t\t{SOH Company},\n\t\tCREATED_DATE,\n\t\tCREATED_TIME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable3')]"
+			]
+		}
+	]
+}

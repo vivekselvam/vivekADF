@@ -1,0 +1,126 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"SAPECC_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SAPECC'"
+		},
+		"SAPED1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SAPED1'"
+		},
+		"SapHana1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
+		},
+		"SAPECC_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "100"
+		},
+		"SAPECC_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "vivek02"
+		},
+		"SAPECC_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "myerpabapdev.smrt.com.sg"
+		},
+		"SAPECC_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "00"
+		},
+		"SAPED1_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "100"
+		},
+		"SAPED1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "vivek02"
+		},
+		"SAPED1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "myerpabapdev.smrt.com.sg"
+		},
+		"SAPED1_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "00"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
+					},
+					"SAPECC_password": {
+						"value": "[parameters('SAPECC_password')]"
+					},
+					"SAPED1_password": {
+						"value": "[parameters('SAPED1_password')]"
+					},
+					"SapHana1_connectionString": {
+						"value": "[parameters('SapHana1_connectionString')]"
+					},
+					"SAPECC_properties_typeProperties_clientId": {
+						"value": "[parameters('SAPECC_properties_typeProperties_clientId')]"
+					},
+					"SAPECC_properties_typeProperties_userName": {
+						"value": "[parameters('SAPECC_properties_typeProperties_userName')]"
+					},
+					"SAPECC_properties_typeProperties_server": {
+						"value": "[parameters('SAPECC_properties_typeProperties_server')]"
+					},
+					"SAPECC_properties_typeProperties_systemNumber": {
+						"value": "[parameters('SAPECC_properties_typeProperties_systemNumber')]"
+					},
+					"SAPED1_properties_typeProperties_clientId": {
+						"value": "[parameters('SAPED1_properties_typeProperties_clientId')]"
+					},
+					"SAPED1_properties_typeProperties_userName": {
+						"value": "[parameters('SAPED1_properties_typeProperties_userName')]"
+					},
+					"SAPED1_properties_typeProperties_server": {
+						"value": "[parameters('SAPED1_properties_typeProperties_server')]"
+					},
+					"SAPED1_properties_typeProperties_systemNumber": {
+						"value": "[parameters('SAPED1_properties_typeProperties_systemNumber')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
