@@ -1,0 +1,16 @@
+{
+	"name": "SapTableResource1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SAPED1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SapTableResource",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "YPS_STAGING"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

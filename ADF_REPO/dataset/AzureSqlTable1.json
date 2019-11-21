@@ -1,0 +1,225 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Reservation Number",
+				"type": "nchar"
+			},
+			{
+				"name": "Reservation Item",
+				"type": "nchar"
+			},
+			{
+				"name": "User name",
+				"type": "char"
+			},
+			{
+				"name": "Movement Type",
+				"type": "char"
+			},
+			{
+				"name": "Requirement Date",
+				"type": "char"
+			},
+			{
+				"name": "Account Doc Creation Date",
+				"type": "char"
+			},
+			{
+				"name": "Material Document",
+				"type": "char"
+			},
+			{
+				"name": "Order Number",
+				"type": "char"
+			},
+			{
+				"name": "Material",
+				"type": "char"
+			},
+			{
+				"name": "Unit Of Measure",
+				"type": "char"
+			},
+			{
+				"name": "Quantity",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "Goods Recipient",
+				"type": "char"
+			},
+			{
+				"name": "Material Desc",
+				"type": "char"
+			},
+			{
+				"name": "Document Date",
+				"type": "char"
+			},
+			{
+				"name": "Document User",
+				"type": "char"
+			},
+			{
+				"name": "Department",
+				"type": "char"
+			},
+			{
+				"name": "Plant",
+				"type": "char"
+			},
+			{
+				"name": "Full name of Person",
+				"type": "char"
+			},
+			{
+				"name": "TO Doc",
+				"type": "nchar"
+			},
+			{
+				"name": "TO Date",
+				"type": "char"
+			},
+			{
+				"name": "No Days",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MR Qty",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "Final Issued Qty",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "SOH Batch",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "Delivery in Full",
+				"type": "char"
+			},
+			{
+				"name": "Delivery ontime",
+				"type": "char"
+			},
+			{
+				"name": "DIFOT",
+				"type": "char"
+			},
+			{
+				"name": "Cost Center",
+				"type": "char"
+			},
+			{
+				"name": "Item deleted",
+				"type": "char"
+			},
+			{
+				"name": "Mvt allowed",
+				"type": "char"
+			},
+			{
+				"name": "SLoc",
+				"type": "char"
+			},
+			{
+				"name": "Batch",
+				"type": "char"
+			},
+			{
+				"name": "Order type",
+				"type": "char"
+			},
+			{
+				"name": "Created Date",
+				"type": "char"
+			},
+			{
+				"name": "User status",
+				"type": "char"
+			},
+			{
+				"name": "Release",
+				"type": "char"
+			},
+			{
+				"name": "Release date",
+				"type": "char"
+			},
+			{
+				"name": "Unblock date",
+				"type": "char"
+			},
+			{
+				"name": "Moving Freq",
+				"type": "char"
+			},
+			{
+				"name": "SOH SLoc",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "Consignment Stock",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "MRP Controller",
+				"type": "char"
+			},
+			{
+				"name": "MCAB",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "SOH Plant",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "SOH Company",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "CREATED_DATE",
+				"type": "char"
+			},
+			{
+				"name": "CREATED_TIME",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "YPS_Mat_Res2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

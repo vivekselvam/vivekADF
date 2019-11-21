@@ -1,0 +1,71 @@
+{
+	"name": "DestinationDataset_zlx",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ebeln",
+				"type": "varchar"
+			},
+			{
+				"name": "Company_Code",
+				"type": "char"
+			},
+			{
+				"name": "Purchasing_Document_Category",
+				"type": "char"
+			},
+			{
+				"name": "Purchasing_Document_Type",
+				"type": "char"
+			},
+			{
+				"name": "Control_indicator",
+				"type": "char"
+			},
+			{
+				"name": "Deletion_Indicator",
+				"type": "char"
+			},
+			{
+				"name": "Status",
+				"type": "char"
+			},
+			{
+				"name": "Created_on",
+				"type": "char"
+			},
+			{
+				"name": "created_by",
+				"type": "char"
+			},
+			{
+				"name": "Purchasing_Org",
+				"type": "char"
+			},
+			{
+				"name": "Purchasing_Grp",
+				"type": "char"
+			},
+			{
+				"name": "Currency_Key",
+				"type": "char"
+			},
+			{
+				"name": "Total_Value_at_release",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[ekko]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

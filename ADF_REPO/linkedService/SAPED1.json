@@ -1,0 +1,22 @@
+{
+	"name": "SAPED1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "SAPED1",
+		"annotations": [],
+		"type": "SapTable",
+		"typeProperties": {
+			"clientId": "100",
+			"language": "",
+			"sncMode": false,
+			"userName": "vivek02",
+			"server": "myerpabapdev.smrt.com.sg",
+			"systemNumber": "00",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlMTJkOTNiYS0zNTU0LTRhZDUtYWU0Ni04MjY3OTJlNzIwMjMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SAP-IntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

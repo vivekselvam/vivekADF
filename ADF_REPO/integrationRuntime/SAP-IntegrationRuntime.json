@@ -1,0 +1,7 @@
+{
+	"name": "SAP-IntegrationRuntime",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "SAP ECC Integration Runtime"
+	}
+}
