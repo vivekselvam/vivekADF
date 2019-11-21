@@ -1,7 +1,7 @@
 {
 	"name": "SAP Incremental",
 	"properties": {
-		"description": "SAP Incremental Load",
+		"description": "SAP Incremental Load d",
 		"activities": [
 			{
 				"name": "dataflow1",
