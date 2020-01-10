@@ -34,7 +34,11 @@
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"sqlWriterStoredProcedureName": "[dbo].[sapUpsertReservation]",
+						"sqlWriterTableType": "TypRes2",
+						"storedProcedureTableTypeParameterName": "Reservation",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
