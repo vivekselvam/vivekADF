@@ -4,7 +4,7 @@
 		"description": "SAP ECC",
 		"activities": [
 			{
-				"name": "Copy_zlx",
+				"name": "Copy_zlxx",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
