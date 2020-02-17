@@ -838,15 +838,15 @@
 					},
 					{
 						"name": "Emp_name",
-						"type": "nchar"
+						"type": "char"
 					},
 					{
 						"name": "First_name",
-						"type": "nchar"
+						"type": "char"
 					},
 					{
 						"name": "Last_name",
-						"type": "nchar"
+						"type": "char"
 					},
 					{
 						"name": "Question_id",
@@ -855,11 +855,11 @@
 					},
 					{
 						"name": "Question_text",
-						"type": "nchar"
+						"type": "char"
 					},
 					{
 						"name": "Answer",
-						"type": "nchar"
+						"type": "char"
 					}
 				],
 				"typeProperties": {
