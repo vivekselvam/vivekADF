@@ -864,7 +864,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "EMPLOYEE_RESPONSE"
+					"table": "EMPLOYEE_RESPONSE1"
 				}
 			},
 			"dependsOn": [
