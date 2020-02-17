@@ -1,0 +1,47 @@
+{
+	"name": "AzureSqlTable5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Emp_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Emp_name",
+				"type": "nchar"
+			},
+			{
+				"name": "First_name",
+				"type": "nchar"
+			},
+			{
+				"name": "Last_name",
+				"type": "nchar"
+			},
+			{
+				"name": "Question_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Question_text",
+				"type": "nchar"
+			},
+			{
+				"name": "Answer",
+				"type": "nchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "EMPLOYEE_RESPONSE"
+		}
+	}
+}

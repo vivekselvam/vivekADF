@@ -25,7 +25,69 @@
 						"type": "AzureSqlSink",
 						"tableOption": "autoCreate"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['respondent']['id']"
+								},
+								"sink": {
+									"name": "Emp_id"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['name']"
+								},
+								"sink": {
+									"name": "Emp_name"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['first_name']"
+								},
+								"sink": {
+									"name": "First_name"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['last_name']"
+								},
+								"sink": {
+									"name": "Last_name"
+								}
+							},
+							{
+								"source": {
+									"path": "['answers'][0]['question_id']"
+								},
+								"sink": {
+									"name": "Question_id"
+								}
+							},
+							{
+								"source": {
+									"path": "['answers'][0]['question_text']"
+								},
+								"sink": {
+									"name": "Question_text"
+								}
+							},
+							{
+								"source": {
+									"path": "['answers'][0]['content']"
+								},
+								"sink": {
+									"name": "Answer"
+								}
+							}
+						],
+						"collectionReference": "$['responses']"
+					}
 				},
 				"inputs": [
 					{
@@ -35,7 +97,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable4",
+						"referenceName": "AzureSqlTable5",
 						"type": "DatasetReference"
 					}
 				]
