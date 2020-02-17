@@ -1736,14 +1736,6 @@
 										"sink": {
 											"name": "Question_text"
 										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['answers'][0]['content']"
-										},
-										"sink": {
-											"name": "Answer"
-										}
 									}
 								],
 								"collectionReference": ""
