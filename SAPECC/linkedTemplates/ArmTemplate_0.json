@@ -987,7 +987,7 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "[['respondent']['id']"
+											"path": "$['responses'][0]['respondent']['id']"
 										},
 										"sink": {
 											"name": "Emp_id"
@@ -995,7 +995,7 @@
 									},
 									{
 										"source": {
-											"path": "[['respondent']['name']"
+											"path": "$['responses'][0]['respondent']['name']"
 										},
 										"sink": {
 											"name": "Emp_name"
@@ -1003,7 +1003,7 @@
 									},
 									{
 										"source": {
-											"path": "[['respondent']['first_name']"
+											"path": "$['responses'][0]['respondent']['first_name']"
 										},
 										"sink": {
 											"name": "First_name"
@@ -1011,7 +1011,7 @@
 									},
 									{
 										"source": {
-											"path": "[['respondent']['last_name']"
+											"path": "$['responses'][0]['respondent']['last_name']"
 										},
 										"sink": {
 											"name": "Last_name"
@@ -1019,7 +1019,7 @@
 									},
 									{
 										"source": {
-											"path": "[['answers'][0]['question_id']"
+											"path": "$['responses'][0]['answers'][0]['question_id']"
 										},
 										"sink": {
 											"name": "Question_id"
@@ -1027,7 +1027,7 @@
 									},
 									{
 										"source": {
-											"path": "[['answers'][0]['question_text']"
+											"path": "$['responses'][0]['answers'][0]['question_text']"
 										},
 										"sink": {
 											"name": "Question_text"
@@ -1035,14 +1035,14 @@
 									},
 									{
 										"source": {
-											"path": "[['answers'][0]['content']"
+											"path": "$['responses'][0]['answers'][0]['content']"
 										},
 										"sink": {
 											"name": "Answer"
 										}
 									}
 								],
-								"collectionReference": "$['responses']"
+								"collectionReference": ""
 							}
 						},
 						"inputs": [

@@ -1,0 +1,126 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Rest Copy",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['id']"
+										},
+										"sink": {
+											"name": "Emp_id"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['name']"
+										},
+										"sink": {
+											"name": "Emp_name"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['first_name']"
+										},
+										"sink": {
+											"name": "First_name"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['last_name']"
+										},
+										"sink": {
+											"name": "Last_name"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['answers'][0]['question_id']"
+										},
+										"sink": {
+											"name": "Question_id"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['answers'][0]['question_text']"
+										},
+										"sink": {
+											"name": "Question_text"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['answers'][0]['content']"
+										},
+										"sink": {
+											"name": "Answer"
+										}
+									}
+								],
+								"collectionReference": ""
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
