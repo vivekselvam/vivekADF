@@ -10,8 +10,8 @@
 		"schema": [
 			{
 				"name": "Emp_id",
-				"type": "int",
-				"precision": 10
+				"type": "bigint",
+				"precision": 19
 			},
 			{
 				"name": "Emp_name",
@@ -27,8 +27,8 @@
 			},
 			{
 				"name": "Question_id",
-				"type": "int",
-				"precision": 10
+				"type": "bigint",
+				"precision": 19
 			},
 			{
 				"name": "Question_text",
@@ -41,7 +41,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "EMPLOYEE_RESPONSE1"
+			"table": "EMPLOYEE_RESPONSE2"
 		}
 	}
 }
