@@ -1,0 +1,239 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['stats']['showing']"
+								},
+								"sink": {
+									"name": ""
+								}
+							},
+							{
+								"source": {
+									"path": "$['stats']['total']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['stats']['completed']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['stats']['incomplete']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['questions'][0]['id']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['questions'][0]['question_type']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['questions'][0]['question_text']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['questions'][0]['question_position']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['completed']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['started_at']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['completed_at']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['id']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['id']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['name']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['first_name']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['last_name']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['gender']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['locale']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['timezone']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['email']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['picture']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['date_of_birth']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['occupation']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['address']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['relationship_status']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['phone_number']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['mobile_number']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['tags']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['location']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['city']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['country']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['respondent']['attributes']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['quiz_score']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['answers'][0]['question_id']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['answers'][0]['question_text']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['answers'][0]['content']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses'][0]['shared_by_respondent']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "RestResource1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTable4",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
