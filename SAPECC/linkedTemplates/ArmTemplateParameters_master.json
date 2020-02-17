@@ -17,6 +17,9 @@
 		"SapHana1_connectionString": {
 			"value": ""
 		},
+		"RestService1_password": {
+			"value": ""
+		},
 		"SAPECC_properties_typeProperties_clientId": {
 			"value": "100"
 		},
@@ -40,6 +43,12 @@
 		},
 		"SAPED1_properties_typeProperties_systemNumber": {
 			"value": "00"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=10&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q"
+		},
+		"RestService1_properties_typeProperties_userName": {
+			"value": "vivek02"
 		},
 		"containerUri": {
 			"value": ""

@@ -1,0 +1,426 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP_ECC')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAP ECC",
+				"activities": [
+					{
+						"name": "Copy_zlxx",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "EKKO"
+							},
+							{
+								"name": "Destination",
+								"value": "[[dbo].[ekko]"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rowCount": 1000,
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "",
+								"rfcTableFields": "ABGRU,ABSGR,ADDNR,ADRNR,AEDAT,ANGDT,ANGNR,AUREL_ALLOW,AUSNR,AUTLF,BEDAT,BNDDT,BSAKZ,BSART,BSTYP,BUDG_TYPE,BUKRS,BWBDT,CHECK_TYPE,CONTRACT_ALLOW,CON_DISTR_LEV,CON_OTB_REQ,CON_PREBOOK_LEV,DELPER_ALLOW,DESCRIPTION,DPAMT,DPDAT,DPPCT,DPTYP,EBELN,EINDT_ALLOW,EKGRP,EKGRP_ALLOW,EKORG,EQ_EINDT,EQ_WERKS,ERNAM,EXNUM,FIXPO,FIXPO_ALLOW,FORCE_CNT,FORCE_ID,FRGGR,FRGKE,FRGRL,FRGSX,FRGZU,GWLDT,HANDOVERLOC,HIERARCHY_EXISTS,IHRAN,IHREZ,INCO1,INCO2,KALSM,KDATB,KDATE,KEY_ID,KEY_ID_ALLOW,KNUMV,KONNR,KORNR,KTWRT,KUFIX,KUNNR,LANDS,LBLIF,LEGAL_CONTRACT,LIFNR,LIFRE,LLIEF,LOEKZ,LOGSY,LPHIS,LPONR,LTSNR_ALLOW,MANDT,MEMORY,MEMORYTYPE,MSR_ID,OTB_COND_TYPE,OTB_CURR,OTB_LEVEL,OTB_REASON,OTB_RES_VALUE,OTB_SPEC_VALUE,OTB_STATUS,OTB_VALUE,PINCR,POHF_TYPE,PROCSTAT,PSTYP_ALLOW,REASON_CODE,RELEASE_DATE,RELOC_ID,RELOC_SEQ_ID,RESWK,RETPC,RETTP,REVNO,RLWRT,SCMPROC,SHIPCOND,SOURCE_LOGSYS,SPRAS,SPR_RSN_PROFILE,STAFO,STAKO,STATU,STCEG,STCEG_L,SUBMI,TELF1,THRESHOLD_EXISTS,UNSEZ,UPINC,VERKF,VSART,VZSKZ,WAERS,WEAKT,WERKS_ALLOW,WKURS,ZBD1P,ZBD1T,ZBD2P,ZBD2T,ZBD3T,ZTERM",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "EBELN",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ebeln",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BUKRS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Company_Code",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSTYP",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Document_Category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSART",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Document_Type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSAKZ",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Control_indicator",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LOEKZ",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Deletion_Indicator",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "STATU",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Status",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AEDAT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Created_on",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ERNAM",
+											"type": "String"
+										},
+										"sink": {
+											"name": "created_by",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EKORG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Org",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EKGRP",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Grp",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WAERS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Currency_Key",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RLWRT",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Total_Value_at_release",
+											"type": "Decimal"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_zlx",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_zlx",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Rest Copy",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['respondent']['id']"
+										},
+										"sink": {
+											"name": "Emp_id"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['name']"
+										},
+										"sink": {
+											"name": "Emp_name"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['first_name']"
+										},
+										"sink": {
+											"name": "First_name"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['last_name']"
+										},
+										"sink": {
+											"name": "Last_name"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_id']"
+										},
+										"sink": {
+											"name": "Question_id"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_text']"
+										},
+										"sink": {
+											"name": "Question_text"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['content']"
+										},
+										"sink": {
+											"name": "Answer"
+										}
+									}
+								],
+								"collectionReference": "$['responses']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable5')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=10&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Basic",
+					"userName": "vivek02",
+					"password": {
+						"type": "SecureString",
+						"value": "**********"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestService1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Emp_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Emp_name",
+						"type": "nchar"
+					},
+					{
+						"name": "First_name",
+						"type": "nchar"
+					},
+					{
+						"name": "Last_name",
+						"type": "nchar"
+					},
+					{
+						"name": "Question_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Question_text",
+						"type": "nchar"
+					},
+					{
+						"name": "Answer",
+						"type": "nchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EMPLOYEE_RESPONSE"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

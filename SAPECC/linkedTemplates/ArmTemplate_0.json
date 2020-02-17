@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
 		},
+		"RestService1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'RestService1'"
+		},
 		"SAPECC_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SAPECC'"
@@ -22,6 +26,14 @@
 		"SapHana1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=10&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q"
+		},
+		"RestService1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "vivek02"
 		},
 		"SAPECC_properties_typeProperties_clientId": {
 			"type": "string",
@@ -82,6 +94,26 @@
 				"type": "SelfHosted",
 				"description": "SAP ECC Integration Runtime",
 				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestService1_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('RestService1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('RestService1_password')]"
+					}
+				}
 			},
 			"dependsOn": []
 		},
@@ -752,6 +784,94 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestService1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Emp_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Emp_name",
+						"type": "nchar"
+					},
+					{
+						"name": "First_name",
+						"type": "nchar"
+					},
+					{
+						"name": "Last_name",
+						"type": "nchar"
+					},
+					{
+						"name": "Question_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Question_text",
+						"type": "nchar"
+					},
+					{
+						"name": "Answer",
+						"type": "nchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EMPLOYEE_RESPONSE"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SapTableResource1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -825,12 +945,127 @@
 							"name": "AlterRow1"
 						}
 					],
-					"script": "\n\nsource(output(\n\t\t{Reservation Number} as string,\n\t\t{Reservation Item} as string,\n\t\t{User name} as string,\n\t\t{Movement Type} as string,\n\t\t{Requirement Date} as string,\n\t\t{Account Doc Creation Date} as string,\n\t\t{Material Document} as string,\n\t\t{Order Number} as string,\n\t\tMaterial as string,\n\t\t{Unit Of Measure} as string,\n\t\tQuantity as decimal(13,3),\n\t\t{Goods Recipient} as string,\n\t\t{Material Desc} as string,\n\t\t{Document Date} as string,\n\t\t{Document User} as string,\n\t\tDepartment as string,\n\t\tPlant as string,\n\t\t{Full name of Person} as string,\n\t\t{TO Doc} as string,\n\t\t{TO Date} as string,\n\t\t{No Days} as integer,\n\t\t{MR Qty} as decimal(13,3),\n\t\t{Final Issued Qty} as decimal(13,3),\n\t\t{SOH Batch} as decimal(13,3),\n\t\t{Delivery in Full} as string,\n\t\t{Delivery ontime} as string,\n\t\tDIFOT as string,\n\t\t{Cost Center} as string,\n\t\t{Item deleted} as string,\n\t\t{Mvt allowed} as string,\n\t\tSLoc as string,\n\t\tBatch as string,\n\t\t{Order type} as string,\n\t\t{Created Date} as string,\n\t\t{User status} as string,\n\t\tRelease as string,\n\t\t{Release date} as string,\n\t\t{Unblock date} as string,\n\t\t{Moving Freq} as string,\n\t\t{SOH SLoc} as decimal(13,3),\n\t\t{Consignment Stock} as decimal(13,3),\n\t\t{MRP Controller} as string,\n\t\tMCAB as decimal(13,3),\n\t\t{SOH Plant} as decimal(13,3),\n\t\t{SOH Company} as decimal(13,3),\n\t\tCREATED_DATE as string,\n\t\tCREATED_TIME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 filter(CREATED_DATE < '20190925') ~> Filter1\nFilter1 alterRow(upsertIf(CREATED_DATE<'20190925')) ~> AlterRow1\nAlterRow1 sink(input(\n\t\t{Reservation Number} as string,\n\t\t{Reservation Item} as string,\n\t\t{User name} as string,\n\t\t{Movement Type} as string,\n\t\t{Requirement Date} as string,\n\t\t{Account Doc Creation Date} as string,\n\t\t{Material Document} as string,\n\t\t{Order Number} as string,\n\t\tMaterial as string,\n\t\t{Unit Of Measure} as string,\n\t\tQuantity as decimal(13,3),\n\t\t{Goods Recipient} as string,\n\t\t{Material Desc} as string,\n\t\t{Document Date} as string,\n\t\t{Document User} as string,\n\t\tDepartment as string,\n\t\tPlant as string,\n\t\t{Full name of Person} as string,\n\t\t{TO Doc} as string,\n\t\t{TO Date} as string,\n\t\t{No Days} as integer,\n\t\t{MR Qty} as decimal(13,3),\n\t\t{Final Issued Qty} as decimal(13,3),\n\t\t{SOH Batch} as decimal(13,3),\n\t\t{Delivery in Full} as string,\n\t\t{Delivery ontime} as string,\n\t\tDIFOT as string,\n\t\t{Cost Center} as string,\n\t\t{Item deleted} as string,\n\t\t{Mvt allowed} as string,\n\t\tSLoc as string,\n\t\tBatch as string,\n\t\t{Order type} as string,\n\t\t{Created Date} as string,\n\t\t{User status} as string,\n\t\tRelease as string,\n\t\t{Release date} as string,\n\t\t{Unblock date} as string,\n\t\t{Moving Freq} as string,\n\t\t{SOH SLoc} as decimal(13,3),\n\t\t{Consignment Stock} as decimal(13,3),\n\t\t{MRP Controller} as string,\n\t\tMCAB as decimal(13,3),\n\t\t{SOH Plant} as decimal(13,3),\n\t\t{SOH Company} as decimal(13,3),\n\t\tCREATED_DATE as string,\n\t\tCREATED_TIME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['{Reservation Number}','{Reservation Item}'],\n\tformat: 'table',\n\tmapColumn(\n\t\t{Reservation Number},\n\t\t{Reservation Item},\n\t\t{User name},\n\t\t{Movement Type},\n\t\t{Requirement Date},\n\t\t{Account Doc Creation Date},\n\t\t{Material Document},\n\t\t{Order Number},\n\t\tMaterial,\n\t\t{Unit Of Measure},\n\t\tQuantity,\n\t\t{Goods Recipient},\n\t\t{Material Desc},\n\t\t{Document Date},\n\t\t{Document User},\n\t\tDepartment,\n\t\tPlant,\n\t\t{Full name of Person},\n\t\t{TO Doc},\n\t\t{TO Date},\n\t\t{No Days},\n\t\t{MR Qty},\n\t\t{Final Issued Qty},\n\t\t{SOH Batch},\n\t\t{Delivery in Full},\n\t\t{Delivery ontime},\n\t\tDIFOT,\n\t\t{Cost Center},\n\t\t{Item deleted},\n\t\t{Mvt allowed},\n\t\tSLoc,\n\t\tBatch,\n\t\t{Order type},\n\t\t{Created Date},\n\t\t{User status},\n\t\tRelease,\n\t\t{Release date},\n\t\t{Unblock date},\n\t\t{Moving Freq},\n\t\t{SOH SLoc},\n\t\t{Consignment Stock},\n\t\t{MRP Controller},\n\t\tMCAB,\n\t\t{SOH Plant},\n\t\t{SOH Company},\n\t\tCREATED_DATE,\n\t\tCREATED_TIME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+					"script": "source(output(\n\t\t{Reservation Number} as string,\n\t\t{Reservation Item} as string,\n\t\t{User name} as string,\n\t\t{Movement Type} as string,\n\t\t{Requirement Date} as string,\n\t\t{Account Doc Creation Date} as string,\n\t\t{Material Document} as string,\n\t\t{Order Number} as string,\n\t\tMaterial as string,\n\t\t{Unit Of Measure} as string,\n\t\tQuantity as decimal(13,3),\n\t\t{Goods Recipient} as string,\n\t\t{Material Desc} as string,\n\t\t{Document Date} as string,\n\t\t{Document User} as string,\n\t\tDepartment as string,\n\t\tPlant as string,\n\t\t{Full name of Person} as string,\n\t\t{TO Doc} as string,\n\t\t{TO Date} as string,\n\t\t{No Days} as integer,\n\t\t{MR Qty} as decimal(13,3),\n\t\t{Final Issued Qty} as decimal(13,3),\n\t\t{SOH Batch} as decimal(13,3),\n\t\t{Delivery in Full} as string,\n\t\t{Delivery ontime} as string,\n\t\tDIFOT as string,\n\t\t{Cost Center} as string,\n\t\t{Item deleted} as string,\n\t\t{Mvt allowed} as string,\n\t\tSLoc as string,\n\t\tBatch as string,\n\t\t{Order type} as string,\n\t\t{Created Date} as string,\n\t\t{User status} as string,\n\t\tRelease as string,\n\t\t{Release date} as string,\n\t\t{Unblock date} as string,\n\t\t{Moving Freq} as string,\n\t\t{SOH SLoc} as decimal(13,3),\n\t\t{Consignment Stock} as decimal(13,3),\n\t\t{MRP Controller} as string,\n\t\tMCAB as decimal(13,3),\n\t\t{SOH Plant} as decimal(13,3),\n\t\t{SOH Company} as decimal(13,3),\n\t\tCREATED_DATE as string,\n\t\tCREATED_TIME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 filter(CREATED_DATE < '20190925') ~> Filter1\nFilter1 alterRow(upsertIf(CREATED_DATE<'20190925')) ~> AlterRow1\nAlterRow1 sink(input(\n\t\t{Reservation Number} as string,\n\t\t{Reservation Item} as string,\n\t\t{User name} as string,\n\t\t{Movement Type} as string,\n\t\t{Requirement Date} as string,\n\t\t{Account Doc Creation Date} as string,\n\t\t{Material Document} as string,\n\t\t{Order Number} as string,\n\t\tMaterial as string,\n\t\t{Unit Of Measure} as string,\n\t\tQuantity as decimal(13,3),\n\t\t{Goods Recipient} as string,\n\t\t{Material Desc} as string,\n\t\t{Document Date} as string,\n\t\t{Document User} as string,\n\t\tDepartment as string,\n\t\tPlant as string,\n\t\t{Full name of Person} as string,\n\t\t{TO Doc} as string,\n\t\t{TO Date} as string,\n\t\t{No Days} as integer,\n\t\t{MR Qty} as decimal(13,3),\n\t\t{Final Issued Qty} as decimal(13,3),\n\t\t{SOH Batch} as decimal(13,3),\n\t\t{Delivery in Full} as string,\n\t\t{Delivery ontime} as string,\n\t\tDIFOT as string,\n\t\t{Cost Center} as string,\n\t\t{Item deleted} as string,\n\t\t{Mvt allowed} as string,\n\t\tSLoc as string,\n\t\tBatch as string,\n\t\t{Order type} as string,\n\t\t{Created Date} as string,\n\t\t{User status} as string,\n\t\tRelease as string,\n\t\t{Release date} as string,\n\t\t{Unblock date} as string,\n\t\t{Moving Freq} as string,\n\t\t{SOH SLoc} as decimal(13,3),\n\t\t{Consignment Stock} as decimal(13,3),\n\t\t{MRP Controller} as string,\n\t\tMCAB as decimal(13,3),\n\t\t{SOH Plant} as decimal(13,3),\n\t\t{SOH Company} as decimal(13,3),\n\t\tCREATED_DATE as string,\n\t\tCREATED_TIME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['{Reservation Number}','{Reservation Item}'],\n\tformat: 'table',\n\tmapColumn(\n\t\t{Reservation Number},\n\t\t{Reservation Item},\n\t\t{User name},\n\t\t{Movement Type},\n\t\t{Requirement Date},\n\t\t{Account Doc Creation Date},\n\t\t{Material Document},\n\t\t{Order Number},\n\t\tMaterial,\n\t\t{Unit Of Measure},\n\t\tQuantity,\n\t\t{Goods Recipient},\n\t\t{Material Desc},\n\t\t{Document Date},\n\t\t{Document User},\n\t\tDepartment,\n\t\tPlant,\n\t\t{Full name of Person},\n\t\t{TO Doc},\n\t\t{TO Date},\n\t\t{No Days},\n\t\t{MR Qty},\n\t\t{Final Issued Qty},\n\t\t{SOH Batch},\n\t\t{Delivery in Full},\n\t\t{Delivery ontime},\n\t\tDIFOT,\n\t\t{Cost Center},\n\t\t{Item deleted},\n\t\t{Mvt allowed},\n\t\tSLoc,\n\t\tBatch,\n\t\t{Order type},\n\t\t{Created Date},\n\t\t{User status},\n\t\tRelease,\n\t\t{Release date},\n\t\t{Unblock date},\n\t\t{Moving Freq},\n\t\t{SOH SLoc},\n\t\t{Consignment Stock},\n\t\t{MRP Controller},\n\t\tMCAB,\n\t\t{SOH Plant},\n\t\t{SOH Company},\n\t\tCREATED_DATE,\n\t\tCREATED_TIME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Rest Copy",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['respondent']['id']"
+										},
+										"sink": {
+											"name": "Emp_id"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['name']"
+										},
+										"sink": {
+											"name": "Emp_name"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['first_name']"
+										},
+										"sink": {
+											"name": "First_name"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['last_name']"
+										},
+										"sink": {
+											"name": "Last_name"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_id']"
+										},
+										"sink": {
+											"name": "Question_id"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_text']"
+										},
+										"sink": {
+											"name": "Question_text"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['content']"
+										},
+										"sink": {
+											"name": "Answer"
+										}
+									}
+								],
+								"collectionReference": "$['responses']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable5')]"
 			]
 		},
 		{
@@ -1443,206 +1678,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAP_ECC')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAP ECC",
-				"activities": [
-					{
-						"name": "Copy_zlx",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "EKKO"
-							},
-							{
-								"name": "Destination",
-								"value": "[[dbo].[ekko]"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SapTableSource",
-								"rowCount": 1000,
-								"rfcTableOptions": "",
-								"customRfcReadTableFunctionModule": "",
-								"rfcTableFields": "ABGRU,ABSGR,ADDNR,ADRNR,AEDAT,ANGDT,ANGNR,AUREL_ALLOW,AUSNR,AUTLF,BEDAT,BNDDT,BSAKZ,BSART,BSTYP,BUDG_TYPE,BUKRS,BWBDT,CHECK_TYPE,CONTRACT_ALLOW,CON_DISTR_LEV,CON_OTB_REQ,CON_PREBOOK_LEV,DELPER_ALLOW,DESCRIPTION,DPAMT,DPDAT,DPPCT,DPTYP,EBELN,EINDT_ALLOW,EKGRP,EKGRP_ALLOW,EKORG,EQ_EINDT,EQ_WERKS,ERNAM,EXNUM,FIXPO,FIXPO_ALLOW,FORCE_CNT,FORCE_ID,FRGGR,FRGKE,FRGRL,FRGSX,FRGZU,GWLDT,HANDOVERLOC,HIERARCHY_EXISTS,IHRAN,IHREZ,INCO1,INCO2,KALSM,KDATB,KDATE,KEY_ID,KEY_ID_ALLOW,KNUMV,KONNR,KORNR,KTWRT,KUFIX,KUNNR,LANDS,LBLIF,LEGAL_CONTRACT,LIFNR,LIFRE,LLIEF,LOEKZ,LOGSY,LPHIS,LPONR,LTSNR_ALLOW,MANDT,MEMORY,MEMORYTYPE,MSR_ID,OTB_COND_TYPE,OTB_CURR,OTB_LEVEL,OTB_REASON,OTB_RES_VALUE,OTB_SPEC_VALUE,OTB_STATUS,OTB_VALUE,PINCR,POHF_TYPE,PROCSTAT,PSTYP_ALLOW,REASON_CODE,RELEASE_DATE,RELOC_ID,RELOC_SEQ_ID,RESWK,RETPC,RETTP,REVNO,RLWRT,SCMPROC,SHIPCOND,SOURCE_LOGSYS,SPRAS,SPR_RSN_PROFILE,STAFO,STAKO,STATU,STCEG,STCEG_L,SUBMI,TELF1,THRESHOLD_EXISTS,UNSEZ,UPINC,VERKF,VSART,VZSKZ,WAERS,WEAKT,WERKS_ALLOW,WKURS,ZBD1P,ZBD1T,ZBD2P,ZBD2T,ZBD3T,ZTERM",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "EBELN",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ebeln",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BUKRS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Company_Code",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSTYP",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Document_Category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSART",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Document_Type",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSAKZ",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Control_indicator",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LOEKZ",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Deletion_Indicator",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "STATU",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Status",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AEDAT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Created_on",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ERNAM",
-											"type": "String"
-										},
-										"sink": {
-											"name": "created_by",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "EKORG",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Org",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "EKGRP",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Grp",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "WAERS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Currency_Key",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RLWRT",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Total_Value_at_release",
-											"type": "Decimal"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_zlx",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_zlx",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_zlx')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_zlx')]"
 			]
 		}
 	]
