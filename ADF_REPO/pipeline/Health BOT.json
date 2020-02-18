@@ -119,7 +119,7 @@
 								}
 							}
 						],
-						"collectionReference": ""
+						"collectionReference": "$['questions']"
 					}
 				},
 				"inputs": [
