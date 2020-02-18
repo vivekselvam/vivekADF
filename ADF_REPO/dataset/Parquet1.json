@@ -9,7 +9,8 @@
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobStorageLocation"
+				"type": "AzureBlobStorageLocation",
+				"container": "bootdiagnostics-iradf-720abd2d-6000-4389-9c5d-1e9266960a31"
 			},
 			"compressionCodec": "snappy"
 		},
