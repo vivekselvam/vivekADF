@@ -111,7 +111,7 @@
 							},
 							{
 								"source": {
-									"path": "$['responses'][6]['respondent']['last_name']"
+									"path": "$['responses'][0]['respondent']['last_name']"
 								},
 								"sink": {
 									"name": "Last_name",
