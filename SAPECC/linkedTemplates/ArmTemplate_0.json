@@ -988,7 +988,10 @@
 								"type": "RestSource",
 								"httpRequestTimeout": "00:01:40",
 								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET"
+								"requestMethod": "GET",
+								"paginationRules": {
+									"Test": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q"
+								}
 							},
 							"sink": {
 								"type": "AzureSqlSink"
