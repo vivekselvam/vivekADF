@@ -1691,42 +1691,11 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['id']"
-										},
-										"sink": {
-											"name": "Emp_id"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['name']"
-										},
-										"sink": {
-											"name": "Emp_name"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['first_name']"
-										},
-										"sink": {
-											"name": "First_name"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['last_name']"
-										},
-										"sink": {
-											"name": "Last_name"
-										}
-									},
-									{
-										"source": {
 											"path": "[['question_id']"
 										},
 										"sink": {
-											"name": "Question_id"
+											"name": "Question_id",
+											"type": "Int64"
 										}
 									},
 									{
@@ -1734,7 +1703,80 @@
 											"path": "[['question_text']"
 										},
 										"sink": {
-											"name": "Question_text"
+											"name": "Question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['content']"
+										},
+										"sink": {
+											"name": "Answer",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['started_at']"
+										},
+										"sink": {
+											"name": "Started_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['completed_at']"
+										},
+										"sink": {
+											"name": "Completed_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['id']"
+										},
+										"sink": {
+											"name": "GUID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['id']"
+										},
+										"sink": {
+											"name": "Emp_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['name']"
+										},
+										"sink": {
+											"name": "Emp_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['first_name']"
+										},
+										"sink": {
+											"name": "First_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['last_name']"
+										},
+										"sink": {
+											"name": "Last_name",
+											"type": "String"
 										}
 									}
 								],
@@ -1856,7 +1898,7 @@
 					},
 					{
 						"name": "Question_text",
-						"type": "nvarchar"
+						"type": "char"
 					},
 					{
 						"name": "Answer",
@@ -1865,7 +1907,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "EMPLOYEE_RESPONSE4"
+					"table": "EMPLOYEE_RESPONSE5"
 				}
 			},
 			"dependsOn": [
