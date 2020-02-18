@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"folderPath": "bot",
 				"container": "myrestapi"
 			},
 			"compressionCodec": "snappy"
