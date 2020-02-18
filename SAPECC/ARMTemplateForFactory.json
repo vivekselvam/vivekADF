@@ -1884,6 +1884,18 @@
 						"type": "char"
 					},
 					{
+						"name": "GUID",
+						"type": "char"
+					},
+					{
+						"name": "Started_at",
+						"type": "char"
+					},
+					{
+						"name": "Completed_at",
+						"type": "char"
+					},
+					{
 						"name": "First_name",
 						"type": "char"
 					},
@@ -1907,7 +1919,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "EMPLOYEE_RESPONSE5"
+					"table": "EMPLOYEE_RESPONSE6"
 				}
 			},
 			"dependsOn": [
