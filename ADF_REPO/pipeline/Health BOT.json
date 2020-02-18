@@ -60,7 +60,8 @@
 									"path": "$['responses'][0]['started_at']"
 								},
 								"sink": {
-									"name": "$['Started_at']"
+									"name": "Started_at",
+									"type": "String"
 								}
 							},
 							{
@@ -68,7 +69,8 @@
 									"path": "$['responses'][1]['completed_at']"
 								},
 								"sink": {
-									"name": "$['Completed_at']"
+									"name": "Completed_at",
+									"type": "String"
 								}
 							},
 							{
@@ -76,7 +78,8 @@
 									"path": "$['responses'][2]['id']"
 								},
 								"sink": {
-									"name": "$['GUID']"
+									"name": "GUID",
+									"type": "String"
 								}
 							},
 							{
@@ -84,7 +87,8 @@
 									"path": "$['responses'][3]['respondent']['id']"
 								},
 								"sink": {
-									"name": "$['Emp_id']"
+									"name": "Emp_id",
+									"type": "Int64"
 								}
 							},
 							{
@@ -92,7 +96,8 @@
 									"path": "$['responses'][4]['respondent']['name']"
 								},
 								"sink": {
-									"name": "$['Emp_name']"
+									"name": "Emp_name",
+									"type": "String"
 								}
 							},
 							{
@@ -100,7 +105,8 @@
 									"path": "$['responses'][5]['respondent']['first_name']"
 								},
 								"sink": {
-									"name": "$['First_name']"
+									"name": "First_name",
+									"type": "String"
 								}
 							},
 							{
@@ -108,8 +114,7 @@
 									"path": "$['responses'][6]['respondent']['last_name']"
 								},
 								"sink": {
-									"name": "Last_name",
-									"type": "String"
+									"name": "$['Last_name']"
 								}
 							}
 						],
