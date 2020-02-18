@@ -1,0 +1,153 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Health BOT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Rest Copy",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['question_id']"
+										},
+										"sink": {
+											"name": "Question_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "[['question_text']"
+										},
+										"sink": {
+											"name": "Question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['content']"
+										},
+										"sink": {
+											"name": "Answer",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['started_at']"
+										},
+										"sink": {
+											"name": "$['Started_at']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][1]['completed_at']"
+										},
+										"sink": {
+											"name": "$['Completed_at']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][2]['id']"
+										},
+										"sink": {
+											"name": "$['GUID']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][3]['respondent']['id']"
+										},
+										"sink": {
+											"name": "$['Emp_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][4]['respondent']['name']"
+										},
+										"sink": {
+											"name": "$['Emp_name']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][5]['respondent']['first_name']"
+										},
+										"sink": {
+											"name": "$['First_name']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][6]['respondent']['last_name']"
+										},
+										"sink": {
+											"name": "$['Last_name']"
+										}
+									}
+								],
+								"collectionReference": "$['responses'][0]['answers']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}

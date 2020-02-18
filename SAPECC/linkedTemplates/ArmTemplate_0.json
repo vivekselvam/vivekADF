@@ -988,10 +988,7 @@
 								"type": "RestSource",
 								"httpRequestTimeout": "00:01:40",
 								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"Test": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q"
-								}
+								"requestMethod": "GET"
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -1032,62 +1029,55 @@
 											"path": "$['responses'][0]['started_at']"
 										},
 										"sink": {
-											"name": "Started_at",
-											"type": "String"
+											"name": "$['Started_at']"
 										}
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['completed_at']"
+											"path": "$['responses'][1]['completed_at']"
 										},
 										"sink": {
-											"name": "Completed_at",
-											"type": "String"
+											"name": "$['Completed_at']"
 										}
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['id']"
+											"path": "$['responses'][2]['id']"
 										},
 										"sink": {
-											"name": "GUID",
-											"type": "String"
+											"name": "$['GUID']"
 										}
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['id']"
+											"path": "$['responses'][3]['respondent']['id']"
 										},
 										"sink": {
-											"name": "Emp_id",
-											"type": "Int64"
+											"name": "$['Emp_id']"
 										}
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['name']"
+											"path": "$['responses'][4]['respondent']['name']"
 										},
 										"sink": {
-											"name": "Emp_name",
-											"type": "String"
+											"name": "$['Emp_name']"
 										}
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['first_name']"
+											"path": "$['responses'][5]['respondent']['first_name']"
 										},
 										"sink": {
-											"name": "First_name",
-											"type": "String"
+											"name": "$['First_name']"
 										}
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['last_name']"
+											"path": "$['responses'][6]['respondent']['last_name']"
 										},
 										"sink": {
-											"name": "Last_name",
-											"type": "String"
+											"name": "$['Last_name']"
 										}
 									}
 								],
