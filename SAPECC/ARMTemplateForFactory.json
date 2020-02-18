@@ -1691,7 +1691,7 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "[['question_id']"
+											"path": "$['responses'][0]['answers'][0]['question_id']"
 										},
 										"sink": {
 											"name": "Question_id",
@@ -1700,7 +1700,7 @@
 									},
 									{
 										"source": {
-											"path": "[['question_text']"
+											"path": "$['responses'][0]['answers'][0]['question_text']"
 										},
 										"sink": {
 											"name": "Question_text",
@@ -1709,7 +1709,7 @@
 									},
 									{
 										"source": {
-											"path": "[['content']"
+											"path": "$['responses'][0]['answers'][0]['content']"
 										},
 										"sink": {
 											"name": "Answer",
@@ -1780,7 +1780,7 @@
 										}
 									}
 								],
-								"collectionReference": "$['responses'][0]['answers']"
+								"collectionReference": ""
 							}
 						},
 						"inputs": [
