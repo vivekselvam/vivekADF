@@ -2131,11 +2131,53 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"container": "bootdiagnostics-iradf-720abd2d-6000-4389-9c5d-1e9266960a31"
+						"folderPath": "bot",
+						"container": "myrestapi"
 					},
 					"compressionCodec": "snappy"
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "started_at",
+						"type": "UTF8"
+					},
+					{
+						"name": "completed_at",
+						"type": "UTF8"
+					},
+					{
+						"name": "id",
+						"type": "UTF8"
+					},
+					{
+						"name": "emp_id",
+						"type": "INT64"
+					},
+					{
+						"name": "name",
+						"type": "UTF8"
+					},
+					{
+						"name": "first_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "last_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "question_id",
+						"type": "INT64"
+					},
+					{
+						"name": "question_text",
+						"type": "UTF8"
+					},
+					{
+						"name": "content",
+						"type": "UTF8"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
