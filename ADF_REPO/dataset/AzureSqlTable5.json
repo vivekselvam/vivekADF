@@ -32,7 +32,7 @@
 			},
 			{
 				"name": "Question_text",
-				"type": "char"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Answer",
@@ -41,7 +41,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "EMPLOYEE_RESPONSE3"
+			"table": "EMPLOYEE_RESPONSE4"
 		}
 	}
 }
