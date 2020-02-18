@@ -1691,33 +1691,6 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "[['question_id']"
-										},
-										"sink": {
-											"name": "Question_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "[['question_text']"
-										},
-										"sink": {
-											"name": "Question_text",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "[['content']"
-										},
-										"sink": {
-											"name": "Answer",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
 											"path": "$['responses'][0]['started_at']"
 										},
 										"sink": {
@@ -1776,6 +1749,33 @@
 										},
 										"sink": {
 											"name": "Last_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['question_id']"
+										},
+										"sink": {
+											"name": "Question_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "[['question_text']"
+										},
+										"sink": {
+											"name": "Question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['content']"
+										},
+										"sink": {
+											"name": "Answer",
 											"type": "String"
 										}
 									}
