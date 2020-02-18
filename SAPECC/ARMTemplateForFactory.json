@@ -1727,7 +1727,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][1]['completed_at']"
+											"path": "$['responses'][0]['completed_at']"
 										},
 										"sink": {
 											"name": "Completed_at",
@@ -1736,7 +1736,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][2]['id']"
+											"path": "$['responses'][0]['id']"
 										},
 										"sink": {
 											"name": "GUID",
@@ -1745,7 +1745,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][3]['respondent']['id']"
+											"path": "$['responses'][0]['respondent']['id']"
 										},
 										"sink": {
 											"name": "Emp_id",
@@ -1754,7 +1754,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][4]['respondent']['name']"
+											"path": "$['responses'][0]['respondent']['name']"
 										},
 										"sink": {
 											"name": "Emp_name",
@@ -1763,7 +1763,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][5]['respondent']['first_name']"
+											"path": "$['responses'][0]['respondent']['first_name']"
 										},
 										"sink": {
 											"name": "First_name",
@@ -1772,7 +1772,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][6]['respondent']['last_name']"
+											"path": "$['responses'][0]['respondent']['last_name']"
 										},
 										"sink": {
 											"name": "Last_name",
