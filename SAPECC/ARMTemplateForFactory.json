@@ -1780,7 +1780,7 @@
 										}
 									}
 								],
-								"collectionReference": ""
+								"collectionReference": "$['questions']"
 							}
 						},
 						"inputs": [
