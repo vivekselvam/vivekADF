@@ -41,7 +41,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "EMPLOYEE_RESPONSE3"
+			"table": "EMPLOYEE_RESPONSE5"
 		}
 	}
 }
