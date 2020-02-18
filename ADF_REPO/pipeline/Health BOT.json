@@ -30,7 +30,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['responses'][0]['answers'][0]['question_id']"
+									"path": "['question_id']"
 								},
 								"sink": {
 									"name": "Question_id",
@@ -39,7 +39,7 @@
 							},
 							{
 								"source": {
-									"path": "$['responses'][0]['answers'][0]['question_text']"
+									"path": "['question_text']"
 								},
 								"sink": {
 									"name": "Question_text",
@@ -48,7 +48,7 @@
 							},
 							{
 								"source": {
-									"path": "$['responses'][0]['answers'][0]['content']"
+									"path": "['content']"
 								},
 								"sink": {
 									"name": "Answer",
@@ -119,7 +119,7 @@
 								}
 							}
 						],
-						"collectionReference": ""
+						"collectionReference": "$['responses'][0]['answers']"
 					}
 				},
 				"inputs": [
