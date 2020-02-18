@@ -1691,7 +1691,7 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "[['question_id']"
+											"path": "[['answers'][0]['question_id']"
 										},
 										"sink": {
 											"name": "Question_id",
@@ -1700,7 +1700,7 @@
 									},
 									{
 										"source": {
-											"path": "[['question_text']"
+											"path": "[['answers'][0]['question_text']"
 										},
 										"sink": {
 											"name": "Question_text",
@@ -1709,7 +1709,7 @@
 									},
 									{
 										"source": {
-											"path": "[['content']"
+											"path": "[['answers'][0]['content']"
 										},
 										"sink": {
 											"name": "Answer",
@@ -1718,7 +1718,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['started_at']"
+											"path": "[['started_at']"
 										},
 										"sink": {
 											"name": "Started_at",
@@ -1727,7 +1727,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['completed_at']"
+											"path": "[['completed_at']"
 										},
 										"sink": {
 											"name": "Completed_at",
@@ -1736,7 +1736,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['id']"
+											"path": "[['id']"
 										},
 										"sink": {
 											"name": "GUID",
@@ -1745,7 +1745,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['id']"
+											"path": "[['respondent']['id']"
 										},
 										"sink": {
 											"name": "Emp_id",
@@ -1754,7 +1754,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['name']"
+											"path": "[['respondent']['name']"
 										},
 										"sink": {
 											"name": "Emp_name",
@@ -1763,7 +1763,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['first_name']"
+											"path": "[['respondent']['first_name']"
 										},
 										"sink": {
 											"name": "First_name",
@@ -1772,7 +1772,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['respondent']['last_name']"
+											"path": "[['respondent']['last_name']"
 										},
 										"sink": {
 											"name": "Last_name",
@@ -1780,7 +1780,7 @@
 										}
 									}
 								],
-								"collectionReference": "$['responses'][0]['answers']"
+								"collectionReference": "$['responses']"
 							}
 						},
 						"inputs": [
