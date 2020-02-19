@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "data_9953298f-34c8-44d8-a45d-030efa99f637_9bc99a4c-2247-4f55-923f-7efc49645462.parquet",
 				"folderPath": "bot",
 				"container": "myrestapi"
 			},
