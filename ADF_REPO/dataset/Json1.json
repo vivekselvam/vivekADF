@@ -9,7 +9,10 @@
 		"type": "Json",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobStorageLocation"
+				"type": "AzureBlobStorageLocation",
+				"fileName": "bot_file",
+				"folderPath": "blob",
+				"container": "restapi"
 			}
 		}
 	}
