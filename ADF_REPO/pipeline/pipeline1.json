@@ -64,7 +64,8 @@
 									"path": "$['responses'][0]['respondent']['id']"
 								},
 								"sink": {
-									"name": "emp_id"
+									"name": "emp_id",
+									"type": "Int64"
 								}
 							},
 							{
