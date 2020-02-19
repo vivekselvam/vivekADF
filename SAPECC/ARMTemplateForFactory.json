@@ -65,7 +65,7 @@
 		},
 		"RestService1_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=50&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q"
+			"defaultValue": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q"
 		},
 		"RestService1_properties_typeProperties_userName": {
 			"type": "string",
@@ -1690,9 +1690,20 @@
 					"referenceName": "RestService1",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"url": {
+						"type": "string",
+						"defaultValue": "1"
+					}
+				},
 				"annotations": [],
 				"type": "RestResource",
-				"typeProperties": {},
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "@{concat('https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=',dataset().url,'&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q')}",
+						"type": "Expression"
+					}
+				},
 				"schema": []
 			},
 			"dependsOn": [
@@ -2004,7 +2015,7 @@
 									"type": "SetVariable",
 									"dependsOn": [
 										{
-											"activity": "Web1",
+											"activity": "Copy data1",
 											"dependencyConditions": [
 												"Completed"
 											]
@@ -2020,8 +2031,8 @@
 									}
 								},
 								{
-									"name": "Web1",
-									"type": "WebActivity",
+									"name": "Copy data1",
+									"type": "Copy",
 									"dependsOn": [
 										{
 											"activity": "Set Lower Limit",
@@ -2039,15 +2050,44 @@
 									},
 									"userProperties": [],
 									"typeProperties": {
-										"url": {
-											"value": "@{concat('https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=',variables('Lowerlimit'),'&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q')}",
-											"type": "Expression"
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET"
 										},
-										"method": "GET",
-										"headers": {},
-										"linkedServices": [],
-										"datasets": []
-									}
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings",
+												"quoteAllText": true
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "RestResource1",
+											"type": "DatasetReference",
+											"parameters": {
+												"url": {
+													"value": "@variables('Lowerlimit')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Json1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
 								}
 							],
 							"timeout": "0.00:20:00"
@@ -2066,7 +2106,10 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Parquet1')]",

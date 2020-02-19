@@ -13,45 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference"
-							},
-							"name": "source1",
-							"typeProperties": {}
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable3",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Filter1"
-						},
-						{
-							"name": "AlterRow1"
-						}
-					],
-					"script": "source(output(\n\t\t{Reservation Number} as string,\n\t\t{Reservation Item} as string,\n\t\t{User name} as string,\n\t\t{Movement Type} as string,\n\t\t{Requirement Date} as string,\n\t\t{Account Doc Creation Date} as string,\n\t\t{Material Document} as string,\n\t\t{Order Number} as string,\n\t\tMaterial as string,\n\t\t{Unit Of Measure} as string,\n\t\tQuantity as decimal(13,3),\n\t\t{Goods Recipient} as string,\n\t\t{Material Desc} as string,\n\t\t{Document Date} as string,\n\t\t{Document User} as string,\n\t\tDepartment as string,\n\t\tPlant as string,\n\t\t{Full name of Person} as string,\n\t\t{TO Doc} as string,\n\t\t{TO Date} as string,\n\t\t{No Days} as integer,\n\t\t{MR Qty} as decimal(13,3),\n\t\t{Final Issued Qty} as decimal(13,3),\n\t\t{SOH Batch} as decimal(13,3),\n\t\t{Delivery in Full} as string,\n\t\t{Delivery ontime} as string,\n\t\tDIFOT as string,\n\t\t{Cost Center} as string,\n\t\t{Item deleted} as string,\n\t\t{Mvt allowed} as string,\n\t\tSLoc as string,\n\t\tBatch as string,\n\t\t{Order type} as string,\n\t\t{Created Date} as string,\n\t\t{User status} as string,\n\t\tRelease as string,\n\t\t{Release date} as string,\n\t\t{Unblock date} as string,\n\t\t{Moving Freq} as string,\n\t\t{SOH SLoc} as decimal(13,3),\n\t\t{Consignment Stock} as decimal(13,3),\n\t\t{MRP Controller} as string,\n\t\tMCAB as decimal(13,3),\n\t\t{SOH Plant} as decimal(13,3),\n\t\t{SOH Company} as decimal(13,3),\n\t\tCREATED_DATE as string,\n\t\tCREATED_TIME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 filter(CREATED_DATE < '20190925') ~> Filter1\nFilter1 alterRow(upsertIf(CREATED_DATE<'20190925')) ~> AlterRow1\nAlterRow1 sink(input(\n\t\t{Reservation Number} as string,\n\t\t{Reservation Item} as string,\n\t\t{User name} as string,\n\t\t{Movement Type} as string,\n\t\t{Requirement Date} as string,\n\t\t{Account Doc Creation Date} as string,\n\t\t{Material Document} as string,\n\t\t{Order Number} as string,\n\t\tMaterial as string,\n\t\t{Unit Of Measure} as string,\n\t\tQuantity as decimal(13,3),\n\t\t{Goods Recipient} as string,\n\t\t{Material Desc} as string,\n\t\t{Document Date} as string,\n\t\t{Document User} as string,\n\t\tDepartment as string,\n\t\tPlant as string,\n\t\t{Full name of Person} as string,\n\t\t{TO Doc} as string,\n\t\t{TO Date} as string,\n\t\t{No Days} as integer,\n\t\t{MR Qty} as decimal(13,3),\n\t\t{Final Issued Qty} as decimal(13,3),\n\t\t{SOH Batch} as decimal(13,3),\n\t\t{Delivery in Full} as string,\n\t\t{Delivery ontime} as string,\n\t\tDIFOT as string,\n\t\t{Cost Center} as string,\n\t\t{Item deleted} as string,\n\t\t{Mvt allowed} as string,\n\t\tSLoc as string,\n\t\tBatch as string,\n\t\t{Order type} as string,\n\t\t{Created Date} as string,\n\t\t{User status} as string,\n\t\tRelease as string,\n\t\t{Release date} as string,\n\t\t{Unblock date} as string,\n\t\t{Moving Freq} as string,\n\t\t{SOH SLoc} as decimal(13,3),\n\t\t{Consignment Stock} as decimal(13,3),\n\t\t{MRP Controller} as string,\n\t\tMCAB as decimal(13,3),\n\t\t{SOH Plant} as decimal(13,3),\n\t\t{SOH Company} as decimal(13,3),\n\t\tCREATED_DATE as string,\n\t\tCREATED_TIME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['{Reservation Number}','{Reservation Item}'],\n\tformat: 'table',\n\tmapColumn(\n\t\t{Reservation Number},\n\t\t{Reservation Item},\n\t\t{User name},\n\t\t{Movement Type},\n\t\t{Requirement Date},\n\t\t{Account Doc Creation Date},\n\t\t{Material Document},\n\t\t{Order Number},\n\t\tMaterial,\n\t\t{Unit Of Measure},\n\t\tQuantity,\n\t\t{Goods Recipient},\n\t\t{Material Desc},\n\t\t{Document Date},\n\t\t{Document User},\n\t\tDepartment,\n\t\tPlant,\n\t\t{Full name of Person},\n\t\t{TO Doc},\n\t\t{TO Date},\n\t\t{No Days},\n\t\t{MR Qty},\n\t\t{Final Issued Qty},\n\t\t{SOH Batch},\n\t\t{Delivery in Full},\n\t\t{Delivery ontime},\n\t\tDIFOT,\n\t\t{Cost Center},\n\t\t{Item deleted},\n\t\t{Mvt allowed},\n\t\tSLoc,\n\t\tBatch,\n\t\t{Order type},\n\t\t{Created Date},\n\t\t{User status},\n\t\tRelease,\n\t\t{Release date},\n\t\t{Unblock date},\n\t\t{Moving Freq},\n\t\t{SOH SLoc},\n\t\t{Consignment Stock},\n\t\t{MRP Controller},\n\t\tMCAB,\n\t\t{SOH Plant},\n\t\t{SOH Company},\n\t\tCREATED_DATE,\n\t\tCREATED_TIME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Health BOT')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -193,6 +154,134 @@
 						]
 					}
 				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/REST_to_BLOB')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(variables('Upperlimit'),50)",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Set Lower Limit",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Lowerlimit",
+										"value": {
+											"value": "@variables('Upperlimit')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Upper Limit",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Completed"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Upperlimit",
+										"value": {
+											"value": "@string(add(int(variables('Lowerlimit')),1))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Lower Limit",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET"
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings",
+												"quoteAllText": true
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "RestResource1",
+											"type": "DatasetReference",
+											"parameters": {
+												"url": {
+													"value": "@variables('Lowerlimit')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Json1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							],
+							"timeout": "0.00:20:00"
+						}
+					}
+				],
+				"variables": {
+					"Lowerlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"Upperlimit": {
+						"type": "String",
+						"defaultValue": "1"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": []
@@ -1212,9 +1301,7 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SAP_ECC')]",
