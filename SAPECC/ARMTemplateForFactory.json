@@ -2101,11 +2101,11 @@
 				"variables": {
 					"Lowerlimit": {
 						"type": "String",
-						"defaultValue": "0"
+						"defaultValue": "1"
 					},
 					"Upperlimit": {
 						"type": "String",
-						"defaultValue": "0"
+						"defaultValue": "1"
 					}
 				},
 				"annotations": []
