@@ -34,34 +34,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['responses'][0]['started_at']"
-								},
-								"sink": {
-									"name": "started_at",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['responses'][0]['completed_at']"
-								},
-								"sink": {
-									"name": "completed_at",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['responses'][0]['id']"
-								},
-								"sink": {
-									"name": "id",
-									"type": "Guid"
-								}
-							},
-							{
-								"source": {
-									"path": "$['responses'][0]['respondent']['id']"
+									"path": "['respondent']['id']"
 								},
 								"sink": {
 									"name": "emp_id",
@@ -70,7 +43,7 @@
 							},
 							{
 								"source": {
-									"path": "$['responses'][0]['respondent']['name']"
+									"path": "['respondent']['name']"
 								},
 								"sink": {
 									"name": "name",
@@ -79,7 +52,7 @@
 							},
 							{
 								"source": {
-									"path": "$['responses'][0]['respondent']['first_name']"
+									"path": "['respondent']['first_name']"
 								},
 								"sink": {
 									"name": "first_name",
@@ -88,42 +61,15 @@
 							},
 							{
 								"source": {
-									"path": "$['responses'][0]['respondent']['last_name']"
+									"path": "['respondent']['last_name']"
 								},
 								"sink": {
 									"name": "last_name",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "['question_id']"
-								},
-								"sink": {
-									"name": "question_id",
-									"type": "Int64"
-								}
-							},
-							{
-								"source": {
-									"path": "['question_text']"
-								},
-								"sink": {
-									"name": "question_text",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "['content']"
-								},
-								"sink": {
-									"name": "content",
-									"type": "String"
-								}
 							}
 						],
-						"collectionReference": "$['responses'][0]['answers']"
+						"collectionReference": "$['responses']"
 					}
 				},
 				"inputs": [
