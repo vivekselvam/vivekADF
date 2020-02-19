@@ -24,13 +24,104 @@
 						}
 					},
 					"sink": {
-						"type": "ParquetSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings",
-							"copyBehavior": "MergeFiles"
-						}
+						"type": "AzureSqlSink"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['responses_started_at']"
+								},
+								"sink": {
+									"name": "Started_at",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses_completed_at']"
+								},
+								"sink": {
+									"name": "Completed_at",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['responses_id']"
+								},
+								"sink": {
+									"name": "GUID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['respondent_id']"
+								},
+								"sink": {
+									"name": "Emp_id",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "$['respondent_name']"
+								},
+								"sink": {
+									"name": "Emp_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['respondent_first_name']"
+								},
+								"sink": {
+									"name": "First_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['respondent_last_name']"
+								},
+								"sink": {
+									"name": "Last_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['answers_question_id']"
+								},
+								"sink": {
+									"name": "Question_id",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "$['answers_question_text']"
+								},
+								"sink": {
+									"name": "Question_text",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['answers_content']"
+								},
+								"sink": {
+									"name": "Answer",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -40,7 +131,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet1",
+						"referenceName": "AzureSqlTable5",
 						"type": "DatasetReference"
 					}
 				]
