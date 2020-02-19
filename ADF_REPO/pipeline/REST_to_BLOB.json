@@ -204,8 +204,144 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(variables('Upperlimit'),100)",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Set Lower Limit",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Lowerlimit",
+								"value": {
+									"value": "@variables('Upperlimit')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set Upper Limit",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set Lower Limit",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Upperlimit",
+								"value": {
+									"value": "@string(add(int(variables('Lowerlimit')),10))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set Lowerlimit to Upperlimit",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Lowerlimit",
+								"value": {
+									"value": "@variables('Upperlimit')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set Upper Limit",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET"
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings",
+										"copyBehavior": "FlattenHierarchy"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings",
+										"quoteAllText": true
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "RestResource1",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Json1",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					],
+					"timeout": "7.00:00:00"
+				}
 			}
 		],
+		"parameters": {
+			"url": {
+				"type": "string",
+				"defaultValue": "/url"
+			}
+		},
+		"variables": {
+			"Lowerlimit": {
+				"type": "String",
+				"defaultValue": "0"
+			},
+			"Upperlimit": {
+				"type": "String",
+				"defaultValue": "0"
+			}
+		},
 		"annotations": []
 	}
 }
