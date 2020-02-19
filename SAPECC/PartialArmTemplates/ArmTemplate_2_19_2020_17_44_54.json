@@ -1,0 +1,36 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Basic",
+					"userName": "vivek02",
+					"password": {
+						"type": "SecureString",
+						"value": "**********"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
