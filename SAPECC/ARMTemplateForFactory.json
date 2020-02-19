@@ -2004,7 +2004,7 @@
 									"type": "SetVariable",
 									"dependsOn": [
 										{
-											"activity": "Set Lower Limit",
+											"activity": "Copy data1",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -2020,31 +2020,11 @@
 									}
 								},
 								{
-									"name": "Set Lowerlimit to Upperlimit",
-									"type": "SetVariable",
-									"dependsOn": [
-										{
-											"activity": "Copy data1",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "Lowerlimit",
-										"value": {
-											"value": "@variables('Upperlimit')",
-											"type": "Expression"
-										}
-									}
-								},
-								{
 									"name": "Copy data1",
 									"type": "Copy",
 									"dependsOn": [
 										{
-											"activity": "Set Upper Limit",
+											"activity": "Set Lower Limit",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -2101,7 +2081,7 @@
 				"variables": {
 					"Lowerlimit": {
 						"type": "String",
-						"defaultValue": "1"
+						"defaultValue": "0"
 					},
 					"Upperlimit": {
 						"type": "String",
