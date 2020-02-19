@@ -1,9 +1,9 @@
 {
-	"name": "pipeline1",
+	"name": "BLOB_to_SQL",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "BLOB to SQL",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
