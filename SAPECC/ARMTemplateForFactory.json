@@ -1957,7 +1957,10 @@
 				"type": "Json",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobStorageLocation"
+						"type": "AzureBlobStorageLocation",
+						"fileName": "bot_file",
+						"folderPath": "blob",
+						"container": "restapi"
 					}
 				},
 				"schema": {}
@@ -1992,10 +1995,13 @@
 								"requestMethod": "GET"
 							},
 							"sink": {
-								"type": "ParquetSink",
+								"type": "JsonSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings",
+									"quoteAllText": true
 								}
 							},
 							"enableStaging": false,
@@ -2004,11 +2010,106 @@
 								"mappings": [
 									{
 										"source": {
+											"path": "$['stats']['showing']"
+										},
+										"sink": {
+											"path": "$['stats']['showing']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['total']"
+										},
+										"sink": {
+											"path": "$['stats']['total']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['completed']"
+										},
+										"sink": {
+											"path": "$['stats']['completed']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['incomplete']"
+										},
+										"sink": {
+											"path": "$['stats']['incomplete']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['id']"
+										},
+										"sink": {
+											"path": "$['questions_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_type']"
+										},
+										"sink": {
+											"path": "$['questions_question_type']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_text']"
+										},
+										"sink": {
+											"path": "$['questions_question_text']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_position']"
+										},
+										"sink": {
+											"path": "$['questions_question_position']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['completed']"
+										},
+										"sink": {
+											"path": "$['responses_completed']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['started_at']"
+										},
+										"sink": {
+											"path": "$['responses_started_at']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['completed_at']"
+										},
+										"sink": {
+											"path": "$['responses_completed_at']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"path": "$['responses_id']"
+										}
+									},
+									{
+										"source": {
 											"path": "[['respondent']['id']"
 										},
 										"sink": {
-											"name": "emp_id",
-											"type": "Int64"
+											"path": "$['respondent_id']"
 										}
 									},
 									{
@@ -2016,8 +2117,7 @@
 											"path": "[['respondent']['name']"
 										},
 										"sink": {
-											"name": "name",
-											"type": "String"
+											"path": "$['respondent_name']"
 										}
 									},
 									{
@@ -2025,8 +2125,7 @@
 											"path": "[['respondent']['first_name']"
 										},
 										"sink": {
-											"name": "first_name",
-											"type": "String"
+											"path": "$['respondent_first_name']"
 										}
 									},
 									{
@@ -2034,26 +2133,7 @@
 											"path": "[['respondent']['last_name']"
 										},
 										"sink": {
-											"name": "last_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['started_at']"
-										},
-										"sink": {
-											"name": "started_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['completed_at']"
-										},
-										"sink": {
-											"name": "completed_at",
-											"type": "String"
+											"path": "$['respondent_last_name']"
 										}
 									},
 									{
@@ -2061,8 +2141,7 @@
 											"path": "[['answers'][0]['question_id']"
 										},
 										"sink": {
-											"name": "question_id",
-											"type": "Int64"
+											"path": "$['answers_question_id']"
 										}
 									},
 									{
@@ -2070,8 +2149,7 @@
 											"path": "[['answers'][0]['question_text']"
 										},
 										"sink": {
-											"name": "question_text",
-											"type": "String"
+											"path": "$['answers_question_text']"
 										}
 									},
 									{
@@ -2079,8 +2157,7 @@
 											"path": "[['answers'][0]['content']"
 										},
 										"sink": {
-											"name": "content",
-											"type": "String"
+											"path": "$['answers_content']"
 										}
 									}
 								],
@@ -2096,7 +2173,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "Parquet1",
+								"referenceName": "Json1",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -2107,7 +2184,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
-				"[concat(variables('factoryId'), '/datasets/Parquet1')]"
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
 			]
 		},
 		{
@@ -2124,6 +2201,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "data_9953298f-34c8-44d8-a45d-030efa99f637_9bc99a4c-2247-4f55-923f-7efc49645462.parquet",
 						"folderPath": "bot",
 						"container": "myrestapi"
 					},
