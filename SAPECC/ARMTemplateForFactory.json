@@ -2034,7 +2034,8 @@
 											"path": "$['responses'][0]['respondent']['id']"
 										},
 										"sink": {
-											"name": "emp_id"
+											"name": "emp_id",
+											"type": "Int64"
 										}
 									},
 									{
@@ -2066,7 +2067,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['answers'][0]['question_id']"
+											"path": "[['question_id']"
 										},
 										"sink": {
 											"name": "question_id",
@@ -2075,7 +2076,7 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['answers'][0]['question_text']"
+											"path": "[['question_text']"
 										},
 										"sink": {
 											"name": "question_text",
@@ -2084,14 +2085,15 @@
 									},
 									{
 										"source": {
-											"path": "$['responses'][0]['answers'][0]['content']"
+											"path": "[['content']"
 										},
 										"sink": {
 											"name": "content",
 											"type": "String"
 										}
 									}
-								]
+								],
+								"collectionReference": "$['responses'][0]['answers']"
 							}
 						},
 						"inputs": [
