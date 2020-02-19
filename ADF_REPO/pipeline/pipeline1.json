@@ -72,7 +72,7 @@
 									"path": "$['questions'][0]['id']"
 								},
 								"sink": {
-									"path": "$['questions'][0]['id']"
+									"path": "$['questions_id']"
 								}
 							},
 							{
@@ -80,7 +80,7 @@
 									"path": "$['questions'][0]['question_type']"
 								},
 								"sink": {
-									"path": "$['questions'][0]['question_type']"
+									"path": "$['questions_question_type']"
 								}
 							},
 							{
@@ -88,7 +88,7 @@
 									"path": "$['questions'][0]['question_text']"
 								},
 								"sink": {
-									"path": "$['questions'][0]['question_text']"
+									"path": "$['questions_question_text']"
 								}
 							},
 							{
@@ -96,7 +96,7 @@
 									"path": "$['questions'][0]['question_position']"
 								},
 								"sink": {
-									"path": "$['questions'][0]['question_position']"
+									"path": "$['questions_question_position']"
 								}
 							},
 							{
@@ -104,7 +104,7 @@
 									"path": "['completed']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['completed']"
+									"path": "$['responses_completed']"
 								}
 							},
 							{
@@ -112,7 +112,7 @@
 									"path": "['started_at']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['started_at']"
+									"path": "$['responses_started_at']"
 								}
 							},
 							{
@@ -120,7 +120,7 @@
 									"path": "['completed_at']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['completed_at']"
+									"path": "$['responses_completed_at']"
 								}
 							},
 							{
@@ -128,7 +128,7 @@
 									"path": "['id']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['id']"
+									"path": "$['responses_id']"
 								}
 							},
 							{
@@ -136,7 +136,7 @@
 									"path": "['respondent']['id']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['respondent']['id']"
+									"path": "$['respondent_id']"
 								}
 							},
 							{
@@ -144,7 +144,7 @@
 									"path": "['respondent']['name']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['respondent']['name']"
+									"path": "$['respondent_name']"
 								}
 							},
 							{
@@ -152,7 +152,7 @@
 									"path": "['respondent']['first_name']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['respondent']['first_name']"
+									"path": "$['respondent_first_name']"
 								}
 							},
 							{
@@ -160,143 +160,7 @@
 									"path": "['respondent']['last_name']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['respondent']['last_name']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['gender']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['gender']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['locale']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['locale']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['timezone']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['timezone']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['email']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['email']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['picture']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['picture']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['date_of_birth']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['date_of_birth']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['occupation']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['occupation']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['address']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['address']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['relationship_status']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['relationship_status']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['phone_number']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['phone_number']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['mobile_number']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['mobile_number']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['tags']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['tags']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['location']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['location']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['city']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['city']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['country']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['country']"
-								}
-							},
-							{
-								"source": {
-									"path": "['respondent']['attributes'][0]"
-								},
-								"sink": {
-									"path": "$['responses'][0]['respondent']['attributes'][0]"
-								}
-							},
-							{
-								"source": {
-									"path": "['quiz_score']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['quiz_score']"
+									"path": "$['respondent_last_name']"
 								}
 							},
 							{
@@ -304,7 +168,7 @@
 									"path": "['answers'][0]['question_id']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['answers'][0]['question_id']"
+									"path": "$['answers_question_id']"
 								}
 							},
 							{
@@ -312,7 +176,7 @@
 									"path": "['answers'][0]['question_text']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['answers'][0]['question_text']"
+									"path": "$['answers_question_text']"
 								}
 							},
 							{
@@ -320,15 +184,7 @@
 									"path": "['answers'][0]['content']"
 								},
 								"sink": {
-									"path": "$['responses'][0]['answers'][0]['content']"
-								}
-							},
-							{
-								"source": {
-									"path": "['shared_by_respondent']"
-								},
-								"sink": {
-									"path": "$['responses'][0]['shared_by_respondent']"
+									"path": "$['answers_content']"
 								}
 							}
 						],
