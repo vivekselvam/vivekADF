@@ -22,10 +22,13 @@
 						"requestMethod": "GET"
 					},
 					"sink": {
-						"type": "ParquetSink",
+						"type": "JsonSink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings",
-							"copyBehavior": "FlattenHierarchy"
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings",
+							"quoteAllText": true
 						}
 					},
 					"enableStaging": false,
@@ -34,11 +37,106 @@
 						"mappings": [
 							{
 								"source": {
+									"path": "$['stats']['showing']"
+								},
+								"sink": {
+									"path": "$['stats']['showing']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['stats']['total']"
+								},
+								"sink": {
+									"path": "$['stats']['total']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['stats']['completed']"
+								},
+								"sink": {
+									"path": "$['stats']['completed']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['stats']['incomplete']"
+								},
+								"sink": {
+									"path": "$['stats']['incomplete']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['questions'][0]['id']"
+								},
+								"sink": {
+									"path": "$['questions'][0]['id']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['questions'][0]['question_type']"
+								},
+								"sink": {
+									"path": "$['questions'][0]['question_type']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['questions'][0]['question_text']"
+								},
+								"sink": {
+									"path": "$['questions'][0]['question_text']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['questions'][0]['question_position']"
+								},
+								"sink": {
+									"path": "$['questions'][0]['question_position']"
+								}
+							},
+							{
+								"source": {
+									"path": "['completed']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['completed']"
+								}
+							},
+							{
+								"source": {
+									"path": "['started_at']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['started_at']"
+								}
+							},
+							{
+								"source": {
+									"path": "['completed_at']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['completed_at']"
+								}
+							},
+							{
+								"source": {
+									"path": "['id']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['id']"
+								}
+							},
+							{
+								"source": {
 									"path": "['respondent']['id']"
 								},
 								"sink": {
-									"name": "emp_id",
-									"type": "Int64"
+									"path": "$['responses'][0]['respondent']['id']"
 								}
 							},
 							{
@@ -46,8 +144,7 @@
 									"path": "['respondent']['name']"
 								},
 								"sink": {
-									"name": "name",
-									"type": "String"
+									"path": "$['responses'][0]['respondent']['name']"
 								}
 							},
 							{
@@ -55,8 +152,7 @@
 									"path": "['respondent']['first_name']"
 								},
 								"sink": {
-									"name": "first_name",
-									"type": "String"
+									"path": "$['responses'][0]['respondent']['first_name']"
 								}
 							},
 							{
@@ -64,26 +160,143 @@
 									"path": "['respondent']['last_name']"
 								},
 								"sink": {
-									"name": "last_name",
-									"type": "String"
+									"path": "$['responses'][0]['respondent']['last_name']"
 								}
 							},
 							{
 								"source": {
-									"path": "['respondent']['started_at']"
+									"path": "['respondent']['gender']"
 								},
 								"sink": {
-									"name": "started_at",
-									"type": "String"
+									"path": "$['responses'][0]['respondent']['gender']"
 								}
 							},
 							{
 								"source": {
-									"path": "['respondent']['completed_at']"
+									"path": "['respondent']['locale']"
 								},
 								"sink": {
-									"name": "completed_at",
-									"type": "String"
+									"path": "$['responses'][0]['respondent']['locale']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['timezone']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['timezone']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['email']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['email']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['picture']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['picture']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['date_of_birth']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['date_of_birth']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['occupation']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['occupation']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['address']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['address']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['relationship_status']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['relationship_status']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['phone_number']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['phone_number']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['mobile_number']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['mobile_number']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['tags']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['tags']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['location']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['location']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['city']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['city']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['country']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['country']"
+								}
+							},
+							{
+								"source": {
+									"path": "['respondent']['attributes'][0]"
+								},
+								"sink": {
+									"path": "$['responses'][0]['respondent']['attributes'][0]"
+								}
+							},
+							{
+								"source": {
+									"path": "['quiz_score']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['quiz_score']"
 								}
 							},
 							{
@@ -91,8 +304,7 @@
 									"path": "['answers'][0]['question_id']"
 								},
 								"sink": {
-									"name": "question_id",
-									"type": "Int64"
+									"path": "$['responses'][0]['answers'][0]['question_id']"
 								}
 							},
 							{
@@ -100,8 +312,7 @@
 									"path": "['answers'][0]['question_text']"
 								},
 								"sink": {
-									"name": "question_text",
-									"type": "String"
+									"path": "$['responses'][0]['answers'][0]['question_text']"
 								}
 							},
 							{
@@ -109,8 +320,15 @@
 									"path": "['answers'][0]['content']"
 								},
 								"sink": {
-									"name": "content",
-									"type": "String"
+									"path": "$['responses'][0]['answers'][0]['content']"
+								}
+							},
+							{
+								"source": {
+									"path": "['shared_by_respondent']"
+								},
+								"sink": {
+									"path": "$['responses'][0]['shared_by_respondent']"
 								}
 							}
 						],
@@ -125,7 +343,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet1",
+						"referenceName": "Json1",
 						"type": "DatasetReference"
 					}
 				]
