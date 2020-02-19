@@ -5,11 +5,11 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=10&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q",
+			"url": "https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=1&per_page=50&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Basic",
 			"userName": "vivek02",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlNBUEVDQ18yYTVhNzZhMi1jYzM1LTQ1ZDctYTkyNy0wYTk1Y2Y4MDQyNmEiDQp9"
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlNBUEVDQ18xNWI1OWNjNC0xMTZkLTQ5YjgtODhhNC1jOWE3NDFjYWZmYjkiDQp9"
 		}
 	}
 }
