@@ -232,6 +232,24 @@
 									},
 									{
 										"source": {
+											"path": "[['respondent']['started_at']"
+										},
+										"sink": {
+											"name": "started_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['completed_at']"
+										},
+										"sink": {
+											"name": "completed_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
 											"path": "[['answers'][0]['question_id']"
 										},
 										"sink": {

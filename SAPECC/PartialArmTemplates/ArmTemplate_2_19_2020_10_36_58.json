@@ -1,0 +1,155 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "FlattenHierarchy"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['respondent']['id']"
+										},
+										"sink": {
+											"name": "emp_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['name']"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['first_name']"
+										},
+										"sink": {
+											"name": "first_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['last_name']"
+										},
+										"sink": {
+											"name": "last_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['started_at']"
+										},
+										"sink": {
+											"name": "started_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['completed_at']"
+										},
+										"sink": {
+											"name": "completed_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_id']"
+										},
+										"sink": {
+											"name": "question_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_text']"
+										},
+										"sink": {
+											"name": "question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['content']"
+										},
+										"sink": {
+											"name": "content",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['responses']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Parquet1",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
