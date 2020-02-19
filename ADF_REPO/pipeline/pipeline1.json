@@ -67,6 +67,33 @@
 									"name": "last_name",
 									"type": "String"
 								}
+							},
+							{
+								"source": {
+									"path": "['answers'][0]['question_id']"
+								},
+								"sink": {
+									"name": "question_id",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['answers'][0]['question_text']"
+								},
+								"sink": {
+									"name": "question_text",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['answers'][0]['content']"
+								},
+								"sink": {
+									"name": "content",
+									"type": "String"
+								}
 							}
 						],
 						"collectionReference": "$['responses']"
