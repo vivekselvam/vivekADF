@@ -20,8 +20,6 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
-							"wildcardFolderPath": "restapi/blob/",
-							"wildcardFileName": "bot_file.json",
 							"enablePartitionDiscovery": false
 						}
 					},
