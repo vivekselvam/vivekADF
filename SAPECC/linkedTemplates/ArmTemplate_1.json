@@ -165,6 +165,334 @@
 			"properties": {
 				"activities": [
 					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(variables('Upperlimit'),50)",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Set Lower Limit",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Lowerlimit",
+										"value": {
+											"value": "@variables('Upperlimit')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Upper Limit",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Lower Limit",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Upperlimit",
+										"value": {
+											"value": "@string(add(int(variables('Lowerlimit')),10))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Lowerlimit to Upperlimit",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Lowerlimit",
+										"value": {
+											"value": "@variables('Upperlimit')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Upper Limit",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET"
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings",
+												"quoteAllText": true
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "RestResource1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Json1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							],
+							"timeout": "0.00:20:00"
+						}
+					}
+				],
+				"parameters": {
+					"url": {
+						"type": "string",
+						"defaultValue": "/url"
+					}
+				},
+				"variables": {
+					"Lowerlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"Upperlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "BLOB to SQL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": false,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['responses_started_at']"
+										},
+										"sink": {
+											"name": "Started_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses_completed_at']"
+										},
+										"sink": {
+											"name": "Completed_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses_id']"
+										},
+										"sink": {
+											"name": "GUID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_id']"
+										},
+										"sink": {
+											"name": "Emp_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_name']"
+										},
+										"sink": {
+											"name": "Emp_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_first_name']"
+										},
+										"sink": {
+											"name": "First_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_last_name']"
+										},
+										"sink": {
+											"name": "Last_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_question_id']"
+										},
+										"sink": {
+											"name": "Question_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_question_text']"
+										},
+										"sink": {
+											"name": "Question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_content']"
+										},
+										"sink": {
+											"name": "Answer",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Json1",
+								"type": "DatasetReference"
+							},
+							"name": "source1",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Json1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionRootPath: 'restapi/blob/bot_file.json',\n\twildcardPaths:['blob/bot_file.json']) ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
 						"name": "REST API to BLOB",
 						"type": "Copy",
 						"dependsOn": [],
@@ -370,186 +698,23 @@
 						]
 					}
 				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "BLOB to SQL",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": false,
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['responses_started_at']"
-										},
-										"sink": {
-											"name": "Started_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses_completed_at']"
-										},
-										"sink": {
-											"name": "Completed_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses_id']"
-										},
-										"sink": {
-											"name": "GUID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['respondent_id']"
-										},
-										"sink": {
-											"name": "Emp_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['respondent_name']"
-										},
-										"sink": {
-											"name": "Emp_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['respondent_first_name']"
-										},
-										"sink": {
-											"name": "First_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['respondent_last_name']"
-										},
-										"sink": {
-											"name": "Last_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['answers_question_id']"
-										},
-										"sink": {
-											"name": "Question_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['answers_question_text']"
-										},
-										"sink": {
-											"name": "Question_text",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['answers_content']"
-										},
-										"sink": {
-											"name": "Answer",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Json1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable5",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+				"parameters": {
+					"url": {
+						"type": "string",
+						"defaultValue": "/url"
 					}
-				],
+				},
+				"variables": {
+					"Lowerlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"Upperlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					}
+				},
 				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow2')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Json1",
-								"type": "DatasetReference"
-							},
-							"name": "source1",
-							"typeProperties": {}
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Json1",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionRootPath: 'restapi/blob/bot_file.json',\n\twildcardPaths:['blob/bot_file.json']) ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
-				}
 			},
 			"dependsOn": []
 		},

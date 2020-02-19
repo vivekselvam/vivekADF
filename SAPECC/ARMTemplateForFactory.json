@@ -1976,211 +1976,144 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "REST API to BLOB",
-						"type": "Copy",
+						"name": "Until1",
+						"type": "Until",
 						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
 						"userProperties": [],
 						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET"
+							"expression": {
+								"value": "@equals(variables('Upperlimit'),50)",
+								"type": "Expression"
 							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings",
-									"quoteAllText": true
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['stats']['showing']"
-										},
-										"sink": {
-											"path": "$['stats']['showing']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['total']"
-										},
-										"sink": {
-											"path": "$['stats']['total']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['completed']"
-										},
-										"sink": {
-											"path": "$['stats']['completed']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['incomplete']"
-										},
-										"sink": {
-											"path": "$['stats']['incomplete']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['id']"
-										},
-										"sink": {
-											"path": "$['questions_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_type']"
-										},
-										"sink": {
-											"path": "$['questions_question_type']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_text']"
-										},
-										"sink": {
-											"path": "$['questions_question_text']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_position']"
-										},
-										"sink": {
-											"path": "$['questions_question_position']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['completed']"
-										},
-										"sink": {
-											"path": "$['responses_completed']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['started_at']"
-										},
-										"sink": {
-											"path": "$['responses_started_at']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['completed_at']"
-										},
-										"sink": {
-											"path": "$['responses_completed_at']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['id']"
-										},
-										"sink": {
-											"path": "$['responses_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['id']"
-										},
-										"sink": {
-											"path": "$['respondent_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['name']"
-										},
-										"sink": {
-											"path": "$['respondent_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['first_name']"
-										},
-										"sink": {
-											"path": "$['respondent_first_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['last_name']"
-										},
-										"sink": {
-											"path": "$['respondent_last_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['question_id']"
-										},
-										"sink": {
-											"path": "$['answers_question_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['question_text']"
-										},
-										"sink": {
-											"path": "$['answers_question_text']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['content']"
-										},
-										"sink": {
-											"path": "$['answers_content']"
+							"activities": [
+								{
+									"name": "Set Lower Limit",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Lowerlimit",
+										"value": {
+											"value": "@variables('Upperlimit')",
+											"type": "Expression"
 										}
 									}
-								],
-								"collectionReference": "$['responses']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Json1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+								},
+								{
+									"name": "Set Upper Limit",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Lower Limit",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Upperlimit",
+										"value": {
+											"value": "@string(add(int(variables('Lowerlimit')),10))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Lowerlimit to Upperlimit",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Lowerlimit",
+										"value": {
+											"value": "@variables('Upperlimit')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Upper Limit",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET"
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings",
+												"quoteAllText": true
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "RestResource1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Json1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							],
+							"timeout": "0.00:20:00"
+						}
 					}
 				],
+				"parameters": {
+					"url": {
+						"type": "string",
+						"defaultValue": "/url"
+					}
+				},
+				"variables": {
+					"Lowerlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"Upperlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -2436,6 +2369,241 @@
 				}
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "REST API to BLOB",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "FlattenHierarchy"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings",
+									"quoteAllText": true
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['stats']['showing']"
+										},
+										"sink": {
+											"path": "$['stats']['showing']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['total']"
+										},
+										"sink": {
+											"path": "$['stats']['total']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['completed']"
+										},
+										"sink": {
+											"path": "$['stats']['completed']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['incomplete']"
+										},
+										"sink": {
+											"path": "$['stats']['incomplete']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['id']"
+										},
+										"sink": {
+											"path": "$['questions_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_type']"
+										},
+										"sink": {
+											"path": "$['questions_question_type']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_text']"
+										},
+										"sink": {
+											"path": "$['questions_question_text']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_position']"
+										},
+										"sink": {
+											"path": "$['questions_question_position']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['completed']"
+										},
+										"sink": {
+											"path": "$['responses_completed']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['started_at']"
+										},
+										"sink": {
+											"path": "$['responses_started_at']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['completed_at']"
+										},
+										"sink": {
+											"path": "$['responses_completed_at']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"path": "$['responses_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['id']"
+										},
+										"sink": {
+											"path": "$['respondent_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['name']"
+										},
+										"sink": {
+											"path": "$['respondent_name']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['first_name']"
+										},
+										"sink": {
+											"path": "$['respondent_first_name']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['last_name']"
+										},
+										"sink": {
+											"path": "$['respondent_last_name']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_id']"
+										},
+										"sink": {
+											"path": "$['answers_question_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_text']"
+										},
+										"sink": {
+											"path": "$['answers_question_text']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['content']"
+										},
+										"sink": {
+											"path": "$['answers_content']"
+										}
+									}
+								],
+								"collectionReference": "$['responses']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"url": {
+						"type": "string",
+						"defaultValue": "/url"
+					}
+				},
+				"variables": {
+					"Lowerlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"Upperlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
 				"[concat(variables('factoryId'), '/datasets/Json1')]"
 			]
 		}
