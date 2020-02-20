@@ -197,7 +197,7 @@
 						"referenceName": "RestResource1",
 						"type": "DatasetReference",
 						"parameters": {
-							"url": "1"
+							"url": "2"
 						}
 					}
 				],
