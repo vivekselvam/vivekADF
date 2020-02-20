@@ -41,7 +41,7 @@
 								"type": "JsonSink",
 								"storeSettings": {
 									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
+									"copyBehavior": "MergeFiles"
 								},
 								"formatSettings": {
 									"type": "JsonWriteSettings",
