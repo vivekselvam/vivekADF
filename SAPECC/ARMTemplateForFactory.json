@@ -7,9 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "SAPECC"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
 		"AzureSqlDatabase1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"RestService1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'RestService1'"
 		},
 		"SAPECC_password": {
 			"type": "secureString",
@@ -23,13 +31,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
 		},
-		"RestService1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'RestService1'"
+		"RestService1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://surveybot.io"
 		},
-		"AzureBlobStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		"RestService1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "vivek02"
 		},
 		"SAPECC_properties_typeProperties_clientId": {
 			"type": "string",
@@ -62,20 +70,442 @@
 		"SAPED1_properties_typeProperties_systemNumber": {
 			"type": "string",
 			"defaultValue": "00"
-		},
-		"RestService1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://surveybot.io"
-		},
-		"RestService1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "vivek02"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "BLOB to SQL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": false,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['responses_started_at']"
+										},
+										"sink": {
+											"name": "Started_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses_completed_at']"
+										},
+										"sink": {
+											"name": "Completed_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses_id']"
+										},
+										"sink": {
+											"name": "GUID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_id']"
+										},
+										"sink": {
+											"name": "Emp_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_name']"
+										},
+										"sink": {
+											"name": "Emp_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_first_name']"
+										},
+										"sink": {
+											"name": "First_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_last_name']"
+										},
+										"sink": {
+											"name": "Last_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_question_id']"
+										},
+										"sink": {
+											"name": "Question_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_question_text']"
+										},
+										"sink": {
+											"name": "Question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_content']"
+										},
+										"sink": {
+											"name": "Answer",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Json1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable5')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Health BOT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Rest Copy",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['question_id']"
+										},
+										"sink": {
+											"name": "Question_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "[['question_text']"
+										},
+										"sink": {
+											"name": "Question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['content']"
+										},
+										"sink": {
+											"name": "Answer",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['started_at']"
+										},
+										"sink": {
+											"name": "Started_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['completed_at']"
+										},
+										"sink": {
+											"name": "Completed_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['id']"
+										},
+										"sink": {
+											"name": "GUID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['id']"
+										},
+										"sink": {
+											"name": "Emp_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['name']"
+										},
+										"sink": {
+											"name": "Emp_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['first_name']"
+										},
+										"sink": {
+											"name": "First_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['last_name']"
+										},
+										"sink": {
+											"name": "Last_name",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['responses'][0]['answers']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable5')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/REST_to_BLOB')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(variables('Upperlimit'),50)",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Set Lower Limit",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Lowerlimit",
+										"value": {
+											"value": "@variables('Upperlimit')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Upper Limit",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Completed"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Upperlimit",
+										"value": {
+											"value": "@string(add(int(variables('Lowerlimit')),1))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Lower Limit",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET"
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings",
+												"quoteAllText": true
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "RestResource1",
+											"type": "DatasetReference",
+											"parameters": {
+												"url": {
+													"value": "@variables('Lowerlimit')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Json1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							],
+							"timeout": "0.00:20:00"
+						}
+					}
+				],
+				"variables": {
+					"Lowerlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"Upperlimit": {
+						"type": "String",
+						"defaultValue": "1"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
+			]
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SAP Extraction')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -889,6 +1319,243 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "REST API to BLOB",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "FlattenHierarchy"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings",
+									"quoteAllText": true
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['stats']['showing']"
+										},
+										"sink": {
+											"path": "$['stats']['showing']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['total']"
+										},
+										"sink": {
+											"path": "$['stats']['total']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['completed']"
+										},
+										"sink": {
+											"path": "$['stats']['completed']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stats']['incomplete']"
+										},
+										"sink": {
+											"path": "$['stats']['incomplete']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['id']"
+										},
+										"sink": {
+											"path": "$['questions_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_type']"
+										},
+										"sink": {
+											"path": "$['questions_question_type']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_text']"
+										},
+										"sink": {
+											"path": "$['questions_question_text']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['questions'][0]['question_position']"
+										},
+										"sink": {
+											"path": "$['questions_question_position']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['completed']"
+										},
+										"sink": {
+											"path": "$['responses_completed']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['started_at']"
+										},
+										"sink": {
+											"path": "$['responses_started_at']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['completed_at']"
+										},
+										"sink": {
+											"path": "$['responses_completed_at']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"path": "$['responses_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['id']"
+										},
+										"sink": {
+											"path": "$['respondent_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['name']"
+										},
+										"sink": {
+											"path": "$['respondent_name']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['first_name']"
+										},
+										"sink": {
+											"path": "$['respondent_first_name']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['respondent']['last_name']"
+										},
+										"sink": {
+											"path": "$['respondent_last_name']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_id']"
+										},
+										"sink": {
+											"path": "$['answers_question_id']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['question_text']"
+										},
+										"sink": {
+											"path": "$['answers_question_text']"
+										}
+									},
+									{
+										"source": {
+											"path": "[['answers'][0]['content']"
+										},
+										"sink": {
+											"path": "$['answers_content']"
+										}
+									}
+								],
+								"collectionReference": "$['responses']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference",
+								"parameters": {
+									"url": "1"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"url": {
+						"type": "string",
+						"defaultValue": "/url"
+					}
+				},
+				"variables": {
+					"Lowerlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"Upperlimit": {
+						"type": "String",
+						"defaultValue": "0"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1374,6 +2041,88 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Emp_id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Emp_name",
+						"type": "char"
+					},
+					{
+						"name": "GUID",
+						"type": "char"
+					},
+					{
+						"name": "Started_at",
+						"type": "char"
+					},
+					{
+						"name": "Completed_at",
+						"type": "char"
+					},
+					{
+						"name": "First_name",
+						"type": "char"
+					},
+					{
+						"name": "Last_name",
+						"type": "char"
+					},
+					{
+						"name": "Question_id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Question_text",
+						"type": "char"
+					},
+					{
+						"name": "Answer",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EMPLOYEE_RESPONSE6"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_zlx')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1449,6 +2198,127 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "bot",
+						"folderPath": "blob",
+						"container": "restapi"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "data_9953298f-34c8-44d8-a45d-030efa99f637_9bc99a4c-2247-4f55-923f-7efc49645462.parquet",
+						"folderPath": "bot",
+						"container": "myrestapi"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "started_at",
+						"type": "UTF8"
+					},
+					{
+						"name": "completed_at",
+						"type": "UTF8"
+					},
+					{
+						"name": "id",
+						"type": "UTF8"
+					},
+					{
+						"name": "emp_id",
+						"type": "INT64"
+					},
+					{
+						"name": "name",
+						"type": "UTF8"
+					},
+					{
+						"name": "first_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "last_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "question_id",
+						"type": "INT64"
+					},
+					{
+						"name": "question_text",
+						"type": "UTF8"
+					},
+					{
+						"name": "content",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestService1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"url": {
+						"type": "string",
+						"defaultValue": "1"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "@{concat('https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=',dataset().url,'&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q')}",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SapTableResource1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1517,6 +2387,20 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Azure Blob ",
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1526,6 +2410,26 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestService1_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('RestService1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('RestService1_password')]"
+					}
 				}
 			},
 			"dependsOn": []
@@ -1662,673 +2566,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/RestService1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestService1_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Basic",
-					"userName": "[parameters('RestService1_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('RestService1_password')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "RestService1",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"url": {
-						"type": "string",
-						"defaultValue": "1"
-					}
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {
-					"relativeUrl": {
-						"value": "@{concat('https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=',dataset().url,'&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q')}",
-						"type": "Expression"
-					}
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable4')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable5')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Emp_id",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Emp_name",
-						"type": "char"
-					},
-					{
-						"name": "GUID",
-						"type": "char"
-					},
-					{
-						"name": "Started_at",
-						"type": "char"
-					},
-					{
-						"name": "Completed_at",
-						"type": "char"
-					},
-					{
-						"name": "First_name",
-						"type": "char"
-					},
-					{
-						"name": "Last_name",
-						"type": "char"
-					},
-					{
-						"name": "Question_id",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Question_text",
-						"type": "char"
-					},
-					{
-						"name": "Answer",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "EMPLOYEE_RESPONSE6"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Health BOT')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Rest Copy",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "[['question_id']"
-										},
-										"sink": {
-											"name": "Question_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "[['question_text']"
-										},
-										"sink": {
-											"name": "Question_text",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "[['content']"
-										},
-										"sink": {
-											"name": "Answer",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['started_at']"
-										},
-										"sink": {
-											"name": "Started_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['completed_at']"
-										},
-										"sink": {
-											"name": "Completed_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['id']"
-										},
-										"sink": {
-											"name": "GUID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['id']"
-										},
-										"sink": {
-											"name": "Emp_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['name']"
-										},
-										"sink": {
-											"name": "Emp_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['first_name']"
-										},
-										"sink": {
-											"name": "First_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['last_name']"
-										},
-										"sink": {
-											"name": "Last_name",
-											"type": "String"
-										}
-									}
-								],
-								"collectionReference": "$['responses'][0]['answers']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable5",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable5')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Azure Blob ",
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Json1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "bot_file",
-						"folderPath": "blob",
-						"container": "restapi"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/REST_to_BLOB')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Until1",
-						"type": "Until",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@equals(variables('Upperlimit'),50)",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Set Lower Limit",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "Lowerlimit",
-										"value": {
-											"value": "@variables('Upperlimit')",
-											"type": "Expression"
-										}
-									}
-								},
-								{
-									"name": "Set Upper Limit",
-									"type": "SetVariable",
-									"dependsOn": [
-										{
-											"activity": "Copy data1",
-											"dependencyConditions": [
-												"Completed"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "Upperlimit",
-										"value": {
-											"value": "@string(add(int(variables('Lowerlimit')),1))",
-											"type": "Expression"
-										}
-									}
-								},
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [
-										{
-											"activity": "Set Lower Limit",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "RestSource",
-											"httpRequestTimeout": "00:01:40",
-											"requestInterval": "00.00:00:00.010",
-											"requestMethod": "GET"
-										},
-										"sink": {
-											"type": "JsonSink",
-											"storeSettings": {
-												"type": "AzureBlobStorageWriteSettings",
-												"copyBehavior": "FlattenHierarchy"
-											},
-											"formatSettings": {
-												"type": "JsonWriteSettings",
-												"quoteAllText": true
-											}
-										},
-										"enableStaging": false
-									},
-									"inputs": [
-										{
-											"referenceName": "RestResource1",
-											"type": "DatasetReference",
-											"parameters": {
-												"url": {
-													"value": "@variables('Lowerlimit')",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "Json1",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
-								}
-							],
-							"timeout": "0.00:20:00"
-						}
-					}
-				],
-				"variables": {
-					"Lowerlimit": {
-						"type": "String",
-						"defaultValue": "0"
-					},
-					"Upperlimit": {
-						"type": "String",
-						"defaultValue": "1"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
-				"[concat(variables('factoryId'), '/datasets/Json1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "data_9953298f-34c8-44d8-a45d-030efa99f637_9bc99a4c-2247-4f55-923f-7efc49645462.parquet",
-						"folderPath": "bot",
-						"container": "myrestapi"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "started_at",
-						"type": "UTF8"
-					},
-					{
-						"name": "completed_at",
-						"type": "UTF8"
-					},
-					{
-						"name": "id",
-						"type": "UTF8"
-					},
-					{
-						"name": "emp_id",
-						"type": "INT64"
-					},
-					{
-						"name": "name",
-						"type": "UTF8"
-					},
-					{
-						"name": "first_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "last_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "question_id",
-						"type": "INT64"
-					},
-					{
-						"name": "question_text",
-						"type": "UTF8"
-					},
-					{
-						"name": "content",
-						"type": "UTF8"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "BLOB to SQL",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": false,
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['responses_started_at']"
-										},
-										"sink": {
-											"name": "Started_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses_completed_at']"
-										},
-										"sink": {
-											"name": "Completed_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses_id']"
-										},
-										"sink": {
-											"name": "GUID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['respondent_id']"
-										},
-										"sink": {
-											"name": "Emp_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['respondent_name']"
-										},
-										"sink": {
-											"name": "Emp_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['respondent_first_name']"
-										},
-										"sink": {
-											"name": "First_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['respondent_last_name']"
-										},
-										"sink": {
-											"name": "Last_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['answers_question_id']"
-										},
-										"sink": {
-											"name": "Question_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['answers_question_text']"
-										},
-										"sink": {
-											"name": "Question_text",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['answers_content']"
-										},
-										"sink": {
-											"name": "Answer",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Json1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable5",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Json1')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable5')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/dataflow2')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -2359,241 +2596,6 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Json1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "REST API to BLOB",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET"
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings",
-									"quoteAllText": true
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['stats']['showing']"
-										},
-										"sink": {
-											"path": "$['stats']['showing']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['total']"
-										},
-										"sink": {
-											"path": "$['stats']['total']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['completed']"
-										},
-										"sink": {
-											"path": "$['stats']['completed']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['incomplete']"
-										},
-										"sink": {
-											"path": "$['stats']['incomplete']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['id']"
-										},
-										"sink": {
-											"path": "$['questions_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_type']"
-										},
-										"sink": {
-											"path": "$['questions_question_type']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_text']"
-										},
-										"sink": {
-											"path": "$['questions_question_text']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_position']"
-										},
-										"sink": {
-											"path": "$['questions_question_position']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['completed']"
-										},
-										"sink": {
-											"path": "$['responses_completed']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['started_at']"
-										},
-										"sink": {
-											"path": "$['responses_started_at']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['completed_at']"
-										},
-										"sink": {
-											"path": "$['responses_completed_at']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['id']"
-										},
-										"sink": {
-											"path": "$['responses_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['id']"
-										},
-										"sink": {
-											"path": "$['respondent_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['name']"
-										},
-										"sink": {
-											"path": "$['respondent_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['first_name']"
-										},
-										"sink": {
-											"path": "$['respondent_first_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['last_name']"
-										},
-										"sink": {
-											"path": "$['respondent_last_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['question_id']"
-										},
-										"sink": {
-											"path": "$['answers_question_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['question_text']"
-										},
-										"sink": {
-											"path": "$['answers_question_text']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['content']"
-										},
-										"sink": {
-											"path": "$['answers_content']"
-										}
-									}
-								],
-								"collectionReference": "$['responses']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Json1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"parameters": {
-					"url": {
-						"type": "string",
-						"defaultValue": "/url"
-					}
-				},
-				"variables": {
-					"Lowerlimit": {
-						"type": "String",
-						"defaultValue": "0"
-					},
-					"Upperlimit": {
-						"type": "String",
-						"defaultValue": "0"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
 				"[concat(variables('factoryId'), '/datasets/Json1')]"
 			]
 		}
