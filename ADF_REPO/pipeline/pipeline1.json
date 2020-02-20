@@ -195,7 +195,10 @@
 				"inputs": [
 					{
 						"referenceName": "RestResource1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"url": "1"
+						}
 					}
 				],
 				"outputs": [
