@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "bot_file",
+				"fileName": "bot",
 				"folderPath": "blob",
 				"container": "restapi"
 			}
