@@ -73,7 +73,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL')]",
+			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL Test')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
