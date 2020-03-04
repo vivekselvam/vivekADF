@@ -19,17 +19,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'RestService1'"
 		},
-		"SAPECC_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SAPECC'"
-		},
-		"SAPED1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SAPED1'"
-		},
 		"SapHana1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://Azure-Vault-Dev.vault.azure.net/"
 		},
 		"RestService1_properties_typeProperties_url": {
 			"type": "string",
@@ -107,14 +103,11 @@
 					"RestService1_password": {
 						"value": "[parameters('RestService1_password')]"
 					},
-					"SAPECC_password": {
-						"value": "[parameters('SAPECC_password')]"
-					},
-					"SAPED1_password": {
-						"value": "[parameters('SAPED1_password')]"
-					},
 					"SapHana1_connectionString": {
 						"value": "[parameters('SapHana1_connectionString')]"
+					},
+					"AzureKeyVault1_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
 					},
 					"RestService1_properties_typeProperties_url": {
 						"value": "[parameters('RestService1_properties_typeProperties_url')]"

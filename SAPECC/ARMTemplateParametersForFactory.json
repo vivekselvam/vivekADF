@@ -14,14 +14,11 @@
 		"RestService1_password": {
 			"value": ""
 		},
-		"SAPECC_password": {
-			"value": ""
-		},
-		"SAPED1_password": {
-			"value": ""
-		},
 		"SapHana1_connectionString": {
 			"value": ""
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://Azure-Vault-Dev.vault.azure.net/"
 		},
 		"RestService1_properties_typeProperties_url": {
 			"value": "https://surveybot.io"
