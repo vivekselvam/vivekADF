@@ -1,6 +1,5 @@
 {
 	"name": "SAPED1",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"description": "SAPED1",
 		"annotations": [],
@@ -10,13 +9,21 @@
 			"language": "",
 			"sncMode": false,
 			"userName": "vivek02",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault1",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "vivek02"
+			},
 			"server": "myerpabapdev.smrt.com.sg",
-			"systemNumber": "00",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzNzM3NGYxOC0xYzFkLTQ3NDQtODE5ZS1iOTRmMTgxN2QyZTUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"systemNumber": "00"
 		},
 		"connectVia": {
 			"referenceName": "SAP-IntegrationRuntime",
 			"type": "IntegrationRuntimeReference"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
