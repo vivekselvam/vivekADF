@@ -24,17 +24,112 @@
 						"type": "AzureSqlSink",
 						"tableOption": "autoCreate"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "tID",
+									"type": "Guid"
+								},
+								"sink": {
+									"name": "tID",
+									"type": "Guid"
+								}
+							},
+							{
+								"source": {
+									"name": "tWorkplaceID",
+									"type": "String"
+								},
+								"sink": {
+									"name": "tWorkplaceID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tReadDate",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "tReadDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "tReadTime",
+									"type": "TimeSpan"
+								},
+								"sink": {
+									"name": "tReadTime",
+									"type": "TimeSpan"
+								}
+							},
+							{
+								"source": {
+									"name": "tTemperature",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "tTemperature",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "tSymptoms",
+									"type": "String"
+								},
+								"sink": {
+									"name": "tSymptoms",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tRisks",
+									"type": "String"
+								},
+								"sink": {
+									"name": "tRisks",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tSeenDoc",
+									"type": "String"
+								},
+								"sink": {
+									"name": "tSeenDoc",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tCreateDateTime",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "tCreateDateTime",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlTable6",
+						"referenceName": "WORKATO_HEALTH",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable8",
+						"referenceName": "BOT_ANALYSIS_HEALTH",
 						"type": "DatasetReference"
 					}
 				]
