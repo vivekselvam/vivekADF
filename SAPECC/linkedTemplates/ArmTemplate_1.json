@@ -13,6 +13,376 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tReadDate",
+						"type": "date"
+					},
+					{
+						"name": "tReadTime",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "tTemperature",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 2
+					},
+					{
+						"name": "tSymptoms",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tRisks",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tSeenDoc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblHealth"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable7')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL Test')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "BLOB to SQL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": false,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['responses_started_at']"
+										},
+										"sink": {
+											"name": "Started_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses_completed_at']"
+										},
+										"sink": {
+											"name": "Completed_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses_id']"
+										},
+										"sink": {
+											"name": "GUID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_id']"
+										},
+										"sink": {
+											"name": "Emp_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_name']"
+										},
+										"sink": {
+											"name": "Emp_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_first_name']"
+										},
+										"sink": {
+											"name": "First_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['respondent_last_name']"
+										},
+										"sink": {
+											"name": "Last_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_question_id']"
+										},
+										"sink": {
+											"name": "Question_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_question_text']"
+										},
+										"sink": {
+											"name": "Question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['answers_content']"
+										},
+										"sink": {
+											"name": "Answer",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Health BOT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Rest Copy",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['question_id']"
+										},
+										"sink": {
+											"name": "Question_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "[['question_text']"
+										},
+										"sink": {
+											"name": "Question_text",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['content']"
+										},
+										"sink": {
+											"name": "Answer",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['started_at']"
+										},
+										"sink": {
+											"name": "Started_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['completed_at']"
+										},
+										"sink": {
+											"name": "Completed_at",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['id']"
+										},
+										"sink": {
+											"name": "GUID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['id']"
+										},
+										"sink": {
+											"name": "Emp_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['name']"
+										},
+										"sink": {
+											"name": "Emp_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['first_name']"
+										},
+										"sink": {
+											"name": "First_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['responses'][0]['respondent']['last_name']"
+										},
+										"sink": {
+											"name": "Last_name",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['responses'][0]['answers']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable5",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/REST_to_BLOB')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -478,6 +848,58 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Heath Data Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Health Data",
+						"description": "Health Data Pipeline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTable6",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable3",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable6')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SAP Extraction')]",
