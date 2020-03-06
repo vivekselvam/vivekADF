@@ -1,6 +1,7 @@
 {
-	"name": "AzureSqlTable6",
+	"name": "WORKATO_HEALTH",
 	"properties": {
+		"description": "WORK ATO HEALTH",
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase2",
 			"type": "LinkedServiceReference"
