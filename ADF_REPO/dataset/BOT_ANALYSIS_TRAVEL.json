@@ -1,0 +1,13 @@
+{
+	"name": "BOT_ANALYSIS_TRAVEL",
+	"properties": {
+		"description": "BOT ANALYSIS TRAVEL",
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
