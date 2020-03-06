@@ -8,6 +8,49 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": []
+		"schema": [
+			{
+				"name": "tTravelID",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "tWorkplaceID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tTravelStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tTravelDestination",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tTravelStartDate",
+				"type": "date"
+			},
+			{
+				"name": "tTravelEndDate",
+				"type": "date"
+			},
+			{
+				"name": "tTravelRisk",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tTravelQuarantine",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tCreateDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tblTravel"
+		}
 	}
 }
