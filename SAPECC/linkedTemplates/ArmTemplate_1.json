@@ -86,8 +86,50 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
+				"schema": [
+					{
+						"name": "tTravelID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelDestination",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStartDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelEndDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelRisk",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelQuarantine",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblTravel"
+				}
 			},
 			"dependsOn": []
 		},
@@ -1146,10 +1188,104 @@
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
-								"type": "AzureSqlSink",
-								"tableOption": "autoCreate"
+								"type": "AzureSqlSink"
 							},
-							"enableStaging": false
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "tTravelID",
+											"type": "Guid"
+										},
+										"sink": {
+											"name": "tTravelID",
+											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelStatus",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelStatus",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelDestination",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelDestination",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelStartDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tTravelStartDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelEndDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tTravelEndDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelRisk",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelRisk",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelQuarantine",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelQuarantine",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										}
+									}
+								]
+							}
 						},
 						"inputs": [
 							{
@@ -1160,7 +1296,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "WORK_ATO_TRAVEL",
+								"referenceName": "BOT_ANALYSIS_TRAVEL",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1170,7 +1306,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/WORK_ATO_TRAVEL')]"
+				"[concat(variables('factoryId'), '/datasets/WORK_ATO_TRAVEL')]",
+				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_TRAVEL')]"
 			]
 		},
 		{
