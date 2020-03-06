@@ -2,7 +2,9 @@
 	"name": "Trigger Sample",
 	"properties": {
 		"description": "Trigger - 30 Mins once",
-		"annotations": [],
+		"annotations": [
+			"TEst"
+		],
 		"runtimeState": "Started",
 		"pipelines": [
 			{
