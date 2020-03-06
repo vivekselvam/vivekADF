@@ -35,7 +35,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "WORK_ATO_TRAVEL",
+						"referenceName": "BOT_ANALYSIS_TRAVEL",
 						"type": "DatasetReference"
 					}
 				]
