@@ -13,10 +13,11 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable6')]",
+			"name": "[concat(parameters('factoryName'), '/WORKATO_HEALTH')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "WORK ATO HEALTH",
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase2",
 					"type": "LinkedServiceReference"
@@ -74,10 +75,11 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable7')]",
+			"name": "[concat(parameters('factoryName'), '/BOT_ANALYSIS_TRAVEL')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "BOT ANALYSIS TRAVEL",
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
@@ -90,10 +92,11 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable8')]",
+			"name": "[concat(parameters('factoryName'), '/BOT_ANALYSIS_HEALTH')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "BOT ANALYSIS HEALTH",
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
@@ -146,6 +149,65 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "tblHealth"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WORK_ATO_TRAVEL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "WORK ATO TRAVEL",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tTravelID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelDestination",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStartDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelEndDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelRisk",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelQuarantine",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblTravel"
 				}
 			},
 			"dependsOn": []
@@ -1037,14 +1099,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "AzureSqlTable6",
+								"referenceName": "WORKATO_HEALTH",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "AzureSqlTable8",
+								"referenceName": "BOT_ANALYSIS_HEALTH",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1054,8 +1116,61 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable6')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable8')]"
+				"[concat(variables('factoryId'), '/datasets/WORKATO_HEALTH')]",
+				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_HEALTH')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Travel Data Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Travel Data Pipeline",
+				"activities": [
+					{
+						"name": "Travel Data",
+						"description": "Travel Data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "WORK_ATO_TRAVEL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "WORK_ATO_TRAVEL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/WORK_ATO_TRAVEL')]"
 			]
 		},
 		{
