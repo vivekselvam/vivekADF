@@ -1,6 +1,7 @@
 {
-	"name": "AzureSqlTable7",
+	"name": "BOT_ANALYSIS_HEALTH",
 	"properties": {
+		"description": "BOT ANALYSIS HEALTH",
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase3",
 			"type": "LinkedServiceReference"
