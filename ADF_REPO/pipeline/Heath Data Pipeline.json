@@ -1,9 +1,9 @@
 {
-	"name": "pipeline2",
+	"name": "Heath Data Pipeline",
 	"properties": {
 		"activities": [
 			{
-				"name": "Heath ",
+				"name": "Health Data",
 				"description": "Health Data Pipeline",
 				"type": "Copy",
 				"dependsOn": [],
