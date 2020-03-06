@@ -3,7 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Heath_Data ",
+				"name": "Heath ",
+				"description": "Health Data Pipeline",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
