@@ -1,6 +1,7 @@
 {
-	"name": "AzureSqlTable6",
+	"name": "WORK_ATO_TRAVEL",
 	"properties": {
+		"description": "WORK ATO TRAVEL",
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase2",
 			"type": "LinkedServiceReference"
