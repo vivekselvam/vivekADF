@@ -22,6 +22,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
+						"sqlWriterStoredProcedureName": "[dbo].[Health_sto_proc]",
 						"tableOption": "autoCreate"
 					},
 					"enableStaging": false,
