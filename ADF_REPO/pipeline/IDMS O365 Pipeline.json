@@ -18,14 +18,20 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "Office365Source",
-						"outputColumns": []
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
 					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "Office365Table1",
+						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					}
 				]

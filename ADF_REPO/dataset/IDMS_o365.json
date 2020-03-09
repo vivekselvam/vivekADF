@@ -1,0 +1,138 @@
+{
+	"name": "IDMS_o365",
+	"properties": {
+		"description": "IDMS o365 Data",
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "UserName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DisplayName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmployeeId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsExecEmp",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmailId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TelNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HomePhNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PostalCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PostalAddress",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TerminationDate",
+				"type": "date"
+			},
+			{
+				"name": "IsActive",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmployeeType",
+				"type": "nchar"
+			},
+			{
+				"name": "CostCenter",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CompanyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DeptName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DivName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SectName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PostionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EESubArea",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EESubGrpName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BranchName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UnitName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WPFullName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WPEmail",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WrkLocDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MgrDispName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MgrEmailId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SupDispName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SupEmailId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EEGroupDesc",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "IdMS_o365_WP"
+		}
+	}
+}
