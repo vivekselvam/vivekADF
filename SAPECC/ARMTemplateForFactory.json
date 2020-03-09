@@ -3645,7 +3645,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "IdMS_o365_WP csv.csv",
+						"fileName": "IdMS_o365_WP Delimited.csv",
+						"folderPath": "Health And Travel/o365 And IDMS Files",
 						"container": "restapi"
 					},
 					"columnDelimiter": ",",
@@ -3916,7 +3917,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "IdMS_o365_WP"
+					"table": "IdMS_o365_WP1"
 				}
 			},
 			"dependsOn": [

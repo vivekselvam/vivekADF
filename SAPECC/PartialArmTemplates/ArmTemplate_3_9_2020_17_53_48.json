@@ -1,0 +1,305 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "IdMS_o365_WP Delimited.csv",
+						"folderPath": "Health And Travel/o365 And IDMS Files",
+						"container": "restapi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "String"
+					},
+					{
+						"name": "DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "String"
+					},
+					{
+						"name": "IsExecutiveEmployee",
+						"type": "String"
+					},
+					{
+						"name": "EmailId",
+						"type": "String"
+					},
+					{
+						"name": "TelephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "HomephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "PostalCode",
+						"type": "String"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "String"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "String"
+					},
+					{
+						"name": "IsActive",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "String"
+					},
+					{
+						"name": "CostCenter",
+						"type": "String"
+					},
+					{
+						"name": "CompanyName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DivisionName",
+						"type": "String"
+					},
+					{
+						"name": "SectionName",
+						"type": "String"
+					},
+					{
+						"name": "PositionName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeSubArea",
+						"type": "String"
+					},
+					{
+						"name": "EESubGroupName",
+						"type": "String"
+					},
+					{
+						"name": "BranchName",
+						"type": "String"
+					},
+					{
+						"name": "UnitName",
+						"type": "String"
+					},
+					{
+						"name": "WP.Full Name",
+						"type": "String"
+					},
+					{
+						"name": "WP.Email",
+						"type": "String"
+					},
+					{
+						"name": "WorkLocationDescription",
+						"type": "String"
+					},
+					{
+						"name": "Manager.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Manager.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "EEGroup Description",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IDMS_o365')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS o365 Data",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DisplayName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExecEmp",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TelNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomePhNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "date"
+					},
+					{
+						"name": "IsActive",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "nchar"
+					},
+					{
+						"name": "CostCenter",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeptName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DivName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SectName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubArea",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubGrpName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BranchName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UnitName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPFullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WrkLocDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EEGroupDesc",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "IdMS_o365_WP1"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
