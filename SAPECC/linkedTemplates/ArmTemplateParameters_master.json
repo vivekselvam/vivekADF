@@ -11,16 +11,16 @@
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
-		"RestService1_password": {
-			"value": ""
-		},
-		"SapHana1_connectionString": {
-			"value": ""
-		},
 		"AzureSqlDatabase2_connectionString": {
 			"value": ""
 		},
 		"AzureSqlDatabase3_connectionString": {
+			"value": ""
+		},
+		"RestService1_password": {
+			"value": ""
+		},
+		"SapHana1_connectionString": {
 			"value": ""
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {

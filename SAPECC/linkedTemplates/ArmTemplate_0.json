@@ -15,10 +15,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
 		},
-		"RestService1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'RestService1'"
-		},
 		"AzureSqlDatabase2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
@@ -27,9 +23,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase3'"
 		},
-		"SapHana1_connectionString": {
+		"RestService1_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
+			"metadata": "Secure string for 'password' of 'RestService1'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -42,38 +38,6 @@
 		"RestService1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "vivek02"
-		},
-		"SAPECC_properties_typeProperties_clientId": {
-			"type": "string",
-			"defaultValue": "100"
-		},
-		"SAPECC_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "vivek02"
-		},
-		"SAPECC_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "myerpabapdev.smrt.com.sg"
-		},
-		"SAPECC_properties_typeProperties_systemNumber": {
-			"type": "string",
-			"defaultValue": "00"
-		},
-		"SAPED1_properties_typeProperties_clientId": {
-			"type": "string",
-			"defaultValue": "100"
-		},
-		"SAPED1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "vivek02"
-		},
-		"SAPED1_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "myerpabapdev.smrt.com.sg"
-		},
-		"SAPED1_properties_typeProperties_systemNumber": {
-			"type": "string",
-			"defaultValue": "00"
 		}
 	},
 	"variables": {
@@ -123,6 +87,34 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Health BOT",
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase2_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase3')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "BOT Analysis",
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase3_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RestService1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -150,34 +142,6 @@
 				"type": "SelfHosted",
 				"description": "SAP ECC Integration Runtime",
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Health BOT",
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase2_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase3')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "BOT Analysis",
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase3_connectionString')]"
-				}
 			},
 			"dependsOn": []
 		},
@@ -749,6 +713,131 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/BOT_ANALYSIS_HEALTH')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "BOT ANALYSIS HEALTH",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tReadDate",
+						"type": "date"
+					},
+					{
+						"name": "tReadTime",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "tTemperature",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 2
+					},
+					{
+						"name": "tSymptoms",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tRisks",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tSeenDoc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblHealth"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BOT_ANALYSIS_TRAVEL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "BOT ANALYSIS TRAVEL",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tTravelID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelDestination",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStartDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelEndDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelRisk",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelQuarantine",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblTravel"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_zlx')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -945,19 +1034,55 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/WaterMarkTable')]",
+			"name": "[concat(parameters('factoryName'), '/WORKATO_HEALTH')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "WORK ATO HEALTH",
 				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
+					"referenceName": "AzureSqlDatabase2",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "WatermarkValue",
+						"name": "tID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tReadDate",
+						"type": "date"
+					},
+					{
+						"name": "tReadTime",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "tTemperature",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 2
+					},
+					{
+						"name": "tSymptoms",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tRisks",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tSeenDoc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
 						"type": "datetime",
 						"precision": 23,
 						"scale": 3
@@ -965,99 +1090,72 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "watermarktable"
+					"table": "tblHealth"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SAPECC')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/WORK_ATO_TRAVEL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "SAPECC",
+				"description": "WORK ATO TRAVEL",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"type": "SapTable",
-				"typeProperties": {
-					"clientId": "[parameters('SAPECC_properties_typeProperties_clientId')]",
-					"language": "en",
-					"sncMode": false,
-					"userName": "[parameters('SAPECC_properties_typeProperties_userName')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVault1",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "vivek02"
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tTravelID",
+						"type": "uniqueidentifier"
 					},
-					"server": "[parameters('SAPECC_properties_typeProperties_server')]",
-					"systemNumber": "[parameters('SAPECC_properties_typeProperties_systemNumber')]"
-				},
-				"connectVia": {
-					"referenceName": "SAP-IntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SAP-IntegrationRuntime')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAPED1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAPED1",
-				"annotations": [],
-				"type": "SapTable",
-				"typeProperties": {
-					"clientId": "[parameters('SAPED1_properties_typeProperties_clientId')]",
-					"language": "",
-					"sncMode": false,
-					"userName": "[parameters('SAPED1_properties_typeProperties_userName')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVault1",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "vivek02"
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
 					},
-					"server": "[parameters('SAPED1_properties_typeProperties_server')]",
-					"systemNumber": "[parameters('SAPED1_properties_typeProperties_systemNumber')]"
-				},
-				"connectVia": {
-					"referenceName": "SAP-IntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SAP-IntegrationRuntime')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapHana1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "HANA views",
-				"annotations": [],
-				"type": "SapHana",
+					{
+						"name": "tTravelStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelDestination",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStartDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelEndDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelRisk",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelQuarantine",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
 				"typeProperties": {
-					"connectionString": "[parameters('SapHana1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "SAP-IntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
+					"schema": "dbo",
+					"table": "tblTravel"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SAP-IntegrationRuntime')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
 			]
 		}
 	]

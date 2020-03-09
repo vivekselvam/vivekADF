@@ -15,14 +15,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
 		},
-		"RestService1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'RestService1'"
-		},
-		"SapHana1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
-		},
 		"AzureSqlDatabase2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
@@ -30,6 +22,14 @@
 		"AzureSqlDatabase3_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase3'"
+		},
+		"RestService1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'RestService1'"
+		},
+		"SapHana1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -377,6 +377,159 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable5')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Health Data Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Health Data",
+						"description": "Health Data Pipeline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"sqlWriterStoredProcedureName": "[[dbo].[Health_sto_proc]",
+								"sqlWriterTableType": "TypHealth",
+								"storedProcedureTableTypeParameterName": "Health"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "tID",
+											"type": "Guid"
+										},
+										"sink": {
+											"name": "tID",
+											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tReadDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tReadDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tReadTime",
+											"type": "TimeSpan"
+										},
+										"sink": {
+											"name": "tReadTime",
+											"type": "TimeSpan"
+										}
+									},
+									{
+										"source": {
+											"name": "tTemperature",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "tTemperature",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "tSymptoms",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tSymptoms",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tRisks",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tRisks",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tSeenDoc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tSeenDoc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "WORKATO_HEALTH",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "BOT_ANALYSIS_HEALTH",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "BOT Analysis"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/WORKATO_HEALTH')]",
+				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_HEALTH')]"
 			]
 		},
 		{
@@ -1323,6 +1476,157 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Travel Data Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Travel Data Pipeline",
+				"activities": [
+					{
+						"name": "Travel Data",
+						"description": "Travel Data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "tTravelID",
+											"type": "Guid"
+										},
+										"sink": {
+											"name": "tTravelID",
+											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelStatus",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelStatus",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelDestination",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelDestination",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelStartDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tTravelStartDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelEndDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tTravelEndDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelRisk",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelRisk",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelQuarantine",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelQuarantine",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "WORK_ATO_TRAVEL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "BOT_ANALYSIS_TRAVEL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "BOT Analysis"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/WORK_ATO_TRAVEL')]",
+				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_TRAVEL')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2127,6 +2431,131 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/BOT_ANALYSIS_HEALTH')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "BOT ANALYSIS HEALTH",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tReadDate",
+						"type": "date"
+					},
+					{
+						"name": "tReadTime",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "tTemperature",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 2
+					},
+					{
+						"name": "tSymptoms",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tRisks",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tSeenDoc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblHealth"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BOT_ANALYSIS_TRAVEL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "BOT ANALYSIS TRAVEL",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tTravelID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelDestination",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStartDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelEndDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelRisk",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelQuarantine",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblTravel"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_zlx')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2363,6 +2792,131 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/WORKATO_HEALTH')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "WORK ATO HEALTH",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tReadDate",
+						"type": "date"
+					},
+					{
+						"name": "tReadTime",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "tTemperature",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 2
+					},
+					{
+						"name": "tSymptoms",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tRisks",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tSeenDoc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblHealth"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WORK_ATO_TRAVEL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "WORK ATO TRAVEL",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tTravelID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelDestination",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStartDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelEndDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelRisk",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelQuarantine",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblTravel"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/WaterMarkTable')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2428,6 +2982,34 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Health BOT",
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase2_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase3')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "BOT Analysis",
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase3_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -2623,580 +3205,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Json1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Health Data Pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Health Data",
-						"description": "Health Data Pipeline",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "tID",
-											"type": "Guid"
-										},
-										"sink": {
-											"name": "tID",
-											"type": "Guid"
-										}
-									},
-									{
-										"source": {
-											"name": "tWorkplaceID",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tWorkplaceID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tReadDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "tReadDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "tReadTime",
-											"type": "TimeSpan"
-										},
-										"sink": {
-											"name": "tReadTime",
-											"type": "TimeSpan"
-										}
-									},
-									{
-										"source": {
-											"name": "tTemperature",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "tTemperature",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "tSymptoms",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tSymptoms",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tRisks",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tRisks",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tSeenDoc",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tSeenDoc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tCreateDateTime",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "tCreateDateTime",
-											"type": "DateTime"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "WORKATO_HEALTH",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "BOT_ANALYSIS_HEALTH",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/WORKATO_HEALTH')]",
-				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_HEALTH')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Health BOT",
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase2_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/WORKATO_HEALTH')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "WORK ATO HEALTH",
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "tID",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "tWorkplaceID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tReadDate",
-						"type": "date"
-					},
-					{
-						"name": "tReadTime",
-						"type": "time",
-						"scale": 7
-					},
-					{
-						"name": "tTemperature",
-						"type": "decimal",
-						"precision": 5,
-						"scale": 2
-					},
-					{
-						"name": "tSymptoms",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tRisks",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tSeenDoc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tCreateDateTime",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "tblHealth"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase3')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "BOT Analysis",
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase3_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/BOT_ANALYSIS_TRAVEL')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "BOT ANALYSIS TRAVEL",
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase3",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "tTravelID",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "tWorkplaceID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelStatus",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelDestination",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelStartDate",
-						"type": "date"
-					},
-					{
-						"name": "tTravelEndDate",
-						"type": "date"
-					},
-					{
-						"name": "tTravelRisk",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelQuarantine",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tCreateDateTime",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "tblTravel"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/BOT_ANALYSIS_HEALTH')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "BOT ANALYSIS HEALTH",
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase3",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "tID",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "tWorkplaceID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tReadDate",
-						"type": "date"
-					},
-					{
-						"name": "tReadTime",
-						"type": "time",
-						"scale": 7
-					},
-					{
-						"name": "tTemperature",
-						"type": "decimal",
-						"precision": 5,
-						"scale": 2
-					},
-					{
-						"name": "tSymptoms",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tRisks",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tSeenDoc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tCreateDateTime",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "tblHealth"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Travel Data Pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Travel Data Pipeline",
-				"activities": [
-					{
-						"name": "Travel Data",
-						"description": "Travel Data",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "tTravelID",
-											"type": "Guid"
-										},
-										"sink": {
-											"name": "tTravelID",
-											"type": "Guid"
-										}
-									},
-									{
-										"source": {
-											"name": "tWorkplaceID",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tWorkplaceID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelStatus",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tTravelStatus",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelDestination",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tTravelDestination",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelStartDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "tTravelStartDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelEndDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "tTravelEndDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelRisk",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tTravelRisk",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelQuarantine",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tTravelQuarantine",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tCreateDateTime",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "tCreateDateTime",
-											"type": "DateTime"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "WORK_ATO_TRAVEL",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "BOT_ANALYSIS_TRAVEL",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/WORK_ATO_TRAVEL')]",
-				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_TRAVEL')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/WORK_ATO_TRAVEL')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "WORK ATO TRAVEL",
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "tTravelID",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "tWorkplaceID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelStatus",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelDestination",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelStartDate",
-						"type": "date"
-					},
-					{
-						"name": "tTravelEndDate",
-						"type": "date"
-					},
-					{
-						"name": "tTravelRisk",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelQuarantine",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tCreateDateTime",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "tblTravel"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
 			]
 		}
 	]

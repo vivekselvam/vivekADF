@@ -1,0 +1,310 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Health Data Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Health Data",
+						"description": "Health Data Pipeline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"sqlWriterStoredProcedureName": "[[dbo].[Health_sto_proc]",
+								"sqlWriterTableType": "TypHealth",
+								"storedProcedureTableTypeParameterName": "Health"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "tID",
+											"type": "Guid"
+										},
+										"sink": {
+											"name": "tID",
+											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tReadDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tReadDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tReadTime",
+											"type": "TimeSpan"
+										},
+										"sink": {
+											"name": "tReadTime",
+											"type": "TimeSpan"
+										}
+									},
+									{
+										"source": {
+											"name": "tTemperature",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "tTemperature",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "tSymptoms",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tSymptoms",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tRisks",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tRisks",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tSeenDoc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tSeenDoc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "WORKATO_HEALTH",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "BOT_ANALYSIS_HEALTH",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "BOT Analysis"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Travel Data Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Travel Data Pipeline",
+				"activities": [
+					{
+						"name": "Travel Data",
+						"description": "Travel Data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "tTravelID",
+											"type": "Guid"
+										},
+										"sink": {
+											"name": "tTravelID",
+											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelStatus",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelStatus",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelDestination",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelDestination",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelStartDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tTravelStartDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelEndDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tTravelEndDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelRisk",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelRisk",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tTravelQuarantine",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tTravelQuarantine",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "WORK_ATO_TRAVEL",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "BOT_ANALYSIS_TRAVEL",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "BOT Analysis"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
