@@ -1501,7 +1501,10 @@
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"sqlWriterStoredProcedureName": "[[dbo].[Travel_sto_proc]",
+								"sqlWriterTableType": "TypTravel",
+								"storedProcedureTableTypeParameterName": "Travel"
 							},
 							"enableStaging": false,
 							"translator": {
