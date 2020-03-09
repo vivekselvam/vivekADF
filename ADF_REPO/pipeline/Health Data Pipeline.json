@@ -24,8 +24,7 @@
 						"type": "AzureSqlSink",
 						"sqlWriterStoredProcedureName": "[dbo].[Health_sto_proc]",
 						"sqlWriterTableType": "TypHealth",
-						"storedProcedureTableTypeParameterName": "Health",
-						"tableOption": "autoCreate"
+						"storedProcedureTableTypeParameterName": "Health"
 					},
 					"enableStaging": false,
 					"translator": {
