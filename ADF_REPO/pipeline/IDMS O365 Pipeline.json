@@ -1,0 +1,36 @@
+{
+	"name": "IDMS O365 Pipeline",
+	"properties": {
+		"description": "IDMS & o365 Data Pipeline",
+		"activities": [
+			{
+				"name": "IDMS O365 Pipeline",
+				"description": "IDMS O365 Pipeline",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "Office365Source",
+						"outputColumns": []
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "Office365Table1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
