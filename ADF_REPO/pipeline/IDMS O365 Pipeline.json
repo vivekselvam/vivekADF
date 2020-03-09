@@ -31,6 +31,14 @@
 						"type": "AzureSqlSink"
 					},
 					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"redirectIncompatibleRowSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureBlobStorage1",
+							"type": "LinkedServiceReference"
+						},
+						"path": "restapi"
+					},
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
