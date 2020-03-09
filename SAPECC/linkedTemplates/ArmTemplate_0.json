@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'RestService1'"
 		},
+		"Office365_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'Office365'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://Azure-Vault-Dev.vault.azure.net/"
@@ -38,6 +42,10 @@
 		"RestService1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "vivek02"
+		},
+		"Office365_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "vivek02@smrt.com.sg"
 		}
 	},
 	"variables": {
@@ -142,6 +150,26 @@
 				"type": "SelfHosted",
 				"description": "SAP ECC Integration Runtime",
 				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Office365')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Office 365 Service Connection",
+				"annotations": [],
+				"type": "Office365",
+				"typeProperties": {
+					"office365TenantId": "c88daf55-f4aa-4f79-a143-526402ab9a23",
+					"servicePrincipalTenantId": "c88daf55-f4aa-4f79-a143-526402ab9a23",
+					"servicePrincipalId": "[parameters('Office365_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('Office365_servicePrincipalKey')]"
+					}
+				}
 			},
 			"dependsOn": []
 		},
@@ -1091,67 +1119,6 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "tblHealth"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/WORK_ATO_TRAVEL')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "WORK ATO TRAVEL",
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "tTravelID",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "tWorkplaceID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelStatus",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelDestination",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelStartDate",
-						"type": "date"
-					},
-					{
-						"name": "tTravelEndDate",
-						"type": "date"
-					},
-					{
-						"name": "tTravelRisk",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tTravelQuarantine",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tCreateDateTime",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "tblTravel"
 				}
 			},
 			"dependsOn": [

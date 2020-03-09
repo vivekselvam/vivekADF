@@ -23,6 +23,9 @@
 		"SapHana1_connectionString": {
 			"value": ""
 		},
+		"Office365_servicePrincipalKey": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://Azure-Vault-Dev.vault.azure.net/"
 		},
@@ -55,6 +58,9 @@
 		},
 		"SAPED1_properties_typeProperties_systemNumber": {
 			"value": "00"
+		},
+		"Office365_properties_typeProperties_servicePrincipalId": {
+			"value": "vivek02@smrt.com.sg"
 		},
 		"containerUri": {
 			"value": ""

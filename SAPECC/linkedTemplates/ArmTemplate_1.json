@@ -49,6 +49,65 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/WORK_ATO_TRAVEL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "WORK ATO TRAVEL",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tTravelID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelDestination",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelStartDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelEndDate",
+						"type": "date"
+					},
+					{
+						"name": "tTravelRisk",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelQuarantine",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblTravel"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/WaterMarkTable')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -150,6 +209,312 @@
 				"connectVia": {
 					"referenceName": "SAP-IntegrationRuntime",
 					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Office365Table1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Office365",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Office365Table",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "BasicDataSet_v0.DirectReport_v0"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "IdMS_o365_WP csv.csv",
+						"container": "restapi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "String"
+					},
+					{
+						"name": "DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "String"
+					},
+					{
+						"name": "IsExecutiveEmployee",
+						"type": "String"
+					},
+					{
+						"name": "EmailId",
+						"type": "String"
+					},
+					{
+						"name": "TelephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "HomephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "PostalCode",
+						"type": "String"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "String"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "String"
+					},
+					{
+						"name": "IsActive",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "String"
+					},
+					{
+						"name": "CostCenter",
+						"type": "String"
+					},
+					{
+						"name": "CompanyName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DivisionName",
+						"type": "String"
+					},
+					{
+						"name": "SectionName",
+						"type": "String"
+					},
+					{
+						"name": "PositionName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeSubArea",
+						"type": "String"
+					},
+					{
+						"name": "EESubGroupName",
+						"type": "String"
+					},
+					{
+						"name": "BranchName",
+						"type": "String"
+					},
+					{
+						"name": "UnitName",
+						"type": "String"
+					},
+					{
+						"name": "WP.Full Name",
+						"type": "String"
+					},
+					{
+						"name": "WP.Email",
+						"type": "String"
+					},
+					{
+						"name": "WorkLocationDescription",
+						"type": "String"
+					},
+					{
+						"name": "Manager.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Manager.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "EEGroup Description",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IDMS_o365')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS o365 Data",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DisplayName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExecEmp",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TelNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomePhNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "date"
+					},
+					{
+						"name": "IsActive",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "nchar"
+					},
+					{
+						"name": "CostCenter",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeptName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DivName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SectName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubArea",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubGrpName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BranchName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UnitName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPFullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WrkLocDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EEGroupDesc",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "IdMS_o365_WP"
 				}
 			},
 			"dependsOn": []
@@ -874,7 +1239,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/WORK_ATO_TRAVEL')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
@@ -1218,6 +1585,378 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IDMS O365 Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS & o365 Data Pipeline",
+				"activities": [
+					{
+						"name": "IDMS O365 Pipeline",
+						"description": "IDMS O365 Pipeline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"redirectIncompatibleRowSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								},
+								"path": "restapi"
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "UserName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "UserName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DisplayName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DisplayName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EmployeeId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "IsExecutiveEmployee",
+											"type": "String"
+										},
+										"sink": {
+											"name": "IsExecEmp",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EmailId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EmailId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TelephoneNumber",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TelNumber",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "HomephoneNumber",
+											"type": "String"
+										},
+										"sink": {
+											"name": "HomePhNumber",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PostalCode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PostalCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PostalAddress",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PostalAddress",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TerminationDate",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TerminationDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "IsActive",
+											"type": "String"
+										},
+										"sink": {
+											"name": "IsActive",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeType",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EmployeeType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CostCenter",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CostCenter",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CompanyName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CompanyName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DepartmentName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DeptName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DivisionName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DivName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SectionName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SectName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PositionName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PostionName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeSubArea",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EESubArea",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EESubGroupName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EESubGrpName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BranchName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "BranchName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "UnitName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WP.Full Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "WPFullName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WP.Email",
+											"type": "String"
+										},
+										"sink": {
+											"name": "WPEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WorkLocationDescription",
+											"type": "String"
+										},
+										"sink": {
+											"name": "WrkLocDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Manager.DisplayName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "MgrDispName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Manager.EmailId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "MgrEmailId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Supervisor.DisplayName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SupDispName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Supervisor.EmailId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SupEmailId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EEGroup Description",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EEGroupDesc",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DelimitedText1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "IDMS_o365",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
+				"[concat(variables('factoryId'), '/datasets/IDMS_o365')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SAP Extraction')]",
@@ -1784,248 +2523,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapTableResource1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAP Incremental')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAP Incremental Load d",
-				"activities": [
-					{
-						"name": "dataflow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow1",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAP_ECC')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAP ECC",
-				"activities": [
-					{
-						"name": "Copy_zlxx",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "EKKO"
-							},
-							{
-								"name": "Destination",
-								"value": "[[dbo].[ekko]"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SapTableSource",
-								"rowCount": 1000,
-								"rfcTableOptions": "",
-								"customRfcReadTableFunctionModule": "",
-								"rfcTableFields": "ABGRU,ABSGR,ADDNR,ADRNR,AEDAT,ANGDT,ANGNR,AUREL_ALLOW,AUSNR,AUTLF,BEDAT,BNDDT,BSAKZ,BSART,BSTYP,BUDG_TYPE,BUKRS,BWBDT,CHECK_TYPE,CONTRACT_ALLOW,CON_DISTR_LEV,CON_OTB_REQ,CON_PREBOOK_LEV,DELPER_ALLOW,DESCRIPTION,DPAMT,DPDAT,DPPCT,DPTYP,EBELN,EINDT_ALLOW,EKGRP,EKGRP_ALLOW,EKORG,EQ_EINDT,EQ_WERKS,ERNAM,EXNUM,FIXPO,FIXPO_ALLOW,FORCE_CNT,FORCE_ID,FRGGR,FRGKE,FRGRL,FRGSX,FRGZU,GWLDT,HANDOVERLOC,HIERARCHY_EXISTS,IHRAN,IHREZ,INCO1,INCO2,KALSM,KDATB,KDATE,KEY_ID,KEY_ID_ALLOW,KNUMV,KONNR,KORNR,KTWRT,KUFIX,KUNNR,LANDS,LBLIF,LEGAL_CONTRACT,LIFNR,LIFRE,LLIEF,LOEKZ,LOGSY,LPHIS,LPONR,LTSNR_ALLOW,MANDT,MEMORY,MEMORYTYPE,MSR_ID,OTB_COND_TYPE,OTB_CURR,OTB_LEVEL,OTB_REASON,OTB_RES_VALUE,OTB_SPEC_VALUE,OTB_STATUS,OTB_VALUE,PINCR,POHF_TYPE,PROCSTAT,PSTYP_ALLOW,REASON_CODE,RELEASE_DATE,RELOC_ID,RELOC_SEQ_ID,RESWK,RETPC,RETTP,REVNO,RLWRT,SCMPROC,SHIPCOND,SOURCE_LOGSYS,SPRAS,SPR_RSN_PROFILE,STAFO,STAKO,STATU,STCEG,STCEG_L,SUBMI,TELF1,THRESHOLD_EXISTS,UNSEZ,UPINC,VERKF,VSART,VZSKZ,WAERS,WEAKT,WERKS_ALLOW,WKURS,ZBD1P,ZBD1T,ZBD2P,ZBD2T,ZBD3T,ZTERM",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "EBELN",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ebeln",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BUKRS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Company_Code",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSTYP",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Document_Category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSART",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Document_Type",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSAKZ",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Control_indicator",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LOEKZ",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Deletion_Indicator",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "STATU",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Status",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AEDAT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Created_on",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ERNAM",
-											"type": "String"
-										},
-										"sink": {
-											"name": "created_by",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "EKORG",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Org",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "EKGRP",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Grp",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "WAERS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Currency_Key",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RLWRT",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Total_Value_at_release",
-											"type": "Decimal"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_zlx",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_zlx",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_zlx')]"
 			]
 		}
 	]
