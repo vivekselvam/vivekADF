@@ -15,97 +15,128 @@
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": [
 			{
+				"name": "UserName",
 				"type": "String"
 			},
 			{
+				"name": "DisplayName",
 				"type": "String"
 			},
 			{
+				"name": "EmployeeId",
 				"type": "String"
 			},
 			{
+				"name": "IsExecutiveEmployee",
 				"type": "String"
 			},
 			{
+				"name": "EmailId",
 				"type": "String"
 			},
 			{
+				"name": "TelephoneNumber",
 				"type": "String"
 			},
 			{
+				"name": "HomephoneNumber",
 				"type": "String"
 			},
 			{
+				"name": "PostalCode",
 				"type": "String"
 			},
 			{
+				"name": "PostalAddress",
 				"type": "String"
 			},
 			{
+				"name": "TerminationDate",
 				"type": "String"
 			},
 			{
+				"name": "IsActive",
 				"type": "String"
 			},
 			{
+				"name": "EmployeeType",
 				"type": "String"
 			},
 			{
+				"name": "CostCenter",
 				"type": "String"
 			},
 			{
+				"name": "CompanyName",
 				"type": "String"
 			},
 			{
+				"name": "DepartmentName",
 				"type": "String"
 			},
 			{
+				"name": "DivisionName",
 				"type": "String"
 			},
 			{
+				"name": "SectionName",
 				"type": "String"
 			},
 			{
+				"name": "PositionName",
 				"type": "String"
 			},
 			{
+				"name": "EmployeeSubArea",
 				"type": "String"
 			},
 			{
+				"name": "EESubGroupName",
 				"type": "String"
 			},
 			{
+				"name": "BranchName",
 				"type": "String"
 			},
 			{
+				"name": "UnitName",
 				"type": "String"
 			},
 			{
+				"name": "WP.Full Name",
 				"type": "String"
 			},
 			{
+				"name": "WP.Email",
 				"type": "String"
 			},
 			{
+				"name": "WorkLocationDescription",
 				"type": "String"
 			},
 			{
+				"name": "Manager.DisplayName",
 				"type": "String"
 			},
 			{
+				"name": "Manager.EmailId",
 				"type": "String"
 			},
 			{
+				"name": "Supervisor.DisplayName",
 				"type": "String"
 			},
 			{
+				"name": "Supervisor.EmailId",
 				"type": "String"
 			},
 			{
+				"name": "EEGroup Description",
 				"type": "String"
 			}
 		]
