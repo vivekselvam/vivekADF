@@ -10,15 +10,15 @@
 				"typeProperties": {
 					"variableName": "Date",
 					"value": {
-						"value": "replace('variables('Date')', 'T', ' ')",
+						"value": "@replace(pipeline().parameters.Datetime, 'T', ' ')",
 						"type": "Expression"
 					}
 				}
 			}
 		],
-		"variables": {
-			"Date": {
-				"type": "String"
+		"parameters": {
+			"Datetime": {
+				"type": "string"
 			}
 		},
 		"annotations": []
