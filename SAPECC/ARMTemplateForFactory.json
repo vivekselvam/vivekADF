@@ -397,7 +397,14 @@
 						"name": "Health Data",
 						"description": "Health Data Pipeline",
 						"type": "Copy",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -409,6 +416,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select * from tblHealth where tCreateDateTime > '@{activity('Lookup1').output}'\n\n",
+									"type": "Expression"
+								},
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
@@ -528,8 +539,39 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select tdatetime from Watermark where tname = 'tblHealth'",
+								"queryTimeout": "02:00:00"
+							},
+							"dataset": {
+								"referenceName": "SQL_WaterMark_Table",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
 					}
 				],
+				"parameters": {
+					"v_datetime": {
+						"type": "string"
+					}
+				},
 				"folder": {
 					"name": "BOT Analysis"
 				},
@@ -537,7 +579,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/WORKATO_HEALTH')]",
-				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_HEALTH')]"
+				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_HEALTH')]",
+				"[concat(variables('factoryId'), '/datasets/SQL_WaterMark_Table')]"
 			]
 		},
 		{
@@ -3926,6 +3969,39 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Json1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQL_WaterMark_Table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SQL_WaterMark_Table",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tdatetime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Watermark"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
 			]
 		}
 	]

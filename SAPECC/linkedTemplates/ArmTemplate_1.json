@@ -368,6 +368,37 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SQL_WaterMark_Table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SQL_WaterMark_Table",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tdatetime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Watermark"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL Test')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -672,7 +703,14 @@
 						"name": "Health Data",
 						"description": "Health Data Pipeline",
 						"type": "Copy",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -684,6 +722,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select * from tblHealth where tCreateDateTime > '@{activity('Lookup1').output}'\n\n",
+									"type": "Expression"
+								},
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
@@ -803,15 +845,47 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select tdatetime from Watermark where tname = 'tblHealth'",
+								"queryTimeout": "02:00:00"
+							},
+							"dataset": {
+								"referenceName": "SQL_WaterMark_Table",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
 					}
 				],
+				"parameters": {
+					"v_datetime": {
+						"type": "string"
+					}
+				},
 				"folder": {
 					"name": "BOT Analysis"
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/WORKATO_HEALTH')]"
+				"[concat(variables('factoryId'), '/datasets/WORKATO_HEALTH')]",
+				"[concat(variables('factoryId'), '/datasets/SQL_WaterMark_Table')]"
 			]
 		},
 		{
@@ -1813,573 +1887,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAP Extraction')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAP P&S Extraction",
-				"activities": [
-					{
-						"name": "SAP PS Extraction",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapTableSource",
-								"rfcTableOptions": {
-									"value": "EXTRACTION_DATE > '@{activity('Lookup1').output.firstRow.WatermarkValue}'",
-									"type": "Expression"
-								},
-								"customRfcReadTableFunctionModule": "",
-								"rfcTableFields": "ASTTX,AUART,AUFNR,BDMNG,BDTER,BLDAT,BWART,CHARG,CONSIGN,CPUDT,CREATED_DATE,CREATED_TIME,DFULL,DIFOT,DISPO,DOCUSR,ENMNG,ERDAT,FTRMI,KOSTL,LGORT,MAKTX,MANDT,MATNR,MBLNR,MCAB,MEINS,MENGE,MVGFREQ,NAMTX,NDAYS,ONHAND,ONHAND2,ONHAND3,ONTIME,QDATU,RELEA,RSNUM,RSPOS,TANUM,TSOH,UDATE,UDEPT,USNAM,WEMPF,WERKS,XLOEK,XWAOK,EXTRACTION_DATE",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"sqlWriterStoredProcedureName": "[[dbo].[sapUpsertReservation]",
-								"sqlWriterTableType": "TypRes2",
-								"storedProcedureTableTypeParameterName": "Reservation",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "RSNUM",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Reservation Number",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RSPOS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Reservation Item",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "USNAM",
-											"type": "String"
-										},
-										"sink": {
-											"name": "User name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BWART",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Movement Type",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BDTER",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Requirement Date",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "CPUDT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Account Doc Creation Date",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MBLNR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Material Document",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AUFNR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Order Number",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MATNR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Material",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MEINS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Unit Of Measure",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MENGE",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Quantity",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "WEMPF",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Goods Recipient",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MAKTX",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Material Desc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BLDAT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Document Date",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DOCUSR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Document User",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "UDEPT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Department",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "WERKS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Plant",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "NAMTX",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Full name of Person",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "TANUM",
-											"type": "String"
-										},
-										"sink": {
-											"name": "TO Doc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "QDATU",
-											"type": "String"
-										},
-										"sink": {
-											"name": "TO Date",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "NDAYS",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "No Days",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "BDMNG",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "MR Qty",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ENMNG",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Final Issued Qty",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ONHAND",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "SOH Batch",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "DFULL",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Delivery in Full",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ONTIME",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Delivery ontime",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "DIFOT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "DIFOT",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "KOSTL",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Cost Center",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "XLOEK",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Item deleted",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "XWAOK",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Mvt allowed",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LGORT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "SLoc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "CHARG",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Batch",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AUART",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Order type",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ERDAT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Created Date",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ASTTX",
-											"type": "String"
-										},
-										"sink": {
-											"name": "User status",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RELEA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Release",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "FTRMI",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Release date",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "UDATE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Unblock date",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MVGFREQ",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Moving Freq",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ONHAND2",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "SOH SLoc",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "CONSIGN",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Consignment Stock",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "DISPO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "MRP Controller",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "MCAB",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "MCAB",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "TSOH",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "SOH Plant",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "ONHAND3",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "SOH Company",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "CREATED_DATE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CREATED_DATE",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "CREATED_TIME",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CREATED_TIME",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapTableResource1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource"
-							},
-							"dataset": {
-								"referenceName": "AzureSqlTable2",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": true
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapTableResource1')]"
-			]
 		}
 	]
 }
