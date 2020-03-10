@@ -187,7 +187,7 @@
 				"typeProperties": {
 					"variableName": "Datetime",
 					"value": {
-						"value": "variables('Datetime') = replace('@{activity('Lookup1').output}','Z',' ')",
+						"value": "replace('@{activity('Lookup1').output}','Z',' ')",
 						"type": "Expression"
 					}
 				}
