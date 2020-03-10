@@ -173,11 +173,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"v_datetime": {
-				"type": "string"
-			}
-		},
 		"folder": {
 			"name": "BOT Analysis"
 		},
