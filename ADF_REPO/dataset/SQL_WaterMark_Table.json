@@ -1,0 +1,28 @@
+{
+	"name": "SQL_WaterMark_Table",
+	"properties": {
+		"description": "SQL_WaterMark_Table",
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "tname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tdatetime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Watermark"
+		}
+	}
+}
