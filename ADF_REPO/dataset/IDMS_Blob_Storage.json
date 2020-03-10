@@ -1,6 +1,7 @@
 {
-	"name": "DelimitedText1",
+	"name": "IDMS_Blob_Storage",
 	"properties": {
+		"description": "IDMS BLOB Storage",
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
