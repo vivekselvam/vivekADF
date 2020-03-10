@@ -1,0 +1,200 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Health Data Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Health Data",
+						"description": "Health Data Pipeline",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select * from tblHealth where tCreateDateTime > '@{activity('Lookup1').output}'\n\n",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"sqlWriterStoredProcedureName": "[[dbo].[Health_sto_proc]",
+								"sqlWriterTableType": "TypHealth",
+								"storedProcedureTableTypeParameterName": "Health"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "tID",
+											"type": "Guid"
+										},
+										"sink": {
+											"name": "tID",
+											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tReadDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tReadDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tReadTime",
+											"type": "TimeSpan"
+										},
+										"sink": {
+											"name": "tReadTime",
+											"type": "TimeSpan"
+										}
+									},
+									{
+										"source": {
+											"name": "tTemperature",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "tTemperature",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "tSymptoms",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tSymptoms",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tRisks",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tRisks",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tSeenDoc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tSeenDoc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "WORKATO_HEALTH",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "BOT_ANALYSIS_HEALTH",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select tdatetime from Watermark where tname = 'tblHealth'",
+								"queryTimeout": "02:00:00"
+							},
+							"dataset": {
+								"referenceName": "SQL_WaterMark_Table",
+								"type": "DatasetReference"
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"folder": {
+					"name": "BOT Analysis"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
