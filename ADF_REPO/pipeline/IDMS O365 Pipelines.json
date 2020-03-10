@@ -1,5 +1,5 @@
 {
-	"name": "IDMS O365 Pipeline",
+	"name": "IDMS O365 Pipelines",
 	"properties": {
 		"description": "IDMS & o365 Data Pipeline",
 		"activities": [
