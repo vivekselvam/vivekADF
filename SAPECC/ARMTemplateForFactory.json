@@ -581,7 +581,7 @@
 						"typeProperties": {
 							"variableName": "Datetime",
 							"value": {
-								"value": "variables('Datetime') = replace('@{activity('Lookup1').output}','Z',' ')",
+								"value": "replace('@{activity('Lookup1').output}','Z',' ')",
 								"type": "Expression"
 							}
 						}
@@ -4023,6 +4023,35 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "Date",
+							"value": {
+								"value": "replace('variables('Date')', 'T', ' ')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"variables": {
+					"Date": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
 		}
 	]
 }
