@@ -8,7 +8,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Append variable1",
+						"activity": "Set variable1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -173,9 +173,8 @@
 				}
 			},
 			{
-				"name": "Append variable1",
-				"description": "Test",
-				"type": "AppendVariable",
+				"name": "Set variable1",
+				"type": "SetVariable",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
