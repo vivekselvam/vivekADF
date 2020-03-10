@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase3'"
 		},
+		"Office365_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'Office365'"
+		},
 		"RestService1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'RestService1'"
@@ -31,13 +35,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
 		},
-		"Office365_servicePrincipalKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalKey' of 'Office365'"
-		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://Azure-Vault-Dev.vault.azure.net/"
+		},
+		"Office365_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "vivek02@smrt.com.sg"
 		},
 		"RestService1_properties_typeProperties_url": {
 			"type": "string",
@@ -79,10 +83,6 @@
 			"type": "string",
 			"defaultValue": "00"
 		},
-		"Office365_properties_typeProperties_servicePrincipalId": {
-			"type": "string",
-			"defaultValue": "vivek02@smrt.com.sg"
-		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -122,23 +122,23 @@
 					"AzureSqlDatabase3_connectionString": {
 						"value": "[parameters('AzureSqlDatabase3_connectionString')]"
 					},
-					"RestService1_password": {
-						"value": "[parameters('RestService1_password')]"
-					},
 					"Office365_servicePrincipalKey": {
 						"value": "[parameters('Office365_servicePrincipalKey')]"
 					},
+					"RestService1_password": {
+						"value": "[parameters('RestService1_password')]"
+					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+					},
+					"Office365_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('Office365_properties_typeProperties_servicePrincipalId')]"
 					},
 					"RestService1_properties_typeProperties_url": {
 						"value": "[parameters('RestService1_properties_typeProperties_url')]"
 					},
 					"RestService1_properties_typeProperties_userName": {
 						"value": "[parameters('RestService1_properties_typeProperties_userName')]"
-					},
-					"Office365_properties_typeProperties_servicePrincipalId": {
-						"value": "[parameters('Office365_properties_typeProperties_servicePrincipalId')]"
 					}
 				}
 			},

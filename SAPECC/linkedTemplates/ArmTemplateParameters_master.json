@@ -17,17 +17,20 @@
 		"AzureSqlDatabase3_connectionString": {
 			"value": ""
 		},
+		"Office365_servicePrincipalKey": {
+			"value": ""
+		},
 		"RestService1_password": {
 			"value": ""
 		},
 		"SapHana1_connectionString": {
 			"value": ""
 		},
-		"Office365_servicePrincipalKey": {
-			"value": ""
-		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://Azure-Vault-Dev.vault.azure.net/"
+		},
+		"Office365_properties_typeProperties_servicePrincipalId": {
+			"value": "vivek02@smrt.com.sg"
 		},
 		"RestService1_properties_typeProperties_url": {
 			"value": "https://surveybot.io"
@@ -58,9 +61,6 @@
 		},
 		"SAPED1_properties_typeProperties_systemNumber": {
 			"value": "00"
-		},
-		"Office365_properties_typeProperties_servicePrincipalId": {
-			"value": "vivek02@smrt.com.sg"
 		},
 		"containerUri": {
 			"value": ""

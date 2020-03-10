@@ -23,17 +23,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase3'"
 		},
-		"RestService1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'RestService1'"
-		},
 		"Office365_servicePrincipalKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'servicePrincipalKey' of 'Office365'"
 		},
+		"RestService1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'RestService1'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://Azure-Vault-Dev.vault.azure.net/"
+		},
+		"Office365_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "vivek02@smrt.com.sg"
 		},
 		"RestService1_properties_typeProperties_url": {
 			"type": "string",
@@ -42,10 +46,6 @@
 		"RestService1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "vivek02"
-		},
-		"Office365_properties_typeProperties_servicePrincipalId": {
-			"type": "string",
-			"defaultValue": "vivek02@smrt.com.sg"
 		}
 	},
 	"variables": {
@@ -123,6 +123,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Office365')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Office 365 Service Connection",
+				"annotations": [],
+				"type": "Office365",
+				"typeProperties": {
+					"office365TenantId": "c88daf55-f4aa-4f79-a143-526402ab9a23",
+					"servicePrincipalTenantId": "c88daf55-f4aa-4f79-a143-526402ab9a23",
+					"servicePrincipalId": "[parameters('Office365_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('Office365_servicePrincipalKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RestService1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -150,26 +170,6 @@
 				"type": "SelfHosted",
 				"description": "SAP ECC Integration Runtime",
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Office365')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Office 365 Service Connection",
-				"annotations": [],
-				"type": "Office365",
-				"typeProperties": {
-					"office365TenantId": "c88daf55-f4aa-4f79-a143-526402ab9a23",
-					"servicePrincipalTenantId": "c88daf55-f4aa-4f79-a143-526402ab9a23",
-					"servicePrincipalId": "[parameters('Office365_properties_typeProperties_servicePrincipalId')]",
-					"servicePrincipalKey": {
-						"type": "SecureString",
-						"value": "[parameters('Office365_servicePrincipalKey')]"
-					}
-				}
 			},
 			"dependsOn": []
 		},
@@ -866,6 +866,156 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "IdMS_o365_WP Delimited.csv",
+						"folderPath": "Health And Travel/o365 And IDMS Files",
+						"container": "restapi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "String"
+					},
+					{
+						"name": "DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "String"
+					},
+					{
+						"name": "IsExecutiveEmployee",
+						"type": "String"
+					},
+					{
+						"name": "EmailId",
+						"type": "String"
+					},
+					{
+						"name": "TelephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "HomephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "PostalCode",
+						"type": "String"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "String"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "String"
+					},
+					{
+						"name": "IsActive",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "String"
+					},
+					{
+						"name": "CostCenter",
+						"type": "String"
+					},
+					{
+						"name": "CompanyName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DivisionName",
+						"type": "String"
+					},
+					{
+						"name": "SectionName",
+						"type": "String"
+					},
+					{
+						"name": "PositionName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeSubArea",
+						"type": "String"
+					},
+					{
+						"name": "EESubGroupName",
+						"type": "String"
+					},
+					{
+						"name": "BranchName",
+						"type": "String"
+					},
+					{
+						"name": "UnitName",
+						"type": "String"
+					},
+					{
+						"name": "WP.Full Name",
+						"type": "String"
+					},
+					{
+						"name": "WP.Email",
+						"type": "String"
+					},
+					{
+						"name": "WorkLocationDescription",
+						"type": "String"
+					},
+					{
+						"name": "Manager.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Manager.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "EEGroup Description",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_zlx')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -941,6 +1091,149 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IDMS_o365')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS o365 Data",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DisplayName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExecEmp",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TelNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomePhNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "date"
+					},
+					{
+						"name": "IsActive",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "nchar"
+					},
+					{
+						"name": "CostCenter",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeptName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DivName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SectName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubArea",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubGrpName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BranchName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UnitName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPFullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WrkLocDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EEGroupDesc",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "IdMS_test"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Json1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -966,163 +1259,23 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"name": "[concat(parameters('factoryName'), '/Office365Table1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
+					"referenceName": "Office365",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "Parquet",
+				"type": "Office365Table",
+				"schema": [],
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "data_9953298f-34c8-44d8-a45d-030efa99f637_9bc99a4c-2247-4f55-923f-7efc49645462.parquet",
-						"folderPath": "bot",
-						"container": "myrestapi"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "started_at",
-						"type": "UTF8"
-					},
-					{
-						"name": "completed_at",
-						"type": "UTF8"
-					},
-					{
-						"name": "id",
-						"type": "UTF8"
-					},
-					{
-						"name": "emp_id",
-						"type": "INT64"
-					},
-					{
-						"name": "name",
-						"type": "UTF8"
-					},
-					{
-						"name": "first_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "last_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "question_id",
-						"type": "INT64"
-					},
-					{
-						"name": "question_text",
-						"type": "UTF8"
-					},
-					{
-						"name": "content",
-						"type": "UTF8"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "RestService1",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"url": {
-						"type": "string",
-						"defaultValue": "1"
-					}
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {
-					"relativeUrl": {
-						"value": "@{concat('https://surveybot.io/api/v1/surveys/4cd466510cda3fda20b4fb320e6de470/responses?page=',dataset().url,'&per_page=5&offset=0&api_key=Z4ehauCnEHozaX_JGcLR9eYf26Aj6SApp4_eEp-HKnYD_t2eOXjncLynX4qqtX-P9x28B4Mnqud6Rx0Q')}",
-						"type": "Expression"
-					}
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/WORKATO_HEALTH')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "WORK ATO HEALTH",
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "tID",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "tWorkplaceID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tReadDate",
-						"type": "date"
-					},
-					{
-						"name": "tReadTime",
-						"type": "time",
-						"scale": 7
-					},
-					{
-						"name": "tTemperature",
-						"type": "decimal",
-						"precision": 5,
-						"scale": 2
-					},
-					{
-						"name": "tSymptoms",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tRisks",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tSeenDoc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tCreateDateTime",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "tblHealth"
+					"tableName": "BasicDataSet_v0.DirectReport_v0"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
+				"[concat(variables('factoryId'), '/linkedServices/Office365')]"
 			]
 		}
 	]
