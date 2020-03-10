@@ -705,7 +705,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Append variable1",
+								"activity": "Set variable1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -873,8 +873,8 @@
 						}
 					},
 					{
-						"name": "Append variable1",
-						"type": "AppendVariable",
+						"name": "Set variable1",
+						"type": "SetVariable",
 						"dependsOn": [
 							{
 								"activity": "Lookup1",
@@ -887,7 +887,7 @@
 						"typeProperties": {
 							"variableName": "Test",
 							"value": {
-								"value": "@replace(activity('Lookup1').output, 'T', '')",
+								"value": "replace('@{activity('Lookup1').output}', 'T', '')\n",
 								"type": "Expression"
 							}
 						}
