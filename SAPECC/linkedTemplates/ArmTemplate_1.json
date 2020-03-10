@@ -887,7 +887,7 @@
 						"typeProperties": {
 							"variableName": "Test",
 							"value": {
-								"value": "replace('@{activity('Lookup1').output}', 'T', '')\n",
+								"value": "replace('@{activity('Lookup1').output}', 'T', 'U')\n",
 								"type": "Expression"
 							}
 						}
