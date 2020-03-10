@@ -399,7 +399,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Lookup1",
+								"activity": "Set variable1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -416,6 +416,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select tID, tWorkplaceID, tReadDate, tReadTime, tTemperature, tSymptoms, tRisks, tSeenDoc, tCreateDateTime from tblHealth where tCreateDateTime > '@{variables('Datetime')}'\n\n",
+									"type": "Expression"
+								},
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
@@ -561,8 +565,33 @@
 							},
 							"firstRowOnly": false
 						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "Datetime",
+							"value": {
+								"value": "replace('@{activity('Lookup1').output}','Z',' ')",
+								"type": "Expression"
+							}
+						}
 					}
 				],
+				"variables": {
+					"Datetime": {
+						"type": "String"
+					}
+				},
 				"folder": {
 					"name": "BOT Analysis"
 				},
