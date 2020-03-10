@@ -815,7 +815,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IDMS O365 Pipeline')]",
+			"name": "[concat(parameters('factoryName'), '/IDMS O365 Pipelines')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
