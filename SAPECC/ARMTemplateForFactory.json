@@ -417,7 +417,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select * from tblHealth where tCreateDateTime > '@{activity('Lookup1').output}'\n\n",
+									"value": "select tID, tWorkplaceID, tReadDate, tReadTime, tTemperature, tSymptoms, tRisks, tSeenDoc, tCreateDateTime from tblHealth where tCreateDateTime > '@{activity('Lookup1').output}'\n\n",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00"
@@ -468,7 +468,7 @@
 											"type": "TimeSpan"
 										},
 										"sink": {
-											"name": "tReadTime",
+											"name": "tReadtime",
 											"type": "TimeSpan"
 										}
 									},
