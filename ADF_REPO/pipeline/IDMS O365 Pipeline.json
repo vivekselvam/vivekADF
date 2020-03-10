@@ -37,7 +37,7 @@
 							"referenceName": "AzureBlobStorage1",
 							"type": "LinkedServiceReference"
 						},
-						"path": "restapi"
+						"path": "restapi/Health And Travel/o365 Error Logs"
 					},
 					"translator": {
 						"type": "TabularTranslator",
@@ -359,6 +359,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "BOT Analysis"
+		},
 		"annotations": []
 	}
 }
