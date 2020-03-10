@@ -10,7 +10,7 @@
 				"typeProperties": {
 					"variableName": "Date",
 					"value": {
-						"value": "@replace(pipeline().parameters.Datetime, 'T', ' ')",
+						"value": "@replace('@{pipeline().parameters.Datetime}', 'T', ' ')",
 						"type": "Expression"
 					}
 				}
