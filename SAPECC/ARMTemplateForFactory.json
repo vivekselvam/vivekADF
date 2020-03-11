@@ -397,14 +397,7 @@
 						"name": "Health Data",
 						"description": "Health Data Pipeline",
 						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Set variable1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -416,10 +409,6 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "select tID, tWorkplaceID, tReadDate, tReadTime, tTemperature, tSymptoms, tRisks, tSeenDoc, tCreateDateTime from tblHealth where tCreateDateTime > '@{variables('Datetime')}'\n\n",
-									"type": "Expression"
-								},
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
@@ -539,52 +528,6 @@
 								"parameters": {}
 							}
 						]
-					},
-					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select tdatetime from Watermark where tname = 'tblHealth'",
-								"queryTimeout": "02:00:00"
-							},
-							"dataset": {
-								"referenceName": "SQL_WaterMark_Table",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "Datetime",
-							"value": {
-								"value": "replace('@{activity('Lookup1').output}','Z',' ')",
-								"type": "Expression"
-							}
-						}
 					}
 				],
 				"variables": {
@@ -599,8 +542,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/WORKATO_HEALTH')]",
-				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_HEALTH')]",
-				"[concat(variables('factoryId'), '/datasets/SQL_WaterMark_Table')]"
+				"[concat(variables('factoryId'), '/datasets/BOT_ANALYSIS_HEALTH')]"
 			]
 		},
 		{
