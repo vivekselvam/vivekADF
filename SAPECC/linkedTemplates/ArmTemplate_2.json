@@ -633,7 +633,7 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"source1": {},
+									"HealthData": {},
 									"sink1": {}
 								}
 							},
