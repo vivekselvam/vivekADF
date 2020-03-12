@@ -28,6 +28,7 @@
 						"storedProcedureTableTypeParameterName": "Travel"
 					},
 					"enableStaging": false,
+					"enableSkipIncompatibleRow": false,
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
