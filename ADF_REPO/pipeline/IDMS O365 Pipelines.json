@@ -135,7 +135,7 @@
 							},
 							{
 								"source": {
-									"name": "TerminationDate",
+									"name": "Termination Date",
 									"type": "String"
 								},
 								"sink": {
