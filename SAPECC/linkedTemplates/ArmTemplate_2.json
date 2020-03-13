@@ -932,6 +932,38 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow2')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Health Data Trigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Health Data Trigger",
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Health Data_Flow",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 30,
+						"startTime": "2020-03-13T01:30:00.000Z",
+						"endTime": "2020-03-14T01:17:00.000Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Health Data_Flow')]"
+			]
 		}
 	]
 }
