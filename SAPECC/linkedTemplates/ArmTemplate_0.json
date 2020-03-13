@@ -913,7 +913,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "IDMS File 12th March.csv",
+						"fileName": "IdMS_o365_WP 13 March 2020.csv",
 						"folderPath": "Health And Travel/o365 And IDMS Files",
 						"container": "restapi"
 					},
@@ -1255,6 +1255,10 @@
 					},
 					{
 						"name": "EEGroupDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BU",
 						"type": "nvarchar"
 					}
 				],

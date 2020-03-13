@@ -1007,7 +1007,7 @@
 									},
 									{
 										"source": {
-											"name": "Termination Date",
+											"name": "TerminationDate",
 											"type": "String"
 										},
 										"sink": {
@@ -1212,6 +1212,16 @@
 										},
 										"sink": {
 											"name": "EEGroupDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BU",
+											"type": "String"
+										},
+										"sink": {
+											"name": "BU",
 											"type": "String"
 										}
 									}
