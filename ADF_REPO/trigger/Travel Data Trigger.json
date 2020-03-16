@@ -1,0 +1,26 @@
+{
+	"name": "Travel Data Trigger",
+	"properties": {
+		"description": "Travel Data Trigger",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Travel Data Pipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 1,
+				"startTime": "2020-03-16T01:44:00.000Z",
+				"endTime": "2020-03-20T01:44:00.000Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
