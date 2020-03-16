@@ -1,21 +1,6 @@
 {
 	"name": "pipeline2",
 	"properties": {
-		"activities": [
-			{
-				"name": "Set variable11",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Date",
-					"value": {
-						"value": "@replace('@{pipeline().parameters.Datetime}', 'T', ' ')",
-						"type": "Expression"
-					}
-				}
-			}
-		],
 		"parameters": {
 			"Datetime": {
 				"type": "string"
