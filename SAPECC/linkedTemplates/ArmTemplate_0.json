@@ -1088,6 +1088,10 @@
 					{
 						"name": "EEGroup Description",
 						"type": "String"
+					},
+					{
+						"name": "BU",
+						"type": "String"
 					}
 				]
 			},
