@@ -29,7 +29,10 @@
 						}
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"sqlWriterStoredProcedureName": "[dbo].[IDMS_sto_test]",
+						"sqlWriterTableType": "TypIdms_o365_WP",
+						"storedProcedureTableTypeParameterName": "Idms"
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
