@@ -89,7 +89,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL Test')]",
+			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -581,6 +581,9 @@
 						}
 					}
 				],
+				"folder": {
+					"name": "BOT Analysis"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -4026,6 +4029,38 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Travel Data Trigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Travel Data Trigger",
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Travel Data Pipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 1,
+						"startTime": "2020-03-16T02:00:00.000Z",
+						"endTime": "2020-04-10T03:30:00.000Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Travel Data Pipeline')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SAP-IntegrationRuntime')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -4113,38 +4148,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/IDMS_Blob_Storage')]",
 				"[concat(variables('factoryId'), '/datasets/IDMS_o365')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Travel Data Trigger')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Travel Data Trigger",
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Travel Data Pipeline",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Hour",
-						"interval": 1,
-						"startTime": "2020-03-16T02:00:00.000Z",
-						"endTime": "2020-04-10T03:30:00.000Z",
-						"timeZone": "UTC"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Travel Data Pipeline')]"
 			]
 		}
 	]
