@@ -1,0 +1,7 @@
+{
+	"name": "DWH-IR",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "DWH Integration Runtime"
+	}
+}
