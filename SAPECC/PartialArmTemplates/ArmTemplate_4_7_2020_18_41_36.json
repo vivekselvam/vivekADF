@@ -1,0 +1,169 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/IDMS_Blob_Storage')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS BLOB Storage",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "IdMS_o365_WP_latest 7th April latest.csv",
+						"folderPath": "Health And Travel/o365 And IDMS Files",
+						"container": "restapi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "String"
+					},
+					{
+						"name": "DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "String"
+					},
+					{
+						"name": "IsExecutiveEmployee",
+						"type": "String"
+					},
+					{
+						"name": "EmailId",
+						"type": "String"
+					},
+					{
+						"name": "TelephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "HomephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "PostalCode",
+						"type": "String"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "String"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "String"
+					},
+					{
+						"name": "IsActive",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "String"
+					},
+					{
+						"name": "CostCenter",
+						"type": "String"
+					},
+					{
+						"name": "CompanyName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DivisionName",
+						"type": "String"
+					},
+					{
+						"name": "SectionName",
+						"type": "String"
+					},
+					{
+						"name": "PositionName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeSubArea",
+						"type": "String"
+					},
+					{
+						"name": "EESubGroupName",
+						"type": "String"
+					},
+					{
+						"name": "BranchName",
+						"type": "String"
+					},
+					{
+						"name": "UnitName",
+						"type": "String"
+					},
+					{
+						"name": "WP.Full Name",
+						"type": "String"
+					},
+					{
+						"name": "WP.Email",
+						"type": "String"
+					},
+					{
+						"name": "WorkLocationDescription",
+						"type": "String"
+					},
+					{
+						"name": "Manager.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Manager.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "EEGroup Description",
+						"type": "String"
+					},
+					{
+						"name": "BU",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		}
+	]
+}
