@@ -163,6 +163,17 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DWH-IR')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"description": "DWH Integration Runtime",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SAP-IntegrationRuntime')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -959,7 +970,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "IdMS 16th March.csv",
+						"fileName": "IdMS_o365_WP_latest 7th April.csv",
 						"folderPath": "Health And Travel/o365 And IDMS Files",
 						"container": "restapi"
 					},
@@ -1239,7 +1250,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "IdMS_test"
+					"table": "IdMS_o365_WP"
 				}
 			},
 			"dependsOn": [
@@ -1269,26 +1280,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Office365Table1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Office365",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Office365Table",
-				"schema": [],
-				"typeProperties": {
-					"tableName": "BasicDataSet_v0.DirectReport_v0"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Office365')]"
 			]
 		}
 	]

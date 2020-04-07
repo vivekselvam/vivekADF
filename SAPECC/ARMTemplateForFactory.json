@@ -623,10 +623,7 @@
 								}
 							},
 							"sink": {
-								"type": "AzureSqlSink",
-								"sqlWriterStoredProcedureName": "[[dbo].[IDMS_sto_test]",
-								"sqlWriterTableType": "TypIdms_o365_WP",
-								"storedProcedureTableTypeParameterName": "Idms"
+								"type": "AzureSqlSink"
 							},
 							"enableStaging": false,
 							"enableSkipIncompatibleRow": true,
@@ -3144,7 +3141,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "IdMS 16th March.csv",
+						"fileName": "IdMS_o365_WP_latest 7th April.csv",
 						"folderPath": "Health And Travel/o365 And IDMS Files",
 						"container": "restapi"
 					},
@@ -3424,7 +3421,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "IdMS_test"
+					"table": "IdMS_o365_WP"
 				}
 			},
 			"dependsOn": [
@@ -4059,6 +4056,17 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/Travel Data Pipeline')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DWH-IR')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"description": "DWH Integration Runtime",
+				"typeProperties": {}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SAP-IntegrationRuntime')]",
