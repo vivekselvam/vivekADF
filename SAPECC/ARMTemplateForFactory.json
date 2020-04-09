@@ -4157,6 +4157,161 @@
 				"[concat(variables('factoryId'), '/datasets/IDMS_Blob_Storage')]",
 				"[concat(variables('factoryId'), '/datasets/IDMS_o365')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1_copy2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "WORKATO_HEALTH",
+								"type": "DatasetReference"
+							},
+							"name": "HealthData"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "TblHtest",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedColumn1"
+						},
+						{
+							"name": "AlterRow1"
+						},
+						{
+							"name": "Filter1"
+						}
+					],
+					"script": "source(output(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> HealthData\nFilter1 derive(concern = case(tSymptoms == 'Yes', 'Yes',tSeenDoc == 'Yes', 'Yes', tRisks == 'Yes', 'Yes', tTemperature >= 38.00, 'Yes','No')) ~> DerivedColumn1\nDerivedColumn1 alterRow(upsertIf(tID!='')) ~> AlterRow1\nHealthData filter(tReadDate > addDays(currentDate(), -1)) ~> Filter1\nAlterRow1 sink(input(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\tConcern as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['tID'],\n\tformat: 'table',\n\tmapColumn(\n\t\ttID,\n\t\ttWorkplaceID,\n\t\ttReadDate,\n\t\ttReadTime,\n\t\ttTemperature,\n\t\ttSymptoms,\n\t\ttRisks,\n\t\ttSeenDoc,\n\t\ttCreateDateTime,\n\t\tConcern = concern\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/WORKATO_HEALTH')]",
+				"[concat(variables('factoryId'), '/datasets/TblHtest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TblHtest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "TblHtest",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tReadDate",
+						"type": "date"
+					},
+					{
+						"name": "tReadTime",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "tTemperature",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 2
+					},
+					{
+						"name": "tSymptoms",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tRisks",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tSeenDoc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Concern",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblHtest"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HPTEST')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Health_Test",
+				"activities": [
+					{
+						"name": "dataflow1_copy2",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1_copy2",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"HealthData": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1_copy2')]"
+			]
 		}
 	]
 }
