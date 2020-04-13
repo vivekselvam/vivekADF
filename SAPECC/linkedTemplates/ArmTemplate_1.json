@@ -190,6 +190,72 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/TblHtest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "TblHtest",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "tID",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tReadDate",
+						"type": "date"
+					},
+					{
+						"name": "tReadTime",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "tTemperature",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 2
+					},
+					{
+						"name": "tSymptoms",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tRisks",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tSeenDoc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Concern",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblHtest"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/WORKATO_HEALTH')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -412,72 +478,6 @@
 				"connectVia": {
 					"referenceName": "SAP-IntegrationRuntime",
 					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TblHtest')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "TblHtest",
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase3",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "tID",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "tWorkplaceID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tReadDate",
-						"type": "date"
-					},
-					{
-						"name": "tReadTime",
-						"type": "time",
-						"scale": 7
-					},
-					{
-						"name": "tTemperature",
-						"type": "decimal",
-						"precision": 5,
-						"scale": 2
-					},
-					{
-						"name": "tSymptoms",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tRisks",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tSeenDoc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "tCreateDateTime",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Concern",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "tblHtest"
 				}
 			},
 			"dependsOn": []
