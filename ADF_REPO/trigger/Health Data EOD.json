@@ -1,0 +1,25 @@
+{
+	"name": "Health Data EOD",
+	"properties": {
+		"description": "Health Data EOD",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Health Data_Flow",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2020-04-27T15:59:00.000Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
