@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "Health Data EOD",
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [
 			{
 				"pipelineReference": {
