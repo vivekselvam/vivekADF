@@ -4105,6 +4105,38 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Health Data EOD')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Health Data EOD",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Health Data_Flow",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2020-04-27T15:59:00.000Z",
+						"timeZone": "UTC",
+						"schedule": {}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Health Data_Flow')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Health Data Trigger')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -4314,38 +4346,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/IDMS_Blob_Storage')]",
 				"[concat(variables('factoryId'), '/datasets/IDMS_o365')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Health Data EOD')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Health Data EOD",
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Health Data_Flow",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Day",
-						"interval": 1,
-						"startTime": "2020-04-27T15:59:00.000Z",
-						"timeZone": "UTC",
-						"schedule": {}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Health Data_Flow')]"
 			]
 		}
 	]
