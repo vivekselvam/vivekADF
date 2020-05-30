@@ -53,6 +53,10 @@
 			{
 				"name": "Concern",
 				"type": "nvarchar"
+			},
+			{
+				"name": "tTravelHistory",
+				"type": "nchar"
 			}
 		],
 		"typeProperties": {
