@@ -31,10 +31,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'RestService1'"
 		},
-		"SapHana1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
-		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://Azure-Vault-Dev.vault.azure.net/"
@@ -157,9 +153,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"SapHana1_connectionString": {
-						"value": "[parameters('SapHana1_connectionString')]"
 					},
 					"SAPECC_properties_typeProperties_clientId": {
 						"value": "[parameters('SAPECC_properties_typeProperties_clientId')]"

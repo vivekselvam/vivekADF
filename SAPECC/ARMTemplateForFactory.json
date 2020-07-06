@@ -31,10 +31,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'RestService1'"
 		},
-		"SapHana1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
-		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://Azure-Vault-Dev.vault.azure.net/"
@@ -1807,6 +1803,67 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SAP data copy')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAP data copy",
+				"activities": [
+					{
+						"name": "Copy SAP Data",
+						"description": "SAP Data Provisioning",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapTableResource1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SapTableResource1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SAP_ECC')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3188,7 +3245,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "IDMS File 29th June.csv",
+						"fileName": "IDMS File 6th July.csv",
 						"folderPath": "Health And Travel/o365 And IDMS Files",
 						"container": "restapi"
 					},
@@ -3614,6 +3671,93 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/RestService1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQL_Dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SQL Table",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Expr1",
+						"type": "varchar"
+					},
+					{
+						"name": "ebeln",
+						"type": "varchar"
+					},
+					{
+						"name": "Company_Code",
+						"type": "char"
+					},
+					{
+						"name": "Purchasing_Document_Category",
+						"type": "char"
+					},
+					{
+						"name": "Purchasing_Document_Type",
+						"type": "char"
+					},
+					{
+						"name": "Control_indicator",
+						"type": "char"
+					},
+					{
+						"name": "Deletion_Indicator",
+						"type": "char"
+					},
+					{
+						"name": "Status",
+						"type": "char"
+					},
+					{
+						"name": "Created_on",
+						"type": "char"
+					},
+					{
+						"name": "created_by",
+						"type": "char"
+					},
+					{
+						"name": "Purchasing_Org",
+						"type": "char"
+					},
+					{
+						"name": "Purchasing_Grp",
+						"type": "char"
+					},
+					{
+						"name": "Currency_Key",
+						"type": "char"
+					},
+					{
+						"name": "Total_Value_at_release",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 2
+					},
+					{
+						"name": "Expr2",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "View_PurchaseOrder"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		},
 		{
@@ -4090,26 +4234,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/SAP-IntegrationRuntime')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapHana1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "HANA views",
-				"annotations": [],
-				"type": "SapHana",
-				"typeProperties": {
-					"connectionString": "[parameters('SapHana1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "SAP-IntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SAP-IntegrationRuntime')]"
 			]
 		},
 		{
