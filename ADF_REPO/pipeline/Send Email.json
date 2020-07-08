@@ -59,6 +59,34 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Send email",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-09.southeastasia.logic.azure.com:443/workflows/3713947e21834d359c94cdea99b72ffa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kwXFghPWbwv1zf0cjx6MLveuskmkIuhHSqPGbr50_nE",
+					"method": "POST",
+					"body": {
+						"value": "{\n \"title\": \"PIPELINE RUN FINISHED\",\n \"message\": \"PIPELINE FINISHED RUNNING SUCCESSFULLY\",\n \"color\": \"Green\",\n \"dataFactoryName\": \"@{pipeline().DataFactory}\",\n \"pipelineName\": \"@{pipeline().Pipeline}\",\n \"pipelineRunId\": \"@{pipeline().RunId}\",\n \"time\": \"@{utcnow()}\"\n}",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"annotations": []
