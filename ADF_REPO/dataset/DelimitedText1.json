@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"folderPath": "blob",
-				"container": "restapi2"
+				"container": "restapi"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
