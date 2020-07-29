@@ -4540,7 +4540,7 @@
 						"frequency": "Minute",
 						"interval": 30,
 						"startTime": "2020-04-27T02:15:00.000Z",
-						"endTime": "2020-07-31T03:15:00.000Z",
+						"endTime": "2020-08-31T03:15:00.000Z",
 						"timeZone": "UTC"
 					}
 				}
@@ -4572,7 +4572,7 @@
 						"frequency": "Minute",
 						"interval": 30,
 						"startTime": "2020-04-27T02:15:00.000Z",
-						"endTime": "2020-07-31T03:15:00.000Z",
+						"endTime": "2020-08-31T03:15:00.000Z",
 						"timeZone": "UTC"
 					}
 				}
