@@ -20,7 +20,9 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"recursive": true
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"prefix": ""
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSettings"
@@ -30,6 +32,7 @@
 						"type": "AzureSqlSink"
 					},
 					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
 					"logStorageSettings": {
 						"linkedServiceName": {
 							"referenceName": "AzureBlobStorage1",
@@ -37,7 +40,7 @@
 						},
 						"path": "restapi/Health And Travel/o365 Error Logs"
 					},
-					"validateDataConsistency": true,
+					"validateDataConsistency": false,
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
