@@ -2,6 +2,22 @@
 	"name": "IDMS Dataflow",
 	"properties": {
 		"description": "IDMS O365 Dataflow",
+		"activities": [
+			{
+				"name": "Check latest O365 file",
+				"description": "Check latest O365 file",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
+			}
+		],
 		"folder": {
 			"name": "BOT Analysis"
 		},
