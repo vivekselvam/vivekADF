@@ -1,0 +1,10 @@
+{
+	"name": "IDMS Dataflow",
+	"properties": {
+		"description": "IDMS O365 Dataflow",
+		"folder": {
+			"name": "BOT Analysis"
+		},
+		"annotations": []
+	}
+}
