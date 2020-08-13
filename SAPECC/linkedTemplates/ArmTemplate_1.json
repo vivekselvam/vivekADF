@@ -45,6 +45,151 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/IDMS_o365')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS o365 Data",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DisplayName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExecEmp",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TelNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomePhNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "date"
+					},
+					{
+						"name": "IsActive",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "nchar"
+					},
+					{
+						"name": "CostCenter",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeptName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DivName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SectName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubArea",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubGrpName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BranchName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UnitName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPFullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WrkLocDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EEGroupDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BU",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "IdMS_o365_WP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Json1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -511,68 +656,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SAPECC')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAPECC",
-				"annotations": [],
-				"type": "SapTable",
-				"typeProperties": {
-					"clientId": "[parameters('SAPECC_properties_typeProperties_clientId')]",
-					"language": "en",
-					"sncMode": false,
-					"userName": "[parameters('SAPECC_properties_typeProperties_userName')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVault1",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "vivek02"
-					},
-					"server": "[parameters('SAPECC_properties_typeProperties_server')]",
-					"systemNumber": "[parameters('SAPECC_properties_typeProperties_systemNumber')]"
-				},
-				"connectVia": {
-					"referenceName": "SAP-IntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAPED1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAPED1",
-				"annotations": [],
-				"type": "SapTable",
-				"typeProperties": {
-					"clientId": "[parameters('SAPED1_properties_typeProperties_clientId')]",
-					"language": "",
-					"sncMode": false,
-					"userName": "[parameters('SAPED1_properties_typeProperties_userName')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVault1",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "vivek02"
-					},
-					"server": "[parameters('SAPED1_properties_typeProperties_server')]",
-					"systemNumber": "[parameters('SAPED1_properties_typeProperties_systemNumber')]"
-				},
-				"connectVia": {
-					"referenceName": "SAP-IntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/o365_Data')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -693,145 +776,63 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IDMS_Test')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/SAPECC')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase3",
-					"type": "LinkedServiceReference"
-				},
+				"description": "SAPECC",
 				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "UserName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DisplayName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmployeeId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "IsExecEmp",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TelNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "HomePhNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalAddress",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TerminationDate",
-						"type": "date"
-					},
-					{
-						"name": "IsActive",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmployeeType",
-						"type": "nchar"
-					},
-					{
-						"name": "CostCenter",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CompanyName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DeptName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DivName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SectName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EESubArea",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EESubGrpName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BranchName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "UnitName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WPFullName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WPEmail",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WrkLocDesc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MgrDispName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MgrEmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SupDispName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SupEmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EEGroupDesc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BU",
-						"type": "nvarchar"
-					}
-				],
+				"type": "SapTable",
 				"typeProperties": {
-					"schema": "dbo",
-					"table": "IdMS_test"
+					"clientId": "[parameters('SAPECC_properties_typeProperties_clientId')]",
+					"language": "en",
+					"sncMode": false,
+					"userName": "[parameters('SAPECC_properties_typeProperties_userName')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVault1",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "vivek02"
+					},
+					"server": "[parameters('SAPECC_properties_typeProperties_server')]",
+					"systemNumber": "[parameters('SAPECC_properties_typeProperties_systemNumber')]"
+				},
+				"connectVia": {
+					"referenceName": "SAP-IntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAPED1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAPED1",
+				"annotations": [],
+				"type": "SapTable",
+				"typeProperties": {
+					"clientId": "[parameters('SAPED1_properties_typeProperties_clientId')]",
+					"language": "",
+					"sncMode": false,
+					"userName": "[parameters('SAPED1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVault1",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "vivek02"
+					},
+					"server": "[parameters('SAPED1_properties_typeProperties_server')]",
+					"systemNumber": "[parameters('SAPED1_properties_typeProperties_systemNumber')]"
+				},
+				"connectVia": {
+					"referenceName": "SAP-IntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": []
@@ -1672,7 +1673,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/IDMS_o365')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/REST_to_BLOB')]",

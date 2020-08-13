@@ -1233,11 +1233,10 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IDMS_o365')]",
+			"name": "[concat(parameters('factoryName'), '/IDMS_Test')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "IDMS o365 Data",
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
@@ -1372,7 +1371,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "IdMS_o365_WP"
+					"table": "IdMS_test"
 				}
 			},
 			"dependsOn": [
