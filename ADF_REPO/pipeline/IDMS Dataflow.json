@@ -485,8 +485,9 @@
 						"referenceName": "o365_Data",
 						"type": "DatasetReference"
 					},
-					"timeout": "0.00:00:20",
-					"sleep": 10
+					"timeout": "0.00:00:60",
+					"sleep": 10,
+					"minimumSize": 1
 				}
 			}
 		],
