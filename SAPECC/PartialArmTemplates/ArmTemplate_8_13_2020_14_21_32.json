@@ -1,0 +1,51 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SAPECC"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "IDMS_Test",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "IDMS_Test",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DeleteRows"
+						}
+					],
+					"script": "source(output(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 10,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 alterRow(deleteIf(UserName!=' ')) ~> DeleteRows\nDeleteRows sink(input(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['UserName'],\n\tformat: 'table',\n\tmapColumn(\n\t\tUserName,\n\t\tDisplayName,\n\t\tEmployeeId,\n\t\tIsExecEmp,\n\t\tEmailId,\n\t\tTelNumber,\n\t\tHomePhNumber,\n\t\tPostalCode,\n\t\tPostalAddress,\n\t\tTerminationDate,\n\t\tIsActive,\n\t\tEmployeeType,\n\t\tCostCenter,\n\t\tCompanyName,\n\t\tDeptName,\n\t\tDivName,\n\t\tSectName,\n\t\tPostionName,\n\t\tEESubArea,\n\t\tEESubGrpName,\n\t\tBranchName,\n\t\tUnitName,\n\t\tWPFullName,\n\t\tWPEmail,\n\t\tWrkLocDesc,\n\t\tMgrDispName,\n\t\tMgrEmailId,\n\t\tSupDispName,\n\t\tSupEmailId,\n\t\tEEGroupDesc,\n\t\tBU\n\t),\n\tdateFormat:'yyyy-MM-dd',\n\ttimestampFormat:'yyyy.MM.dd HH:mm:ss',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
