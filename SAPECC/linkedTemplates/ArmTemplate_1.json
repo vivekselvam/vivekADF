@@ -573,6 +573,270 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/o365_Data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "Health And Travel/o365 And IDMS Files/Latest File",
+						"container": "restapi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IDMS_Test')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DisplayName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExecEmp",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TelNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomePhNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "date"
+					},
+					{
+						"name": "IsActive",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "nchar"
+					},
+					{
+						"name": "CostCenter",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeptName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DivName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SectName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubArea",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubGrpName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BranchName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UnitName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPFullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WrkLocDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EEGroupDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BU",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "IdMS_test"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1669,398 +1933,6 @@
 				"annotations": []
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Travel Data Pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Travel Data Pipeline",
-				"activities": [
-					{
-						"name": "Travel Data",
-						"description": "Travel Data",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"sqlWriterStoredProcedureName": "[[dbo].[Travel_sto_proc]",
-								"sqlWriterTableType": "TypTravel",
-								"storedProcedureTableTypeParameterName": "Travel"
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "tTravelID",
-											"type": "Guid"
-										},
-										"sink": {
-											"name": "tTravelID",
-											"type": "Guid"
-										}
-									},
-									{
-										"source": {
-											"name": "tWorkplaceID",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tWorkplaceID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelStatus",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tTravelStatus",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelDestination",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tTravelDestination",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelStartDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "tTravelStartDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelEndDate",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "tTravelEndDate",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelRisk",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tTravelRisk",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tTravelQuarantine",
-											"type": "String"
-										},
-										"sink": {
-											"name": "tTravelQuarantine",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "tCreateDateTime",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "tCreateDateTime",
-											"type": "DateTime"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "WORK_ATO_TRAVEL",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "BOT_ANALYSIS_TRAVEL",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"folder": {
-					"name": "BOT Analysis"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/WORK_ATO_TRAVEL')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "REST API to BLOB",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET"
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings",
-									"quoteAllText": true
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['stats']['showing']"
-										},
-										"sink": {
-											"path": "$['stats']['showing']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['total']"
-										},
-										"sink": {
-											"path": "$['stats']['total']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['completed']"
-										},
-										"sink": {
-											"path": "$['stats']['completed']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['stats']['incomplete']"
-										},
-										"sink": {
-											"path": "$['stats']['incomplete']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['id']"
-										},
-										"sink": {
-											"path": "$['questions_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_type']"
-										},
-										"sink": {
-											"path": "$['questions_question_type']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_text']"
-										},
-										"sink": {
-											"path": "$['questions_question_text']"
-										}
-									},
-									{
-										"source": {
-											"path": "$['questions'][0]['question_position']"
-										},
-										"sink": {
-											"path": "$['questions_question_position']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['completed']"
-										},
-										"sink": {
-											"path": "$['responses_completed']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['started_at']"
-										},
-										"sink": {
-											"path": "$['responses_started_at']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['completed_at']"
-										},
-										"sink": {
-											"path": "$['responses_completed_at']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['id']"
-										},
-										"sink": {
-											"path": "$['responses_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['id']"
-										},
-										"sink": {
-											"path": "$['respondent_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['name']"
-										},
-										"sink": {
-											"path": "$['respondent_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['first_name']"
-										},
-										"sink": {
-											"path": "$['respondent_first_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['respondent']['last_name']"
-										},
-										"sink": {
-											"path": "$['respondent_last_name']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['question_id']"
-										},
-										"sink": {
-											"path": "$['answers_question_id']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['question_text']"
-										},
-										"sink": {
-											"path": "$['answers_question_text']"
-										}
-									},
-									{
-										"source": {
-											"path": "[['answers'][0]['content']"
-										},
-										"sink": {
-											"path": "$['answers_content']"
-										}
-									}
-								],
-								"collectionReference": "$['responses']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource1",
-								"type": "DatasetReference",
-								"parameters": {
-									"url": "3"
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Json1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"parameters": {
-					"url": {
-						"type": "string",
-						"defaultValue": "/url"
-					}
-				},
-				"variables": {
-					"Lowerlimit": {
-						"type": "String",
-						"defaultValue": "0"
-					},
-					"Upperlimit": {
-						"type": "String",
-						"defaultValue": "0"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
-				"[concat(variables('factoryId'), '/datasets/Json1')]"
-			]
 		}
 	]
 }
