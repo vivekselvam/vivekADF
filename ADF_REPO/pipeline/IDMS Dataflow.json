@@ -4,11 +4,11 @@
 		"description": "IDMS O365 Dataflow",
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copy new O365 IDMS Data",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "dataflow2",
+						"activity": "O365 dataflow",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -446,11 +446,11 @@
 				]
 			},
 			{
-				"name": "dataflow2",
+				"name": "O365 dataflow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Validation1",
+						"activity": "Check Files Exists",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -476,7 +476,7 @@
 				}
 			},
 			{
-				"name": "Validation1",
+				"name": "Check Files Exists",
 				"type": "Validation",
 				"dependsOn": [],
 				"userProperties": [],
