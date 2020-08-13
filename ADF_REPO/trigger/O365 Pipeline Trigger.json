@@ -1,7 +1,7 @@
 {
 	"name": "O365 Pipeline Trigger",
 	"properties": {
-		"description": "O365 Pipeline",
+		"description": "O365 Pipeline Trigger",
 		"annotations": [],
 		"runtimeState": "Started",
 		"pipelines": [
