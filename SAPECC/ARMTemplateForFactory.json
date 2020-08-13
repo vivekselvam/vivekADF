@@ -575,9 +575,6 @@
 						"type": "String"
 					}
 				},
-				"folder": {
-					"name": "BOT Analysis"
-				},
 				"annotations": []
 			},
 			"dependsOn": [
