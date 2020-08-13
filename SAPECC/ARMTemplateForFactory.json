@@ -5229,9 +5229,9 @@
 								"type": "DatasetReference",
 								"parameters": {}
 							},
-							"timeout": "0.00:00:60",
+							"timeout": "0.00:05:60",
 							"sleep": 60,
-							"minimumSize": 1
+							"childItems": true
 						}
 					}
 				],
@@ -5261,7 +5261,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "*.csv",
 						"folderPath": "Health And Travel/o365 And IDMS Files/Latest File",
 						"container": "restapi"
 					},
