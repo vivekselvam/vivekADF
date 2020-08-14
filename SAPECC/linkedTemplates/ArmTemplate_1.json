@@ -1665,9 +1665,6 @@
 						]
 					}
 				],
-				"folder": {
-					"name": "BOT Analysis"
-				},
 				"annotations": []
 			},
 			"dependsOn": [
