@@ -5334,6 +5334,48 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/O365 Pipeline Trigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "O365 Pipeline Trigger",
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "IDMS Dataflow",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Week",
+						"interval": 1,
+						"startTime": "2020-08-13T07:21:00.000Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								2
+							],
+							"weekDays": [
+								"Monday"
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/IDMS Dataflow')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Travel Data Trigger')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -5485,7 +5527,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "IDMS_Test",
+								"referenceName": "IDMS_o365",
 								"type": "DatasetReference"
 							},
 							"name": "source1"
@@ -5494,7 +5536,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "IDMS_Test",
+								"referenceName": "IDMS_o365",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -5509,49 +5551,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/IDMS_Test')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/O365 Pipeline Trigger')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "O365 Pipeline Trigger",
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "IDMS Dataflow",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Week",
-						"interval": 1,
-						"startTime": "2020-08-13T07:21:00.000Z",
-						"timeZone": "UTC",
-						"schedule": {
-							"minutes": [
-								0
-							],
-							"hours": [
-								2
-							],
-							"weekDays": [
-								"Monday"
-							]
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/IDMS Dataflow')]"
+				"[concat(variables('factoryId'), '/datasets/IDMS_o365')]"
 			]
 		}
 	]

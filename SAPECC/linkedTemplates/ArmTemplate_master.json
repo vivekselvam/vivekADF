@@ -181,7 +181,7 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+				"[resourceId('Microsoft.Resources/deployments', 'SAPECC_ArmTemplate_0')]"
 			]
 		},
 		{
@@ -201,7 +201,7 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_1')]"
+				"[resourceId('Microsoft.Resources/deployments', 'SAPECC_ArmTemplate_1')]"
 			]
 		}
 	]

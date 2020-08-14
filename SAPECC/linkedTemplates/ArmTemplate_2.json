@@ -527,7 +527,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "IDMS_Test",
+								"referenceName": "IDMS_o365",
 								"type": "DatasetReference"
 							},
 							"name": "source1"
@@ -536,7 +536,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "IDMS_Test",
+								"referenceName": "IDMS_o365",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
