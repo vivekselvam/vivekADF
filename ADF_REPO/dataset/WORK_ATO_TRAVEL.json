@@ -6,6 +6,9 @@
 			"referenceName": "AzureSqlDatabase2",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "BOT-ANALYSIS"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
