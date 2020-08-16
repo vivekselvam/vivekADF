@@ -4,7 +4,7 @@
 		"description": "IDMS O365 Dataflow",
 		"activities": [
 			{
-				"name": "Copy new O365 IDMS Data",
+				"name": "Update O365 IDMS Data",
 				"type": "Copy",
 				"dependsOn": [
 					{
