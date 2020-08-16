@@ -589,7 +589,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "dataflow1",
+						"name": "Health Data Flow",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -4287,7 +4287,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "IdMS_test"
+					"table": "IdMS_o365_WP"
 				}
 			},
 			"dependsOn": [

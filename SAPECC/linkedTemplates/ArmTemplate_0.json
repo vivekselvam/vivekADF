@@ -1371,7 +1371,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "IdMS_test"
+					"table": "IdMS_o365_WP"
 				}
 			},
 			"dependsOn": [
