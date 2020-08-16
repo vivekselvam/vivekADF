@@ -761,6 +761,9 @@
 					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -832,6 +835,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",

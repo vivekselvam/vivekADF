@@ -635,7 +635,7 @@
 				"description": "IDMS O365 Dataflow",
 				"activities": [
 					{
-						"name": "Copy new O365 IDMS Data",
+						"name": "Update O365 IDMS Data",
 						"type": "Copy",
 						"dependsOn": [
 							{
@@ -3677,6 +3677,9 @@
 					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -3748,6 +3751,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4304,6 +4310,9 @@
 					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -4820,6 +4829,9 @@
 					"referenceName": "AzureSqlDatabase2",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -4887,6 +4899,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase2",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -4975,6 +4990,9 @@
 				"linkedServiceName": {
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
