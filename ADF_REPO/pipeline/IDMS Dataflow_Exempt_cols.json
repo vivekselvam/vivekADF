@@ -450,7 +450,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Check Files Exists",
+						"activity": "Check Files Exist",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -476,7 +476,7 @@
 				}
 			},
 			{
-				"name": "Check Files Exists",
+				"name": "Check Files Exist",
 				"type": "Validation",
 				"dependsOn": [],
 				"userProperties": [],
