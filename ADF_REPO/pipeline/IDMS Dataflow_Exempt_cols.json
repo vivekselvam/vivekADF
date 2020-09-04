@@ -1,7 +1,7 @@
 {
 	"name": "IDMS Dataflow_Exempt_cols",
 	"properties": {
-		"description": "IDMS O365 Dataflow with Exempted colums",
+		"description": "IDMS O365 Dataflow with Exempted columns",
 		"activities": [
 			{
 				"name": "Update O365 IDMS Data",
