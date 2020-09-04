@@ -850,6 +850,291 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IdMS_o365_WP_2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS table with Exempt fields",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DisplayName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExecEmp",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TelNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomePhNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "date"
+					},
+					{
+						"name": "IsActive",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "nchar"
+					},
+					{
+						"name": "CostCenter",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeptName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DivName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SectName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubArea",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubGrpName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BranchName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UnitName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPFullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WrkLocDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EEGroupDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BU",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExempted",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ExemptedFrom",
+						"type": "date"
+					},
+					{
+						"name": "ExemptedTo",
+						"type": "date"
+					},
+					{
+						"name": "Reason",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "IdMS_o365_WP_2"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/o365_Data_BLOB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS_BLOB with Exempted cols",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "Health And Travel/o365 And IDMS Files/Latest File",
+						"container": "restapi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/BLOB_to_SQL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1682,266 +1967,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/IDMS_o365')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/REST_to_BLOB')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Until1",
-						"type": "Until",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@equals(variables('Upperlimit'),50)",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Set Lower Limit",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "Lowerlimit",
-										"value": {
-											"value": "@variables('Upperlimit')",
-											"type": "Expression"
-										}
-									}
-								},
-								{
-									"name": "Set Upper Limit",
-									"type": "SetVariable",
-									"dependsOn": [
-										{
-											"activity": "Copy data1",
-											"dependencyConditions": [
-												"Completed"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "Upperlimit",
-										"value": {
-											"value": "@string(add(int(variables('Lowerlimit')),1))",
-											"type": "Expression"
-										}
-									}
-								},
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [
-										{
-											"activity": "Set Lower Limit",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "RestSource",
-											"httpRequestTimeout": "00:01:40",
-											"requestInterval": "00.00:00:00.010",
-											"requestMethod": "GET"
-										},
-										"sink": {
-											"type": "JsonSink",
-											"storeSettings": {
-												"type": "AzureBlobStorageWriteSettings",
-												"copyBehavior": "FlattenHierarchy"
-											},
-											"formatSettings": {
-												"type": "JsonWriteSettings",
-												"quoteAllText": true
-											}
-										},
-										"enableStaging": false
-									},
-									"inputs": [
-										{
-											"referenceName": "RestResource1",
-											"type": "DatasetReference",
-											"parameters": {
-												"url": {
-													"value": "@variables('Lowerlimit')",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "Json1",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
-								}
-							],
-							"timeout": "0.00:20:00"
-						}
-					}
-				],
-				"variables": {
-					"Lowerlimit": {
-						"type": "String",
-						"defaultValue": "0"
-					},
-					"Upperlimit": {
-						"type": "String",
-						"defaultValue": "1"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource1')]",
-				"[concat(variables('factoryId'), '/datasets/Json1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Send Email')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Send Email",
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "IDMS_Blob_Storage",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DelimitedText1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Send email",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "Copy data1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-09.southeastasia.logic.azure.com:443/workflows/3713947e21834d359c94cdea99b72ffa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kwXFghPWbwv1zf0cjx6MLveuskmkIuhHSqPGbr50_nE",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"value": "{\n \"title\": \"PIPELINE RUN FINISHED\",\n \"message\": \"PIPELINE FINISHED RUNNING SUCCESSFULLY\",\n \"color\": \"Green\",\n \"dataFactoryName\": \"@{pipeline().DataFactory}\",\n \"pipelineName\": \"@{pipeline().Pipeline}\",\n \"pipelineRunId\": \"@{pipeline().RunId}\",\n \"time\": \"@{convertTimeZone(utcnow(), 'UTC', 'Singapore Standard Time')}\"\n}",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "Send Error Email",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "Copy data1",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-09.southeastasia.logic.azure.com:443/workflows/3713947e21834d359c94cdea99b72ffa/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kwXFghPWbwv1zf0cjx6MLveuskmkIuhHSqPGbr50_nE",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"value": "{\n \"title\": \"PIPELINE RUN FAILED\",\n \"message\": \"@{activity('Copy data1').error.message}\",\n \"color\": \"Red\",\n \"dataFactoryName\": \"@{pipeline().DataFactory}\",\n \"pipelineName\": \"@{pipeline().Pipeline}\",\n \"pipelineRunId\": \"@{pipeline().RunId}\",\n \"time\": \"@{convertTimeZone(utcnow(), 'UTC', 'Singapore Standard Time')}\"\n}",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
 		}
 	]
 }
