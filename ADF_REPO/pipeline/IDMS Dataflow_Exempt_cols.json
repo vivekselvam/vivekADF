@@ -423,6 +423,54 @@
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
+							},
+							{
+								"source": {
+									"name": "IsExempted",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "IsExempted",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Exempted From",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ExemptedFrom",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Exempted To",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ExemptedTo",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Reason",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Reason",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
 							}
 						],
 						"typeConversion": true,
@@ -440,7 +488,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "IDMS_Test",
+						"referenceName": "IdMS_o365_WP_2",
 						"type": "DatasetReference"
 					}
 				]
@@ -466,7 +514,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow2",
+						"referenceName": "dataflow2_IDMS_Exempt",
 						"type": "DataFlowReference"
 					},
 					"compute": {
