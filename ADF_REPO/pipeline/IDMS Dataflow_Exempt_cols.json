@@ -482,7 +482,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "o365_Data",
+						"referenceName": "o365_Data_BLOB",
 						"type": "DatasetReference"
 					}
 				],
