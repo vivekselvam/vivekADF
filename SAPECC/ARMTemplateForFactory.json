@@ -1144,6 +1144,570 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IDMS Dataflow_Exempt_cols')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS O365 Dataflow with Exempted columns",
+				"activities": [
+					{
+						"name": "Update O365 IDMS Data",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "O365 dataflow",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "Health And Travel/o365 And IDMS Files/IDMS O365 Exempted cols",
+									"wildcardFileName": "*csv",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								},
+								"path": "restapi/Health And Travel/o365 Error Logs"
+							},
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "UserName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "UserName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DisplayName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DisplayName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeId",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmployeeId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "IsExecutiveEmployee",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IsExecEmp",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EmailId",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmailId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TelephoneNumber",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TelNumber",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "HomephoneNumber",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "HomePhNumber",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PostalCode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PostalCode",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PostalAddress",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PostalAddress",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TerminationDate",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TerminationDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "IsActive",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IsActive",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeType",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EmployeeType",
+											"type": "String",
+											"physicalType": "nchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CostCenter",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CostCenter",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CompanyName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CompanyName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DepartmentName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DeptName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DivisionName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DivName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SectionName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SectName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PositionName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PostionName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeSubArea",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EESubArea",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EESubGroupName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EESubGrpName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BranchName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BranchName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "UnitName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WP.Full Name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WPFullName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WP.Email",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WPEmail",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WorkLocationDescription",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WrkLocDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Manager.DisplayName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MgrDispName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Manager.EmailId",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MgrEmailId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Supervisor.DisplayName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SupDispName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Supervisor.EmailId",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SupEmailId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EEGroup Description",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EEGroupDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BU",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BU",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "IsExempted",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IsExempted",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Exempted From",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ExemptedFrom",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "Exempted To",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ExemptedTo",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "Reason",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Reason",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "o365_Data_BLOB",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "IdMS_o365_WP_2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "O365 dataflow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Check Files Exists",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow2_IDMS_Exempt",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
+					},
+					{
+						"name": "Check Files Exists",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "o365_Data_BLOB",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"timeout": "0.00:01:60",
+							"sleep": 60,
+							"childItems": true
+						}
+					}
+				],
+				"folder": {
+					"name": "BOT Analysis"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/o365_Data_BLOB')]",
+				"[concat(variables('factoryId'), '/datasets/IdMS_o365_WP_2')]",
+				"[concat(variables('factoryId'), '/dataflows/dataflow2_IDMS_Exempt')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IDMS O365 Pipelines')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -4449,6 +5013,169 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/IdMS_o365_WP_2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS table with Exempt fields",
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DisplayName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExecEmp",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TelNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomePhNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "date"
+					},
+					{
+						"name": "IsActive",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "nchar"
+					},
+					{
+						"name": "CostCenter",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeptName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DivName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SectName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostionName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubArea",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EESubGrpName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BranchName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UnitName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPFullName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WPEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WrkLocDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MgrEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupDispName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupEmailId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EEGroupDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BU",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsExempted",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ExemptedFrom",
+						"type": "date"
+					},
+					{
+						"name": "ExemptedTo",
+						"type": "date"
+					},
+					{
+						"name": "Reason",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "IdMS_o365_WP_2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Json1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -5106,6 +5833,132 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/o365_Data_BLOB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS_BLOB with Exempted cols",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "BOT-ANALYSIS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "Health And Travel/o365 And IDMS Files/IDMS O365 Exempted cols",
+						"container": "restapi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -5537,733 +6390,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IdMS_o365_WP_2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "IDMS table with Exempt fields",
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase3",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "UserName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DisplayName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmployeeId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "IsExecEmp",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TelNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "HomePhNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalAddress",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TerminationDate",
-						"type": "date"
-					},
-					{
-						"name": "IsActive",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmployeeType",
-						"type": "nchar"
-					},
-					{
-						"name": "CostCenter",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CompanyName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DeptName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DivName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SectName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EESubArea",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EESubGrpName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BranchName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "UnitName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WPFullName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WPEmail",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WrkLocDesc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MgrDispName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MgrEmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SupDispName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SupEmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EEGroupDesc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BU",
-						"type": "nvarchar"
-					},
-					{
-						"name": "IsExempted",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ExemptedFrom",
-						"type": "date"
-					},
-					{
-						"name": "ExemptedTo",
-						"type": "date"
-					},
-					{
-						"name": "Reason",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "IdMS_o365_WP_2"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IDMS Dataflow_Exempt_cols')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "IDMS O365 Dataflow with Exempted columns",
-				"activities": [
-					{
-						"name": "Update O365 IDMS Data",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "O365 dataflow",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFolderPath": "Health And Travel/o365 And IDMS Files/Latest File",
-									"wildcardFileName": "*csv",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"logStorageSettings": {
-								"linkedServiceName": {
-									"referenceName": "AzureBlobStorage1",
-									"type": "LinkedServiceReference"
-								},
-								"path": "restapi/Health And Travel/o365 Error Logs"
-							},
-							"validateDataConsistency": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "UserName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "UserName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DisplayName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DisplayName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "EmployeeId",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EmployeeId",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "IsExecutiveEmployee",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "IsExecEmp",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "EmailId",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EmailId",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "TelephoneNumber",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "TelNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "HomephoneNumber",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "HomePhNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "PostalCode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "PostalCode",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "PostalAddress",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "PostalAddress",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "TerminationDate",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "TerminationDate",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "IsActive",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "IsActive",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "EmployeeType",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EmployeeType",
-											"type": "String",
-											"physicalType": "nchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CostCenter",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CostCenter",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CompanyName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CompanyName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DepartmentName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DeptName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DivisionName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DivName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "SectionName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "SectName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "PositionName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "PostionName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "EmployeeSubArea",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EESubArea",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "EESubGroupName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EESubGrpName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "BranchName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "BranchName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "UnitName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "UnitName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "WP.Full Name",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "WPFullName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "WP.Email",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "WPEmail",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "WorkLocationDescription",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "WrkLocDesc",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Manager.DisplayName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "MgrDispName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Manager.EmailId",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "MgrEmailId",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Supervisor.DisplayName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "SupDispName",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Supervisor.EmailId",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "SupEmailId",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "EEGroup Description",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "EEGroupDesc",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "BU",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "BU",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "IsExempted",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "IsExempted",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Exempted From",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ExemptedFrom",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "Exempted To",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ExemptedTo",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "Reason",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Reason",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "o365_Data_BLOB",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "IdMS_o365_WP_2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "O365 dataflow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Check Files Exists",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow2_IDMS_Exempt",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					},
-					{
-						"name": "Check Files Exists",
-						"type": "Validation",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "o365_Data_BLOB",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"timeout": "0.00:01:60",
-							"sleep": 60,
-							"childItems": true
-						}
-					}
-				],
-				"folder": {
-					"name": "BOT Analysis"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/o365_Data_BLOB')]",
-				"[concat(variables('factoryId'), '/datasets/IdMS_o365_WP_2')]",
-				"[concat(variables('factoryId'), '/dataflows/dataflow2_IDMS_Exempt')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/dataflow2_IDMS_Exempt')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -6299,132 +6425,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/IdMS_o365_WP_2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/o365_Data_BLOB')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "IDMS_BLOB with Exempted cols",
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "BOT-ANALYSIS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "Health And Travel/o365 And IDMS Files/Latest File",
-						"container": "restapi"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		}
 	]
