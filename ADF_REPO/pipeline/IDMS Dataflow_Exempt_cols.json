@@ -28,7 +28,7 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
-							"wildcardFolderPath": "Health And Travel/o365 And IDMS Files/Latest File",
+							"wildcardFolderPath": "Health And Travel/o365 And IDMS Files/IDMS O365 Exempted cols",
 							"wildcardFileName": "*csv",
 							"enablePartitionDiscovery": false
 						},
