@@ -1159,6 +1159,9 @@
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": false,
 									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
 								}
 							},
 							"sink": {
@@ -1277,6 +1280,11 @@
 						]
 					}
 				],
+				"parameters": {
+					"starttime": {
+						"type": "string"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
