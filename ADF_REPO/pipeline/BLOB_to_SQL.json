@@ -137,7 +137,17 @@
 				"inputs": [
 					{
 						"referenceName": "Json1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"starttime ": {
+								"value": "@pipeline().parameters.starttime",
+								"type": "Expression"
+							},
+							"endtime": {
+								"value": "@pipeline().parameters.endtime",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
