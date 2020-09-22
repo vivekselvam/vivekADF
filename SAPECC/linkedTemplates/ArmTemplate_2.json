@@ -116,7 +116,16 @@
 										{
 											"referenceName": "Json1",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"starttime ": {
+													"value": "@variables('Upperlimit')",
+													"type": "Expression"
+												},
+												"endtime": {
+													"value": "@variables('Lowerlimit')",
+													"type": "Expression"
+												}
+											}
 										}
 									]
 								}
@@ -629,7 +638,16 @@
 							{
 								"referenceName": "Json1",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"starttime ": {
+										"value": "@variables('Upperlimit')",
+										"type": "Expression"
+									},
+									"endtime": {
+										"value": "@variables('Lowerlimit')",
+										"type": "Expression"
+									}
+								}
 							}
 						]
 					}

@@ -362,6 +362,14 @@
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"starttime ": {
+						"type": "string"
+					},
+					"endtime": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
@@ -1158,6 +1166,14 @@
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": false,
+									"modifiedDatetimeStart": {
+										"value": "@pipeline().parameters.starttime",
+										"type": "Expression"
+									},
+									"modifiedDatetimeEnd": {
+										"value": "@pipeline().parameters.endtime",
+										"type": "Expression"
+									},
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -1268,7 +1284,16 @@
 							{
 								"referenceName": "Json1",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"starttime ": {
+										"value": "@pipeline().parameters.starttime",
+										"type": "Expression"
+									},
+									"endtime": {
+										"value": "@pipeline().parameters.endtime",
+										"type": "Expression"
+									}
+								}
 							}
 						],
 						"outputs": [
@@ -1282,6 +1307,9 @@
 				],
 				"parameters": {
 					"starttime": {
+						"type": "string"
+					},
+					"endtime": {
 						"type": "string"
 					}
 				},
