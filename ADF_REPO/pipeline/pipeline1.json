@@ -28,8 +28,7 @@
 							"copyBehavior": "FlattenHierarchy"
 						},
 						"formatSettings": {
-							"type": "JsonWriteSettings",
-							"quoteAllText": true
+							"type": "JsonWriteSettings"
 						}
 					},
 					"enableStaging": false,
