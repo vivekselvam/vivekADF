@@ -20,6 +20,14 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": false,
+							"modifiedDatetimeStart": {
+								"value": "@pipeline().parameters.starttime",
+								"type": "Expression"
+							},
+							"modifiedDatetimeEnd": {
+								"value": "@pipeline().parameters.endtime",
+								"type": "Expression"
+							},
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
@@ -140,6 +148,14 @@
 				]
 			}
 		],
+		"parameters": {
+			"starttime": {
+				"type": "string"
+			},
+			"endtime": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
