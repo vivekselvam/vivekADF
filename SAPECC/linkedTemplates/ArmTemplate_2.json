@@ -1435,20 +1435,20 @@
 									{
 										"source": {
 											"name": "Employee No",
-											"type": "Int64",
-											"physicalType": "bigint"
+											"type": "String",
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "Employee No",
-											"type": "Int64",
-											"physicalType": "bigint"
+											"type": "String",
+											"physicalType": "char"
 										}
 									},
 									{
 										"source": {
 											"name": "Employee Name",
 											"type": "String",
-											"physicalType": "char"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "Employee Name",
@@ -1460,7 +1460,7 @@
 										"source": {
 											"name": "Department",
 											"type": "String",
-											"physicalType": "char"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "Department",
@@ -1472,7 +1472,7 @@
 										"source": {
 											"name": "Dependents",
 											"type": "String",
-											"physicalType": "char"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "Dependents",
@@ -1484,7 +1484,7 @@
 										"source": {
 											"name": "Education",
 											"type": "String",
-											"physicalType": "char"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "Education",
@@ -1496,7 +1496,7 @@
 										"source": {
 											"name": "Address",
 											"type": "String",
-											"physicalType": "char"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "Address",

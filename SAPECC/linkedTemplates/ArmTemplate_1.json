@@ -1360,7 +1360,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "EMPLOYEE_Personal"
+					"table": "EMPLOYEE_Personal1"
 				}
 			},
 			"dependsOn": []
