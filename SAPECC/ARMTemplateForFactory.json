@@ -6493,6 +6493,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "Employee Personal.csv",
 						"folderPath": "Year/Month",
 						"container": "container1"
 					},
@@ -6601,9 +6602,14 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
 							},
 							"sink": {
 								"type": "AzureSqlSink"
@@ -6694,7 +6700,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "EmployeePersonal",
+								"referenceName": "EmployeeBlob",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -6711,6 +6717,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/EmployeeBlob')]",
 				"[concat(variables('factoryId'), '/datasets/EmployeePersonal')]"
 			]
 		}

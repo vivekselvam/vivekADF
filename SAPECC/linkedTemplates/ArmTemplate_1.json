@@ -1282,6 +1282,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "Employee Personal.csv",
 						"folderPath": "Year/Month",
 						"container": "container1"
 					},
