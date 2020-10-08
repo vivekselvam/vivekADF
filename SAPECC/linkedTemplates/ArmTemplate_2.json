@@ -13,6 +13,539 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Health Data Pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Health Data",
+						"description": "Health Data Pipeline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"sqlWriterStoredProcedureName": "[[dbo].[Health_sto_proc]",
+								"sqlWriterTableType": "TypHealth",
+								"storedProcedureTableTypeParameterName": "Health"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "tID",
+											"type": "Guid"
+										},
+										"sink": {
+											"name": "tID",
+											"type": "Guid"
+										}
+									},
+									{
+										"source": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tWorkplaceID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tReadDate",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tReadDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "tReadTime",
+											"type": "TimeSpan"
+										},
+										"sink": {
+											"name": "tReadtime",
+											"type": "TimeSpan"
+										}
+									},
+									{
+										"source": {
+											"name": "tTemperature",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "tTemperature",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "tSymptoms",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tSymptoms",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tRisks",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tRisks",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tSeenDoc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "tSeenDoc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "tCreateDateTime",
+											"type": "DateTime"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "WORKATO_HEALTH",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "BOT_ANALYSIS_HEALTH",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"variables": {
+					"Datetime": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IDMS O365 Pipelines')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS & o365 Data Pipeline",
+				"activities": [
+					{
+						"name": "IDMS O365 Pipeline",
+						"description": "IDMS O365 Pipeline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": false,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"redirectIncompatibleRowSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								},
+								"path": "restapi/Health And Travel/o365 Error Logs"
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "UserName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "UserName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DisplayName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DisplayName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EmployeeId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "IsExecutiveEmployee",
+											"type": "String"
+										},
+										"sink": {
+											"name": "IsExecEmp",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EmailId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EmailId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TelephoneNumber",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TelNumber",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "HomephoneNumber",
+											"type": "String"
+										},
+										"sink": {
+											"name": "HomePhNumber",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PostalCode",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PostalCode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PostalAddress",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PostalAddress",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "TerminationDate",
+											"type": "String"
+										},
+										"sink": {
+											"name": "TerminationDate",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "IsActive",
+											"type": "String"
+										},
+										"sink": {
+											"name": "IsActive",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeType",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EmployeeType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CostCenter",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CostCenter",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "CompanyName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CompanyName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DepartmentName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DeptName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "DivisionName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DivName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SectionName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SectName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "PositionName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "PostionName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EmployeeSubArea",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EESubArea",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EESubGroupName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EESubGrpName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BranchName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "BranchName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "UnitName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "UnitName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WP.Full Name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "WPFullName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WP.Email",
+											"type": "String"
+										},
+										"sink": {
+											"name": "WPEmail",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WorkLocationDescription",
+											"type": "String"
+										},
+										"sink": {
+											"name": "WrkLocDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Manager.DisplayName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "MgrDispName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Manager.EmailId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "MgrEmailId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Supervisor.DisplayName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SupDispName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Supervisor.EmailId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SupEmailId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EEGroup Description",
+											"type": "String"
+										},
+										"sink": {
+											"name": "EEGroupDesc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BU",
+											"type": "String"
+										},
+										"sink": {
+											"name": "BU",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "IDMS_Blob_Storage",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "IDMS_o365",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/REST_to_BLOB')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -744,7 +1277,7 @@
 							"name": "todayrecords1"
 						}
 					],
-					"script": "source(output(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\ttTravelHistory as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> HealthData\ntodayrecords1 derive(concern = case(tSymptoms == 'Yes', 'Yes',tSeenDoc == 'Yes', 'Yes', tRisks == 'Yes', 'Yes', tTemperature >= 38.00, 'Yes', tTravelHistory == 'Yes', 'Yes','No')) ~> DerivedColumn1\nDerivedColumn1 alterRow(upsertIf(tID!='')) ~> AlterRow1\nHealthData filter(tReadDate > addDays(currentDate(), -1)) ~> todayrecords1\nAlterRow1 sink(input(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\tConcern as string,\n\t\ttTravelHistory as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['tID'],\n\tformat: 'table',\n\tmapColumn(\n\t\ttID,\n\t\ttWorkplaceID,\n\t\ttReadDate,\n\t\ttReadTime,\n\t\ttTemperature,\n\t\ttSymptoms,\n\t\ttRisks,\n\t\ttSeenDoc,\n\t\ttCreateDateTime,\n\t\tConcern = concern,\n\t\ttTravelHistory\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+					"script": "source(output(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\ttTravelHistory as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> HealthData\ntodayrecords1 derive(concern = case(tSymptoms == 'Yes', 'Yes',tSeenDoc == 'Yes', 'Yes', tRisks == 'Yes', 'Yes', tTemperature >= 38.00, 'Yes', tTravelHistory == 'Yes', 'Yes','No')) ~> DerivedColumn1\nDerivedColumn1 alterRow(upsertIf(tID!='')) ~> AlterRow1\nHealthData filter(tReadDate > addDays(currentDate(), -1)) ~> todayrecords1\nAlterRow1 sink(input(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\tConcern as string,\n\t\ttTravelHistory as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['tID'],\n\tformat: 'table',\n\tmapColumn(\n\t\ttID,\n\t\ttWorkplaceID,\n\t\ttReadDate,\n\t\ttReadTime,\n\t\ttTemperature,\n\t\ttSymptoms,\n\t\ttRisks,\n\t\ttSeenDoc,\n\t\ttCreateDateTime,\n\t\tConcern = concern,\n\t\ttTravelHistory\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
 			"dependsOn": []
@@ -785,7 +1318,7 @@
 							"name": "Filter1"
 						}
 					],
-					"script": "source(output(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\ttTravelHistory as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> HealthData\nFilter1 derive(concern = case(tSymptoms == 'Yes', 'Yes',tSeenDoc == 'Yes', 'Yes', tRisks == 'Yes', 'Yes', tTemperature >= 38.00, 'Yes','No')) ~> DerivedColumn1\nDerivedColumn1 alterRow(upsertIf(tID!='')) ~> AlterRow1\nHealthData filter(tReadDate > addDays(currentDate(), -1)) ~> Filter1\nAlterRow1 sink(input(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\tConcern as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['tID'],\n\tformat: 'table',\n\tmapColumn(\n\t\ttID,\n\t\ttWorkplaceID,\n\t\ttReadDate,\n\t\ttReadTime,\n\t\ttTemperature,\n\t\ttSymptoms,\n\t\ttRisks,\n\t\ttSeenDoc,\n\t\ttCreateDateTime,\n\t\tConcern = concern\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+					"script": "source(output(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\ttTravelHistory as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> HealthData\nFilter1 derive(concern = case(tSymptoms == 'Yes', 'Yes',tSeenDoc == 'Yes', 'Yes', tRisks == 'Yes', 'Yes', tTemperature >= 38.00, 'Yes','No')) ~> DerivedColumn1\nDerivedColumn1 alterRow(upsertIf(tID!='')) ~> AlterRow1\nHealthData filter(tReadDate > addDays(currentDate(), -1)) ~> Filter1\nAlterRow1 sink(input(\n\t\ttID as string,\n\t\ttWorkplaceID as string,\n\t\ttReadDate as date,\n\t\ttReadTime as timestamp,\n\t\ttTemperature as decimal(5,2),\n\t\ttSymptoms as string,\n\t\ttRisks as string,\n\t\ttSeenDoc as string,\n\t\ttCreateDateTime as timestamp,\n\t\tConcern as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['tID'],\n\tformat: 'table',\n\tmapColumn(\n\t\ttID,\n\t\ttWorkplaceID,\n\t\ttReadDate,\n\t\ttReadTime,\n\t\ttTemperature,\n\t\ttSymptoms,\n\t\ttRisks,\n\t\ttSeenDoc,\n\t\ttCreateDateTime,\n\t\tConcern = concern\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
 			"dependsOn": []
@@ -820,7 +1353,7 @@
 							"name": "DeleteRows"
 						}
 					],
-					"script": "source(output(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 alterRow(deleteIf(UserName!=' ')) ~> DeleteRows\nDeleteRows sink(input(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:true,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:['UserName'],\n\tformat: 'table',\n\tmapColumn(\n\t\tUserName,\n\t\tDisplayName,\n\t\tEmployeeId,\n\t\tIsExecEmp,\n\t\tEmailId,\n\t\tTelNumber,\n\t\tHomePhNumber,\n\t\tPostalCode,\n\t\tPostalAddress,\n\t\tTerminationDate,\n\t\tIsActive,\n\t\tEmployeeType,\n\t\tCostCenter,\n\t\tCompanyName,\n\t\tDeptName,\n\t\tDivName,\n\t\tSectName,\n\t\tPostionName,\n\t\tEESubArea,\n\t\tEESubGrpName,\n\t\tBranchName,\n\t\tUnitName,\n\t\tWPFullName,\n\t\tWPEmail,\n\t\tWrkLocDesc,\n\t\tMgrDispName,\n\t\tMgrEmailId,\n\t\tSupDispName,\n\t\tSupEmailId,\n\t\tEEGroupDesc,\n\t\tBU\n\t),\n\tdateFormat:'yyyy-MM-dd',\n\ttimestampFormat:'yyyy.MM.dd HH:mm:ss',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+					"script": "source(output(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 alterRow(deleteIf(UserName!=' ')) ~> DeleteRows\nDeleteRows sink(input(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:true,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:['UserName'],\n\tformat: 'table',\n\tmapColumn(\n\t\tUserName,\n\t\tDisplayName,\n\t\tEmployeeId,\n\t\tIsExecEmp,\n\t\tEmailId,\n\t\tTelNumber,\n\t\tHomePhNumber,\n\t\tPostalCode,\n\t\tPostalAddress,\n\t\tTerminationDate,\n\t\tIsActive,\n\t\tEmployeeType,\n\t\tCostCenter,\n\t\tCompanyName,\n\t\tDeptName,\n\t\tDivName,\n\t\tSectName,\n\t\tPostionName,\n\t\tEESubArea,\n\t\tEESubGrpName,\n\t\tBranchName,\n\t\tUnitName,\n\t\tWPFullName,\n\t\tWPEmail,\n\t\tWrkLocDesc,\n\t\tMgrDispName,\n\t\tMgrEmailId,\n\t\tSupDispName,\n\t\tSupEmailId,\n\t\tEEGroupDesc,\n\t\tBU\n\t),\n\tdateFormat:'yyyy-MM-dd',\n\ttimestampFormat:'yyyy.MM.dd HH:mm:ss',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
 			"dependsOn": []
@@ -856,8 +1389,141 @@
 							"name": "DeleteRows"
 						}
 					],
-					"script": "source(output(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string,\n\t\tIsExempted as string,\n\t\tExemptedFrom as date,\n\t\tExemptedTo as date,\n\t\tReason as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 alterRow(deleteIf(UserName!=' ')) ~> DeleteRows\nDeleteRows sink(input(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string,\n\t\tIsExempted as string,\n\t\tExemptedFrom as date,\n\t\tExemptedTo as date,\n\t\tReason as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:true,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:['UserName'],\n\tformat: 'table',\n\tmapColumn(\n\t\tUserName,\n\t\tDisplayName,\n\t\tEmployeeId,\n\t\tIsExecEmp,\n\t\tEmailId,\n\t\tTelNumber,\n\t\tHomePhNumber,\n\t\tPostalCode,\n\t\tPostalAddress,\n\t\tTerminationDate,\n\t\tIsActive,\n\t\tEmployeeType,\n\t\tCostCenter,\n\t\tCompanyName,\n\t\tDeptName,\n\t\tDivName,\n\t\tSectName,\n\t\tPostionName,\n\t\tEESubArea,\n\t\tEESubGrpName,\n\t\tBranchName,\n\t\tUnitName,\n\t\tWPFullName,\n\t\tWPEmail,\n\t\tWrkLocDesc,\n\t\tMgrDispName,\n\t\tMgrEmailId,\n\t\tSupDispName,\n\t\tSupEmailId,\n\t\tEEGroupDesc,\n\t\tBU,\n\t\tIsExempted,\n\t\tExemptedFrom,\n\t\tExemptedTo,\n\t\tReason\n\t),\n\tdateFormat:'yyyy-MM-dd',\n\ttimestampFormat:'yyyy.MM.dd HH:mm:ss',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+					"script": "source(output(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string,\n\t\tIsExempted as string,\n\t\tExemptedFrom as date,\n\t\tExemptedTo as date,\n\t\tReason as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> source1\nsource1 alterRow(deleteIf(UserName!=' ')) ~> DeleteRows\nDeleteRows sink(input(\n\t\tUserName as string,\n\t\tDisplayName as string,\n\t\tEmployeeId as string,\n\t\tIsExecEmp as string,\n\t\tEmailId as string,\n\t\tTelNumber as string,\n\t\tHomePhNumber as string,\n\t\tPostalCode as string,\n\t\tPostalAddress as string,\n\t\tTerminationDate as date,\n\t\tIsActive as string,\n\t\tEmployeeType as string,\n\t\tCostCenter as string,\n\t\tCompanyName as string,\n\t\tDeptName as string,\n\t\tDivName as string,\n\t\tSectName as string,\n\t\tPostionName as string,\n\t\tEESubArea as string,\n\t\tEESubGrpName as string,\n\t\tBranchName as string,\n\t\tUnitName as string,\n\t\tWPFullName as string,\n\t\tWPEmail as string,\n\t\tWrkLocDesc as string,\n\t\tMgrDispName as string,\n\t\tMgrEmailId as string,\n\t\tSupDispName as string,\n\t\tSupEmailId as string,\n\t\tEEGroupDesc as string,\n\t\tBU as string,\n\t\tIsExempted as string,\n\t\tExemptedFrom as date,\n\t\tExemptedTo as date,\n\t\tReason as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:true,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:['UserName'],\n\tformat: 'table',\n\tmapColumn(\n\t\tUserName,\n\t\tDisplayName,\n\t\tEmployeeId,\n\t\tIsExecEmp,\n\t\tEmailId,\n\t\tTelNumber,\n\t\tHomePhNumber,\n\t\tPostalCode,\n\t\tPostalAddress,\n\t\tTerminationDate,\n\t\tIsActive,\n\t\tEmployeeType,\n\t\tCostCenter,\n\t\tCompanyName,\n\t\tDeptName,\n\t\tDivName,\n\t\tSectName,\n\t\tPostionName,\n\t\tEESubArea,\n\t\tEESubGrpName,\n\t\tBranchName,\n\t\tUnitName,\n\t\tWPFullName,\n\t\tWPEmail,\n\t\tWrkLocDesc,\n\t\tMgrDispName,\n\t\tMgrEmailId,\n\t\tSupDispName,\n\t\tSupEmailId,\n\t\tEEGroupDesc,\n\t\tBU,\n\t\tIsExempted,\n\t\tExemptedFrom,\n\t\tExemptedTo,\n\t\tReason\n\t),\n\tdateFormat:'yyyy-MM-dd',\n\ttimestampFormat:'yyyy.MM.dd HH:mm:ss',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Employee Personal')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Employee Personal",
+				"activities": [
+					{
+						"name": "Employee Personal - Pipeline",
+						"description": "Employee Personal - Pipeline",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Employee No",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "Employee No",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "Employee Name",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "Employee Name",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "Department",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "Department",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "Dependents",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "Dependents",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "Education",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "Education",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "Address",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "Address",
+											"type": "String",
+											"physicalType": "char"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "EmployeePersonal",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "EmployeePersonal",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
 			},
 			"dependsOn": []
 		},
@@ -994,6 +1660,7 @@
 							},
 							"enableStaging": false,
 							"enableSkipIncompatibleRow": true,
+							"validateDataConsistency": false,
 							"logStorageSettings": {
 								"linkedServiceName": {
 									"referenceName": "AzureBlobStorage1",
@@ -1001,7 +1668,6 @@
 								},
 								"path": "restapi/Health And Travel/o365 Error Logs"
 							},
-							"validateDataConsistency": false,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
@@ -1507,6 +2173,7 @@
 							},
 							"enableStaging": false,
 							"enableSkipIncompatibleRow": true,
+							"validateDataConsistency": false,
 							"logStorageSettings": {
 								"linkedServiceName": {
 									"referenceName": "AzureBlobStorage1",
@@ -1514,7 +2181,6 @@
 								},
 								"path": "restapi/Health And Travel/o365 Error Logs"
 							},
-							"validateDataConsistency": false,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
@@ -2675,297 +3341,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAP data copy')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAP data copy",
-				"activities": [
-					{
-						"name": "Copy SAP Data",
-						"description": "SAP Data Provisioning",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapTableSource",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapTableResource1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapTableResource1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SAP_ECC')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "SAP ECC",
-				"activities": [
-					{
-						"name": "Copy_zlxx",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "EKKO"
-							},
-							{
-								"name": "Destination",
-								"value": "[[dbo].[ekko]"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SapTableSource",
-								"rowCount": 1000,
-								"rfcTableOptions": "",
-								"customRfcReadTableFunctionModule": "",
-								"rfcTableFields": "ABGRU,ABSGR,ADDNR,ADRNR,AEDAT,ANGDT,ANGNR,AUREL_ALLOW,AUSNR,AUTLF,BEDAT,BNDDT,BSAKZ,BSART,BSTYP,BUDG_TYPE,BUKRS,BWBDT,CHECK_TYPE,CONTRACT_ALLOW,CON_DISTR_LEV,CON_OTB_REQ,CON_PREBOOK_LEV,DELPER_ALLOW,DESCRIPTION,DPAMT,DPDAT,DPPCT,DPTYP,EBELN,EINDT_ALLOW,EKGRP,EKGRP_ALLOW,EKORG,EQ_EINDT,EQ_WERKS,ERNAM,EXNUM,FIXPO,FIXPO_ALLOW,FORCE_CNT,FORCE_ID,FRGGR,FRGKE,FRGRL,FRGSX,FRGZU,GWLDT,HANDOVERLOC,HIERARCHY_EXISTS,IHRAN,IHREZ,INCO1,INCO2,KALSM,KDATB,KDATE,KEY_ID,KEY_ID_ALLOW,KNUMV,KONNR,KORNR,KTWRT,KUFIX,KUNNR,LANDS,LBLIF,LEGAL_CONTRACT,LIFNR,LIFRE,LLIEF,LOEKZ,LOGSY,LPHIS,LPONR,LTSNR_ALLOW,MANDT,MEMORY,MEMORYTYPE,MSR_ID,OTB_COND_TYPE,OTB_CURR,OTB_LEVEL,OTB_REASON,OTB_RES_VALUE,OTB_SPEC_VALUE,OTB_STATUS,OTB_VALUE,PINCR,POHF_TYPE,PROCSTAT,PSTYP_ALLOW,REASON_CODE,RELEASE_DATE,RELOC_ID,RELOC_SEQ_ID,RESWK,RETPC,RETTP,REVNO,RLWRT,SCMPROC,SHIPCOND,SOURCE_LOGSYS,SPRAS,SPR_RSN_PROFILE,STAFO,STAKO,STATU,STCEG,STCEG_L,SUBMI,TELF1,THRESHOLD_EXISTS,UNSEZ,UPINC,VERKF,VSART,VZSKZ,WAERS,WEAKT,WERKS_ALLOW,WKURS,ZBD1P,ZBD1T,ZBD2P,ZBD2T,ZBD3T,ZTERM",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "EBELN",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ebeln",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BUKRS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Company_Code",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSTYP",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Document_Category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSART",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Document_Type",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "BSAKZ",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Control_indicator",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "LOEKZ",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Deletion_Indicator",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "STATU",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Status",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "AEDAT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Created_on",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ERNAM",
-											"type": "String"
-										},
-										"sink": {
-											"name": "created_by",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "EKORG",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Org",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "EKGRP",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Purchasing_Grp",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "WAERS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Currency_Key",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "RLWRT",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "Total_Value_at_release",
-											"type": "Decimal"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_zlx",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_zlx",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_zlx')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Travel Data Trigger')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Travel Data Trigger",
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Travel Data Pipeline",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Minute",
-						"interval": 30,
-						"startTime": "2020-04-27T02:15:00.000Z",
-						"endTime": "2020-12-31T03:15:00.000Z",
-						"timeZone": "UTC"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Travel Data Pipeline')]"
 			]
 		}
 	]

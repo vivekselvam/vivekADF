@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'RestService1'"
 		},
+		"BlobDemo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'BlobDemo'"
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://Azure-Vault-Dev.vault.azure.net/"
@@ -181,6 +185,20 @@
 				"type": "SelfHosted",
 				"description": "SAP ECC Integration Runtime",
 				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BlobDemo')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Demo",
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('BlobDemo_connectionString')]"
+				}
 			},
 			"dependsOn": []
 		},
@@ -1236,152 +1254,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IDMS_Test')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase3",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "UserName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DisplayName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmployeeId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "IsExecEmp",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TelNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "HomePhNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalAddress",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TerminationDate",
-						"type": "date"
-					},
-					{
-						"name": "IsActive",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EmployeeType",
-						"type": "nchar"
-					},
-					{
-						"name": "CostCenter",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CompanyName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DeptName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DivName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SectName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostionName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EESubArea",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EESubGrpName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BranchName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "UnitName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WPFullName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WPEmail",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WrkLocDesc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MgrDispName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MgrEmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SupDispName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SupEmailId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EEGroupDesc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BU",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "IdMS_o365_WP"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase3')]"
 			]
 		}
 	]

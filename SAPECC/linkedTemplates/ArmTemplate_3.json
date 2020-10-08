@@ -13,6 +13,291 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SAP data copy')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAP data copy",
+				"activities": [
+					{
+						"name": "Copy SAP Data",
+						"description": "SAP Data Provisioning",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapTableResource1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SAP_ECC')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SAP ECC",
+				"activities": [
+					{
+						"name": "Copy_zlxx",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "EKKO"
+							},
+							{
+								"name": "Destination",
+								"value": "[[dbo].[ekko]"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rowCount": 1000,
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "",
+								"rfcTableFields": "ABGRU,ABSGR,ADDNR,ADRNR,AEDAT,ANGDT,ANGNR,AUREL_ALLOW,AUSNR,AUTLF,BEDAT,BNDDT,BSAKZ,BSART,BSTYP,BUDG_TYPE,BUKRS,BWBDT,CHECK_TYPE,CONTRACT_ALLOW,CON_DISTR_LEV,CON_OTB_REQ,CON_PREBOOK_LEV,DELPER_ALLOW,DESCRIPTION,DPAMT,DPDAT,DPPCT,DPTYP,EBELN,EINDT_ALLOW,EKGRP,EKGRP_ALLOW,EKORG,EQ_EINDT,EQ_WERKS,ERNAM,EXNUM,FIXPO,FIXPO_ALLOW,FORCE_CNT,FORCE_ID,FRGGR,FRGKE,FRGRL,FRGSX,FRGZU,GWLDT,HANDOVERLOC,HIERARCHY_EXISTS,IHRAN,IHREZ,INCO1,INCO2,KALSM,KDATB,KDATE,KEY_ID,KEY_ID_ALLOW,KNUMV,KONNR,KORNR,KTWRT,KUFIX,KUNNR,LANDS,LBLIF,LEGAL_CONTRACT,LIFNR,LIFRE,LLIEF,LOEKZ,LOGSY,LPHIS,LPONR,LTSNR_ALLOW,MANDT,MEMORY,MEMORYTYPE,MSR_ID,OTB_COND_TYPE,OTB_CURR,OTB_LEVEL,OTB_REASON,OTB_RES_VALUE,OTB_SPEC_VALUE,OTB_STATUS,OTB_VALUE,PINCR,POHF_TYPE,PROCSTAT,PSTYP_ALLOW,REASON_CODE,RELEASE_DATE,RELOC_ID,RELOC_SEQ_ID,RESWK,RETPC,RETTP,REVNO,RLWRT,SCMPROC,SHIPCOND,SOURCE_LOGSYS,SPRAS,SPR_RSN_PROFILE,STAFO,STAKO,STATU,STCEG,STCEG_L,SUBMI,TELF1,THRESHOLD_EXISTS,UNSEZ,UPINC,VERKF,VSART,VZSKZ,WAERS,WEAKT,WERKS_ALLOW,WKURS,ZBD1P,ZBD1T,ZBD2P,ZBD2T,ZBD3T,ZTERM",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "EBELN",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ebeln",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BUKRS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Company_Code",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSTYP",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Document_Category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSART",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Document_Type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "BSAKZ",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Control_indicator",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LOEKZ",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Deletion_Indicator",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "STATU",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Status",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "AEDAT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Created_on",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ERNAM",
+											"type": "String"
+										},
+										"sink": {
+											"name": "created_by",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EKORG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Org",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "EKGRP",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Purchasing_Grp",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "WAERS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Currency_Key",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RLWRT",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "Total_Value_at_release",
+											"type": "Decimal"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_zlx",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_zlx",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Travel Data Trigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Travel Data Trigger",
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Travel Data Pipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 30,
+						"startTime": "2020-04-27T02:15:00.000Z",
+						"endTime": "2020-12-31T03:15:00.000Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Health Data Trigger')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
