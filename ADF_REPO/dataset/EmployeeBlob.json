@@ -1,0 +1,48 @@
+{
+	"name": "EmployeeBlob",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobDemo",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "Year/Month",
+				"container": "container1"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Employee No",
+				"type": "String"
+			},
+			{
+				"name": "Employee Name",
+				"type": "String"
+			},
+			{
+				"name": "Department",
+				"type": "String"
+			},
+			{
+				"name": "Leave Type",
+				"type": "String"
+			},
+			{
+				"name": "Entitled",
+				"type": "String"
+			},
+			{
+				"name": "Approved",
+				"type": "String"
+			}
+		]
+	}
+}
