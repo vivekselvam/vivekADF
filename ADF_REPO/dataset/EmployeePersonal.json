@@ -1,0 +1,42 @@
+{
+	"name": "EmployeePersonal",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Employee No",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "Employee Name",
+				"type": "char"
+			},
+			{
+				"name": "Department",
+				"type": "char"
+			},
+			{
+				"name": "Dependents",
+				"type": "char"
+			},
+			{
+				"name": "Education",
+				"type": "char"
+			},
+			{
+				"name": "Address",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "EMPLOYEE_Personal"
+		}
+	}
+}
