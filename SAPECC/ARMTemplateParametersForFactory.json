@@ -17,13 +17,13 @@
 		"AzureSqlDatabase3_connectionString": {
 			"value": ""
 		},
+		"BlobDemo_connectionString": {
+			"value": ""
+		},
 		"Office365_servicePrincipalKey": {
 			"value": ""
 		},
 		"RestService1_password": {
-			"value": ""
-		},
-		"BlobDemo_connectionString": {
 			"value": ""
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {

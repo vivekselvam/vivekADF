@@ -45,6 +45,204 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/EmployeePersonal')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Employee No",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Employee Name",
+						"type": "char"
+					},
+					{
+						"name": "Department",
+						"type": "char"
+					},
+					{
+						"name": "Dependents",
+						"type": "char"
+					},
+					{
+						"name": "Education",
+						"type": "char"
+					},
+					{
+						"name": "Address",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EMPLOYEE_Personal1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IDMS_Blob_Storage')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "IDMS BLOB Storage",
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "IDMS File 10th August.csv",
+						"folderPath": "Health And Travel/o365 And IDMS Files",
+						"container": "restapi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UserName",
+						"type": "String"
+					},
+					{
+						"name": "DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeId",
+						"type": "String"
+					},
+					{
+						"name": "IsExecutiveEmployee",
+						"type": "String"
+					},
+					{
+						"name": "EmailId",
+						"type": "String"
+					},
+					{
+						"name": "TelephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "HomephoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "PostalCode",
+						"type": "String"
+					},
+					{
+						"name": "PostalAddress",
+						"type": "String"
+					},
+					{
+						"name": "TerminationDate",
+						"type": "String"
+					},
+					{
+						"name": "IsActive",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeType",
+						"type": "String"
+					},
+					{
+						"name": "CostCenter",
+						"type": "String"
+					},
+					{
+						"name": "CompanyName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DivisionName",
+						"type": "String"
+					},
+					{
+						"name": "SectionName",
+						"type": "String"
+					},
+					{
+						"name": "PositionName",
+						"type": "String"
+					},
+					{
+						"name": "EmployeeSubArea",
+						"type": "String"
+					},
+					{
+						"name": "EESubGroupName",
+						"type": "String"
+					},
+					{
+						"name": "BranchName",
+						"type": "String"
+					},
+					{
+						"name": "UnitName",
+						"type": "String"
+					},
+					{
+						"name": "WP.Full Name",
+						"type": "String"
+					},
+					{
+						"name": "WP.Email",
+						"type": "String"
+					},
+					{
+						"name": "WorkLocationDescription",
+						"type": "String"
+					},
+					{
+						"name": "Manager.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Manager.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.DisplayName",
+						"type": "String"
+					},
+					{
+						"name": "Supervisor.EmailId",
+						"type": "String"
+					},
+					{
+						"name": "EEGroup Description",
+						"type": "String"
+					},
+					{
+						"name": "BU",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IDMS_Test')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1269,98 +1467,70 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/EmployeeBlob')]",
+			"name": "[concat(parameters('factoryName'), '/HealthTableTest')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "BlobDemo",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "Employee Personal.csv",
-						"folderPath": "Year/Month",
-						"container": "container1"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Employee No",
-						"type": "String"
-					},
-					{
-						"name": "Employee Name",
-						"type": "String"
-					},
-					{
-						"name": "Department",
-						"type": "String"
-					},
-					{
-						"name": "Leave Type",
-						"type": "String"
-					},
-					{
-						"name": "Entitled",
-						"type": "String"
-					},
-					{
-						"name": "Approved",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/EmployeePersonal')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
+					"referenceName": "AzureSqlDatabase3",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "Employee No",
-						"type": "bigint",
-						"precision": 19
+						"name": "tID",
+						"type": "uniqueidentifier"
 					},
 					{
-						"name": "Employee Name",
-						"type": "char"
+						"name": "tWorkplaceID",
+						"type": "nvarchar"
 					},
 					{
-						"name": "Department",
-						"type": "char"
+						"name": "tReadDate",
+						"type": "date"
 					},
 					{
-						"name": "Dependents",
-						"type": "char"
+						"name": "tReadTime",
+						"type": "time",
+						"scale": 7
 					},
 					{
-						"name": "Education",
-						"type": "char"
+						"name": "tTemperature",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 2
 					},
 					{
-						"name": "Address",
-						"type": "char"
+						"name": "tSymptoms",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tRisks",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tSeenDoc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tCreateDateTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Concern",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tTravelHistory",
+						"type": "nchar"
 					}
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "EMPLOYEE_Personal1"
+					"table": "tblHtest"
 				}
 			},
 			"dependsOn": []
@@ -1540,154 +1710,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Json1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Health BOT')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Rest Copy",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET"
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "[['question_id']"
-										},
-										"sink": {
-											"name": "Question_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "[['question_text']"
-										},
-										"sink": {
-											"name": "Question_text",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "[['content']"
-										},
-										"sink": {
-											"name": "Answer",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['started_at']"
-										},
-										"sink": {
-											"name": "Started_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['completed_at']"
-										},
-										"sink": {
-											"name": "Completed_at",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['id']"
-										},
-										"sink": {
-											"name": "GUID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['id']"
-										},
-										"sink": {
-											"name": "Emp_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['name']"
-										},
-										"sink": {
-											"name": "Emp_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['first_name']"
-										},
-										"sink": {
-											"name": "First_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['responses'][0]['respondent']['last_name']"
-										},
-										"sink": {
-											"name": "Last_name",
-											"type": "String"
-										}
-									}
-								],
-								"collectionReference": "$['responses'][0]['answers']"
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable5",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource1')]"
 			]
 		}
 	]

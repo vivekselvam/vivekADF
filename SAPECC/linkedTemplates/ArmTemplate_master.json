@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase3'"
 		},
+		"BlobDemo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'BlobDemo'"
+		},
 		"Office365_servicePrincipalKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'servicePrincipalKey' of 'Office365'"
@@ -30,10 +34,6 @@
 		"RestService1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'RestService1'"
-		},
-		"BlobDemo_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'BlobDemo'"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -122,14 +122,14 @@
 					"AzureSqlDatabase3_connectionString": {
 						"value": "[parameters('AzureSqlDatabase3_connectionString')]"
 					},
+					"BlobDemo_connectionString": {
+						"value": "[parameters('BlobDemo_connectionString')]"
+					},
 					"Office365_servicePrincipalKey": {
 						"value": "[parameters('Office365_servicePrincipalKey')]"
 					},
 					"RestService1_password": {
 						"value": "[parameters('RestService1_password')]"
-					},
-					"BlobDemo_connectionString": {
-						"value": "[parameters('BlobDemo_connectionString')]"
 					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
