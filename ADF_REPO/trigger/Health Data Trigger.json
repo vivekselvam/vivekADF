@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "Health Data Trigger",
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [
 			{
 				"pipelineReference": {
